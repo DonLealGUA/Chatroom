@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-   private User user;
+    private User user;
     private Socket socket;
     private Controller controller;
     private ArrayList<User> allPeople;
