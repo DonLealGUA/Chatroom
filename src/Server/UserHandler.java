@@ -8,7 +8,7 @@ public class UserHandler implements Runnable {
 
     public UserHandler(Server server, User newUser) {
         this.server = server;
-        this.user = user;
+        this.user = newUser;
         this.server.broadcastAllUsers();
     }
 

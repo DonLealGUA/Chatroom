@@ -6,19 +6,20 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
-import java.awt.event.*;
-import java.net.SocketAddress;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.net.Socket;
 
-public class ClientGUI {
+public class ClientUI {
 
     final JTextPane jtextFilDiscu = new JTextPane();
     final JTextPane jtextListUsers = new JTextPane();
     final JTextField jtextInputChat = new JTextField();
-    Client client;
+    private String oldMsg = "";
 
-    public ClientGUI(Client client){
-        this.client = client;
-
+    public ClientUI(Client client){
         String fontfamily = "Arial, sans-serif";
         Font font = new Font(fontfamily, Font.PLAIN, 15);
 
@@ -28,6 +29,7 @@ public class ClientGUI {
         jfr.setResizable(false);
         jfr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Module du fil de discussion
         jtextFilDiscu.setBounds(25, 25, 490, 320);
         jtextFilDiscu.setFont(font);
         jtextFilDiscu.setMargin(new Insets(6, 6, 6, 6));
@@ -38,7 +40,7 @@ public class ClientGUI {
         jtextFilDiscu.setContentType("text/html");
         jtextFilDiscu.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        // användarlista
+        // Module de la liste des utilisateurs
         jtextListUsers.setBounds(520, 25, 156, 320);
         jtextListUsers.setEditable(true);
         jtextListUsers.setFont(font);
@@ -50,19 +52,19 @@ public class ClientGUI {
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        // message field
+        // Field message user input
         jtextInputChat.setBounds(0, 350, 400, 50);
         jtextInputChat.setFont(font);
         jtextInputChat.setMargin(new Insets(6, 6, 6, 6));
         final JScrollPane jtextInputChatSP = new JScrollPane(jtextInputChat);
         jtextInputChatSP.setBounds(25, 350, 650, 50);
 
-        // send button
+        // button send
         final JButton jsbtn = new JButton("Send");
         jsbtn.setFont(font);
         jsbtn.setBounds(575, 410, 100, 35);
 
-        // Disconnect button
+        // button Disconnect
         final JButton jsbtndeco = new JButton("Disconnect");
         jsbtndeco.setFont(font);
         jsbtndeco.setBounds(25, 410, 130, 35);
@@ -71,20 +73,20 @@ public class ClientGUI {
             // send message on Enter
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    client.sendMessage();
+                    client.sendMessage(jtextInputChat.getText().trim());
                 }
 
                 // Get last message typed
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     String currentMessage = jtextInputChat.getText().trim();
-                    jtextInputChat.setText(client.getOldMsg());
-                    client.setOldMsg(currentMessage);
+                    jtextInputChat.setText(oldMsg);
+                    oldMsg = currentMessage;
                 }
 
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     String currentMessage = jtextInputChat.getText().trim();
-                    jtextInputChat.setText(client.getOldMsg());
-                    client.setOldMsg(currentMessage);
+                    jtextInputChat.setText(oldMsg);
+                    oldMsg = currentMessage;
                 }
             }
         });
@@ -92,13 +94,13 @@ public class ClientGUI {
         // Click on send button
         jsbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                client.sendMessage();
+                client.sendMessage(jtextInputChat.getText().trim());
             }
         });
 
         // Connection view
-        final JTextField jtfName = new JTextField(client.getUsername());
-        final JTextField jtfport = new JTextField(Integer.toString(client.getPort()));
+        final JTextField jtfName = new JTextField(client.getNameUser());
+        final JTextField jtfport = new JTextField(Integer.toString(client.getPORT()));
         final JTextField jtfAddr = new JTextField(client.getServerName());
         final JButton jcbtn = new JButton("Connect");
 
@@ -127,13 +129,21 @@ public class ClientGUI {
         jfr.add(jtfAddr);
         jfr.setVisible(true);
 
+
+        // info sur le Chat
+        appendToPane(jtextFilDiscu, "<h4>Les commandes possibles dans le chat sont:</h4>"
+                +"<ul>"
+                +"<li><b>@nickname</b> pour envoyer un Message privé à l'utilisateur 'nickname'</li>"
+                +"<li><b>#d3961b</b> pour changer la couleur de son pseudo au code hexadécimal indiquer</li>"
+                +"<li><b>;)</b> quelques smileys sont implémentés</li>"
+                +"<li><b>flèche du haut</b> pour reprendre le dernier message tapé</li>"
+                +"</ul><br/>");
+
         // On connect
         jcbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 try {
-                    String port = jtfport.getText();
-
-                    client.connectPressed(jtfName.getText(), jtfAddr.getText(), Integer.parseInt(port));
+                    client.connectClicked(jtfName.getText(), Integer.parseInt(jtfport.getText()), jtfAddr.getText());
 
                     jfr.remove(jtfName);
                     jfr.remove(jtfport);
@@ -167,32 +177,50 @@ public class ClientGUI {
                 jfr.revalidate();
                 jfr.repaint();
 
-                client.disconnectClicked();
-
-                jtextListUsers.setText(null);
-                jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
-                jtextListUsers.setBackground(Color.LIGHT_GRAY);
-                appendToPane(jtextFilDiscu, "<span>Connection closed.</span>");
-
-                client.disconnect();
+                client.disconnectPressed();
             }
         });
 
     }
 
-    public void setjTextListUsers(String o) {
-        jtextListUsers.setText(o);
+    public void disconnectUpdate(){
+        jtextListUsers.setText(null);
+        jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
+        jtextListUsers.setBackground(Color.LIGHT_GRAY);
+        appendToPane(jtextFilDiscu, "<span>Connection closed.</span>");
     }
 
-    public void updateList(String user) {
+    public void updateChatPanel() {
+        jtextInputChat.requestFocus();
+        jtextInputChat.setText(null);
+    }
+
+    public void showExceptionMessage(Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+
+    public void updateUsers() {
+        jtextListUsers.setText(null);
+    }
+
+    public void updateUsersPane(String user){
         appendToPane(jtextListUsers, "@" + user);
     }
 
-    public void updateMessage(String message) {
+    public void updateUsersMessage(String message) {
         appendToPane(jtextFilDiscu, message);
     }
 
-    public class TextListener implements DocumentListener{
+    public void printError() {
+        System.err.println("Failed to parse incoming message");
+    }
+
+    public void setOldMsg(String message) {
+        this.oldMsg = message;
+    }
+
+
+    public class TextListener implements DocumentListener {
         JTextField jtf1;
         JTextField jtf2;
         JTextField jtf3;
@@ -230,7 +258,16 @@ public class ClientGUI {
 
     }
 
-    private void appendToPane(JTextPane tp, String msg){
+    public void updatePane(String serverName, int PORT){
+        appendToPane(jtextFilDiscu, "<span>Connecting to " + serverName + " on port " + PORT + "...</span>");
+    }
+
+    public void writeConnectMessage(Socket server){
+        appendToPane(jtextFilDiscu, "<span>Connected to " + server.getRemoteSocketAddress()+"</span>");
+
+    }
+
+    public void appendToPane(JTextPane tp, String msg){
         HTMLDocument doc = (HTMLDocument)tp.getDocument();
         HTMLEditorKit editorKit = (HTMLEditorKit)tp.getEditorKit();
         try {
@@ -240,13 +277,5 @@ public class ClientGUI {
             e.printStackTrace();
         }
     }
-
-    public void printMessage(String serverName, int port, SocketAddress address){
-        appendToPane(jtextFilDiscu, "<span>Connecting to " + serverName + " on port " + port + "...</span>");
-
-        appendToPane(jtextFilDiscu, "<span>Connected to " + address +"</span>");
-    }
-
-
 
 }
