@@ -1,5 +1,6 @@
 package Client;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +41,26 @@ public class Client {
             clientUI.setOldMsg(message);
             //this.oldMsg = message;
             output.println(message);
+
+            clientUI.updateChatPanel();
+
+        } catch (Exception ex) {
+            clientUI.showExceptionMessage(ex);
+            System.exit(0);
+        }
+    }
+
+    /***
+     * Fixa detta
+     */
+    public void sendPicture(ImageIcon imageIcon) {
+        try {
+            ImageIcon image = imageIcon;
+            if (image == null) {
+                return;
+            }
+            clientUI.setOldImage(image);
+            //output.println(message);
 
             clientUI.updateChatPanel();
 

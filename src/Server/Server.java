@@ -1,5 +1,6 @@
 package Server;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -76,6 +77,13 @@ public class Server {
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) {
             client.getOutStream().println(userSender.toString() + "<span>: " + msg+"</span>");
+        }
+    }
+
+    // skicka meddelande till alla
+    public void broadcastImages(ImageIcon image, User userSender) {
+        for (User client : this.clients) {
+            client.getOutStream().println(userSender.toString() + image);
         }
     }
 

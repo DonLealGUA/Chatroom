@@ -20,6 +20,7 @@ public class ClientUI {
     final JTextPane jtextListUsers = new JTextPane();
     final JTextField jtextInputChat = new JTextField();
     private String oldMsg = "";
+    private ImageIcon oldImage;
 
     public ClientUI(Client client){
         String fontfamily = "Arial, sans-serif";
@@ -115,7 +116,8 @@ public class ClientUI {
                 Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
                 jtextFilDiscu.insertIcon(imageIcon);
-                sendPicture(imageIcon);
+                //TODO fixa att man skickar bild till andra klienter
+                client.sendPicture(imageIcon);
 
             }
         });
@@ -206,10 +208,6 @@ public class ClientUI {
 
     }
 
-    private void sendPicture(ImageIcon imageIcon) {
-        //TODO fixa att man skickar bild till andra klienter
-    }
-
     public void disconnectUpdate(){
         jtextListUsers.setText(null);
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
@@ -256,6 +254,10 @@ public class ClientUI {
 
     public void setOldMsg(String message) {
         this.oldMsg = message;
+    }
+
+    public void setOldImage(ImageIcon image) {
+        this.oldImage = image;
     }
 
 

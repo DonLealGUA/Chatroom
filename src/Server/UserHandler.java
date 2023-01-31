@@ -1,5 +1,7 @@
 package Server;
 
+import javax.swing.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class UserHandler implements Runnable {
@@ -12,14 +14,25 @@ public class UserHandler implements Runnable {
         this.server.broadcastAllUsers();
     }
 
+    /**
+     * Fixa detta
+     */
     @Override
     public void run() {
         String message;
+        ImageIcon image;
 
         Scanner sc = new Scanner(this.user.getInputStream());
 
         while (sc.hasNextLine()) {
-            message = sc.nextLine();
+
+            if(Objects.equals(sc.nextLine(), "String")){
+                message = sc.nextLine();
+            }
+            else if(sc.nextLine().equals("Image")){
+                image = sc.nextLine();
+            }
+
 
             // hantera meddelanden till en specifik person
             if (message.charAt(0) == '@'){
@@ -33,6 +46,7 @@ public class UserHandler implements Runnable {
             }else{
                 // update user list
                 server.broadcastMessages(message, user);
+                server.broadcastImages(image,user);
             }
         }
         server.removeUser(user);
