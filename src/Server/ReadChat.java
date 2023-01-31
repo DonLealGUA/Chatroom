@@ -11,7 +11,7 @@ public class ReadChat {
     public static ArrayList readChat(){
         try {
             ArrayList<String> chat = new ArrayList<String>();
-            File myObj = new File("Backend/src/main/MovieList.txt");
+            File myObj = new File("src/Server/chat.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 chat.add(myReader.nextLine());

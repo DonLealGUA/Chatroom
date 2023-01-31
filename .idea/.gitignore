@@ -4,3 +4,12 @@
 .idea\runConfigurations.xml
 out\production\Chatt\Server\chat.txt
 out\production\Chatt\Server\ReadChat.class
+out\production\Chatt\Client\Client$Read.class
+out\production\Chatt\Client\Client.class
+out\production\Chatt\Client\ClientUI$1.class
+out\production\Chatt\Client\ClientUI$2.class
+out\production\Chatt\Client\ClientUI$3.class
+out\production\Chatt\Client\ClientUI$4.class
+out\production\Chatt\Client\ClientUI$5.class
+out\production\Chatt\Client\ClientUI$TextListener.class
+out\production\Chatt\Client\ClientUI.class
