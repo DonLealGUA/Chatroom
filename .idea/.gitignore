@@ -1,3 +1,6 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+.idea\runConfigurations.xml
+out\production\Chatt\Server\chat.txt
+out\production\Chatt\Server\ReadChat.class
