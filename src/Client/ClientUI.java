@@ -199,6 +199,7 @@ public class ClientUI {
                 jfr.remove(jsbtn);
                 jfr.remove(jtextInputChatSP);
                 jfr.remove(jsbtndeco);
+                jfr.remove(sendPicture);
                 jfr.revalidate();
                 jfr.repaint();
 

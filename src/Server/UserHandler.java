@@ -25,15 +25,7 @@ public class UserHandler implements Runnable {
         Scanner sc = new Scanner(this.user.getInputStream());
 
         while (sc.hasNextLine()) {
-
-            if(Objects.equals(sc.nextLine(), "String")){
-                message = sc.nextLine();
-            }
-            else if(sc.nextLine().equals("Image")){
-                image = sc.nextLine();
-            }
-
-
+            message = sc.nextLine();
             // hantera meddelanden till en specifik person
             if (message.charAt(0) == '@'){
                 if(message.contains(" ")){
@@ -46,7 +38,7 @@ public class UserHandler implements Runnable {
             }else{
                 // update user list
                 server.broadcastMessages(message, user);
-                server.broadcastImages(image,user);
+               // server.broadcastImages(image,user);
             }
         }
         server.removeUser(user);
