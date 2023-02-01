@@ -1,10 +1,7 @@
 package Client;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +12,8 @@ public class Client {
     private String name;
     private Thread read;
     BufferedReader input;
-    PrintWriter output;
+    BufferedWriter bufferedWriter;
+    //PrintWriter output;
     Socket server;
     ClientUI clientUI;
 
@@ -23,7 +21,6 @@ public class Client {
         this.serverName = "localhost";
         this.PORT = 1234;
         this.name = "nickname";
-
         this.clientUI = new ClientUI(this);
     }
 
@@ -40,7 +37,11 @@ public class Client {
             }
             clientUI.setOldMsg(message);
             //this.oldMsg = message;
-            output.println(message);
+            bufferedWriter.write(message);
+            System.out.println(message);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+           // output.println(message);
 
             clientUI.updateChatPanel();
 
@@ -93,11 +94,17 @@ public class Client {
 
         clientUI.writeConnectMessage(server);
 
-        input = new BufferedReader(new InputStreamReader(server.getInputStream()));
-        output = new PrintWriter(server.getOutputStream(), true);
+        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()));
+        this.input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        //input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+       // output = new PrintWriter(server.getOutputStream(), true);
 
         // send nickname to server
-        output.println(name);
+        bufferedWriter.write(name);
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+
+        //output.println(name);
 
         read = new Read();
         read.start();
@@ -105,11 +112,13 @@ public class Client {
     }
 
     public void disconnectPressed() {
-        read.interrupt();
-
-        clientUI.disconnectUpdate();
-
-        output.close();
+        try {
+            read.interrupt();
+            clientUI.disconnectUpdate();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // read new incoming messages

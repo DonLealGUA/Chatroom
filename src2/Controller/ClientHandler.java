@@ -55,7 +55,6 @@ public class ClientHandler implements Runnable {
                 closeEverything(socket,bufferedReader,bufferedWriter);
                 e.printStackTrace();
             }
-
         }
     }
 
