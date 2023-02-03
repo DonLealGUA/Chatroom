@@ -19,16 +19,10 @@ public class ClientUI {
     final JTextPane jtextFilDiscu = new JTextPane();
     final JTextPane jtextListUsers = new JTextPane();
     final JTextField jtextInputChat = new JTextField();
-    final JPanel jtextUserInfo = new JPanel();
-    JLabel jLabelUsername;
-    JPanel image;
-    String username;
-
     private String oldMsg = "";
     private ImageIcon oldImage;
 
-    public ClientUI(Client client, String newUsernameTest, boolean existingUser){
-        this.username = newUsernameTest;
+    public ClientUI(Client client){
         String fontfamily = "Arial, sans-serif";
         Font font = new Font(fontfamily, Font.PLAIN, 15);
 
@@ -38,7 +32,7 @@ public class ClientUI {
         jfr.setResizable(false);
         jfr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // chatt-rutan
+        // Module du fil de discussion
         jtextFilDiscu.setBounds(25, 25, 490, 320);
         jtextFilDiscu.setFont(font);
         jtextFilDiscu.setMargin(new Insets(6, 6, 6, 6));
@@ -49,62 +43,31 @@ public class ClientUI {
         jtextFilDiscu.setContentType("text/html");
         jtextFilDiscu.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        //sin egen profil
-        jtextUserInfo.setBounds(520, 25, 156, 48);
-        jtextUserInfo.setFont(font);
-        jtextUserInfo.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-        jtextUserInfo.setFont(jtextUserInfo.getFont().deriveFont(15.0F));
-        jtextUserInfo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-        //användarbild
-        image = new JPanel();
-        image.setBackground(Color.WHITE);
-        image.setLocation(5,5);
-        image.setSize(30,30);
-        image.setVisible(true);
-        jtextUserInfo.add(image);
-
-        //användarnamnet
-        jLabelUsername = new JLabel();
-        jLabelUsername.setBounds(50, 5, 156, 20);
-        jLabelUsername.setFont(jLabelUsername.getFont().deriveFont(15.0F));
-        jLabelUsername.setHorizontalAlignment(JLabel.LEFT);
-        jtextUserInfo.add(jLabelUsername);
-
-
-        JButton everyoneButton = new JButton("Everyone");
-        everyoneButton.setEnabled(true);
-        everyoneButton.setLayout(null);
-        everyoneButton.setLocation(520,75);
-        everyoneButton.setSize(156, 50);
-        jfr.add(everyoneButton);
-
-
-        // användarlista
-        jtextListUsers.setBounds(520, 125, 156, 220);
+        // Module de la liste des utilisateurs
+        jtextListUsers.setBounds(520, 25, 156, 320);
         jtextListUsers.setEditable(true);
         jtextListUsers.setFont(font);
         jtextListUsers.setMargin(new Insets(6, 6, 6, 6));
         jtextListUsers.setEditable(false);
         JScrollPane jsplistuser = new JScrollPane(jtextListUsers);
-        jsplistuser.setBounds(520, 125, 156, 220);
+        jsplistuser.setBounds(520, 25, 156, 320);
 
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        // text meddelande rutan (det användaren skriver in)
+        // Field message user input
         jtextInputChat.setBounds(0, 350, 400, 50);
         jtextInputChat.setFont(font);
         jtextInputChat.setMargin(new Insets(6, 6, 6, 6));
         final JScrollPane jtextInputChatSP = new JScrollPane(jtextInputChat);
         jtextInputChatSP.setBounds(25, 350, 650, 50);
 
-        // sent knapp
+        // button send
         final JButton jsbtn = new JButton("Send");
         jsbtn.setFont(font);
         jsbtn.setBounds(575, 410, 100, 35);
 
-        // Disconnect knapp
+        // button Disconnect
         final JButton jsbtndeco = new JButton("Disconnect");
         jsbtndeco.setFont(font);
         jsbtndeco.setBounds(25, 410, 130, 35);
@@ -165,15 +128,40 @@ public class ClientUI {
         final JTextField jtfAddr = new JTextField(client.getServerName());
         final JButton jcbtn = new JButton("Connect");
 
+        // check if those field are not empty
+        jtfName.getDocument().addDocumentListener(new TextListener(jtfName, jtfport, jtfAddr, jcbtn));
+        jtfport.getDocument().addDocumentListener(new TextListener(jtfName, jtfport, jtfAddr, jcbtn));
+        jtfAddr.getDocument().addDocumentListener(new TextListener(jtfName, jtfport, jtfAddr, jcbtn));
+
+        // position des Modules
+        jcbtn.setFont(font);
+        jtfAddr.setBounds(25, 380, 135, 40);
+        jtfName.setBounds(375, 380, 135, 40);
+        jtfport.setBounds(200, 380, 135, 40);
+        jcbtn.setBounds(575, 380, 100, 40);
+
+        // couleur par defaut des Modules fil de discussion et liste des utilisateurs
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
         jtextListUsers.setBackground(Color.LIGHT_GRAY);
-        jtextUserInfo.setBackground(Color.LIGHT_GRAY);
 
+        // ajout des éléments
+        jfr.add(jcbtn);
         jfr.add(jtextFilDiscuSP);
         jfr.add(jsplistuser);
-        jfr.add(jtextUserInfo);
+        jfr.add(jtfName);
+        jfr.add(jtfport);
+        jfr.add(jtfAddr);
         jfr.setVisible(true);
 
+
+        // info sur le Chat
+        appendToPane(jtextFilDiscu, "<h4>Les commandes possibles dans le chat sont:</h4>"
+                +"<ul>"
+                +"<li><b>@nickname</b> pour envoyer un Message privé à l'utilisateur 'nickname'</li>"
+                +"<li><b>#d3961b</b> pour changer la couleur de son pseudo au code hexadécimal indiquer</li>"
+                +"<li><b>;)</b> quelques smileys sont implémentés</li>"
+                +"<li><b>flèche du haut</b> pour reprendre le dernier message tapé</li>"
+                +"</ul><br/>");
 
         // On connect
         jcbtn.addActionListener(new ActionListener() {
@@ -215,31 +203,9 @@ public class ClientUI {
                 jfr.revalidate();
                 jfr.repaint();
 
-        // on disconnect
-        jsbtndeco.addActionListener(new ActionListener()  {
-            public void actionPerformed(ActionEvent ae) {
                 client.disconnectPressed();
-                jsbtndeco.setEnabled(false);
-                jsbtn.setEnabled(false);
-                jtextInputChat.setEnabled(false);
             }
         });
-
-        try {
-            client.connectClicked(username, this, existingUser);
-            updateUsername(username);
-            jfr.add(jsbtn);
-            jfr.add(jtextInputChatSP);
-            jfr.add(jsbtndeco);
-            jfr.revalidate();
-            jfr.repaint();
-            jtextFilDiscu.setBackground(Color.WHITE);
-            jtextListUsers.setBackground(Color.WHITE);
-            jtextUserInfo.setBackground(Color.WHITE);
-        } catch (Exception ex) {
-            appendToPane(jtextFilDiscu, "<span>Could not connect to Server</span>");
-            JOptionPane.showMessageDialog(jfr, ex.getMessage());
-        }
 
     }
 
@@ -352,17 +318,6 @@ public class ClientUI {
         } catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void updateUsername(String text){
-        jLabelUsername.setText(text);
-    }
-
-    public void updateImage(ImageIcon imageIcon){
-        Image image2 =imageIcon.getImage(); // transform it
-        Image newimg = image2.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        ImageIcon imageIcon2 = new ImageIcon(newimg);
-        image.add(new JLabel(imageIcon2));
     }
 
 }
