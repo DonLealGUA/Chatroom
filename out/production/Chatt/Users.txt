@@ -1,2 +1,1 @@
-Namn BildTest https://www.google.com/
-https://upload.wikimedia.org/wikipedia/en/5/5a/Black_question_mark.png
+Testare files/Stockx_logo.png

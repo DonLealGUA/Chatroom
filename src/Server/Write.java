@@ -9,6 +9,8 @@ import java.io.IOException;
 public class Write {
 
     public static void main(String[] args) {
+        ImageIcon imageIcon = new ImageIcon("files/Stockx_logo.png");
+        Write.writeAddUser("Testare",imageIcon);
     }
 
     public static void writeChat(String User, String messege){

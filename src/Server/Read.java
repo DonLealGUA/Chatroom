@@ -56,8 +56,8 @@ public class Read {
                 if (line == null) { break; }
                 List<Object> res = List.of(line.split(" "));
                 String username = (String) res.get(0);
-                ImageIcon image = (ImageIcon) res.get(1); //TODO fixa så den läser imageIcon
-                // chat.put(username,image);
+                ImageIcon image = new ImageIcon((String) res.get(1)); //TODO kanske behöver fixas 
+                 chat.put(username,image);
             }
             return chat;
 
