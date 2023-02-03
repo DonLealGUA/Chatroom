@@ -61,7 +61,6 @@ public class Controller {
         int friendIndex = 0;
         int allIndex = 0;
 
-        ImageIcon imageIcon = new ImageIcon("files/fotoicon.png");
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon icon = new ImageIcon(newimg);

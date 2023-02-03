@@ -53,6 +53,10 @@ public class Client {
         }
     }
 
+    public void sendMessageSpara(){
+
+    }
+
     /***
      * Fixa detta
      */
@@ -126,17 +130,16 @@ public class Client {
     class Read extends Thread {
 
         public void SkickaObjekt() throws IOException {
-            Image image = ImageIO.read(new File("files/Skärmavbild 2022-03-18 kl. 09.39.27.png"));
 
-            OutputStream outputStream = server.getOutputStream();
+            /*OutputStream outputStream = server.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(image);
             System.out.println(image);
-            server.close();
+            server.close();*/
         }
 
         public void GamlaLäsa(){
-            String message;
+           /* String message;
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     message = input.readLine();
@@ -159,10 +162,10 @@ public class Client {
                 catch (IOException ex) {
                     clientUI.printError();
                 }
-            }
+            }*/
         }
 
-
+        @Override
         public void run() {
             String message;
             while(!Thread.currentThread().isInterrupted()){
