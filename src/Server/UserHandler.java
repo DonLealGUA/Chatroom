@@ -61,17 +61,27 @@ public class UserHandler implements Runnable {
     }
 
 
-    public void running() throws IOException, ClassNotFoundException {
+    public void TestaLäsa() throws IOException, ClassNotFoundException {
+        Object obj;
 
-       /* ObjectInputStream ois = new ObjectInputStream(server);
-        Message<?> msg = (Message<?>) ois.readObject();
-        if(msg.getPayload() instanceof String){
-            // do one thing
+        try {
+            InputStream inputStream = socket.getInputStream();
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            obj = objectInputStream.readObject();
+
+            if(obj instanceof String){
+                System.out.println("String");
+            }
+
+            if(obj instanceof Image){
+                System.out.println("Bild");
+            }
+
+            socket.close();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
-
-        else if(msg.getPayload() instanceof Image){
-            // do some other thing
-        }*/
 
 
 

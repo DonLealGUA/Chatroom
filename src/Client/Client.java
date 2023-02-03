@@ -1,6 +1,8 @@
 package Client;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -62,7 +64,6 @@ public class Client {
             }
             clientUI.setOldImage(image);
             //output.println(message);
-
             clientUI.updateChatPanel();
 
         } catch (Exception ex) {
@@ -123,7 +124,18 @@ public class Client {
 
     // read new incoming messages
     class Read extends Thread {
-        public void run() {
+
+        public void SkickaObjekt() throws IOException {
+            Image image = ImageIO.read(new File("files/Skärmavbild 2022-03-18 kl. 09.39.27.png"));
+
+            OutputStream outputStream = server.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(image);
+            System.out.println(image);
+            server.close();
+        }
+
+        public void GamlaLäsa(){
             String message;
             while(!Thread.currentThread().isInterrupted()){
                 try {
@@ -136,12 +148,39 @@ public class Client {
                             );
                             clientUI.updateUsers();
                             for (String user : ListUser) {
-
                                 clientUI.updateUsersPane(user);
                             }
                         }else{
-                            clientUI.updateUsersMessage(message);
 
+                            clientUI.updateUsersMessage(message);
+                        }
+                    }
+                }
+                catch (IOException ex) {
+                    clientUI.printError();
+                }
+            }
+        }
+
+
+        public void run() {
+            String message;
+            while(!Thread.currentThread().isInterrupted()){
+                try {
+                    message = input.readLine();
+                        if(message != null){
+                          if (message.charAt(0) == '[') {
+                            message = message.substring(1, message.length()-1);
+                            ArrayList<String> ListUser = new ArrayList<String>(
+                                    Arrays.asList(message.split(", "))
+                            );
+                            clientUI.updateUsers();
+                            for (String user : ListUser) {
+                                clientUI.updateUsersPane(user);
+                            }
+                        }else{
+
+                            clientUI.updateUsersMessage(message);
                         }
                     }
                 }

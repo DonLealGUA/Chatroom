@@ -88,8 +88,6 @@ public class Server {
             System.out.println(messageToSend);
 
 
-
-
             //client.getOutStream().println("<" + userSender.toString() + ":" + dtf.format(now) +">:"+"<span>: "+ msg+"</span>");
             client.getOutStream().println(userSender.toString() + "<span>: " + msg+"</span>");
         }

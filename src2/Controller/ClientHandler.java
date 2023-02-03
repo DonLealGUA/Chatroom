@@ -30,7 +30,6 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         String messageFromClient;
-
         while (socket.isConnected()){
             try{
                 messageFromClient = bufferedReader.readLine();
