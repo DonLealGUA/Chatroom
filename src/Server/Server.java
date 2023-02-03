@@ -85,6 +85,7 @@ public class Server {
 
                 userSender.getOutStream().println("Added " + client.toString() + " to your contacts.");
                 client.getOutStream().println(msg);
+                Write.writeFriends(userSender.getUsername(),user);
             }
         }
         if (!find) {

@@ -59,7 +59,6 @@ public class UserHandler implements Runnable {
 
                     server.sendFriendRequestToUser(msg, user, userPrivate);
                 }
-
             } else{
                 // update user list
                 server.broadcastMessages(message, user);
