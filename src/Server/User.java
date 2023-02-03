@@ -1,5 +1,6 @@
 package Server;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -12,6 +13,7 @@ public class User {
     private InputStream streamIn;
     private String username;
     private Socket client;
+    private ImageIcon imageIcon;
 
     public User(Socket client, String username) throws IOException {
         this.streamOut = new PrintStream(client.getOutputStream());
@@ -19,6 +21,7 @@ public class User {
         this.client = client;
         this.username = username;
         this.userId = nbUser;
+        this.imageIcon = imageIcon;
         nbUser += 1;
     }
 
