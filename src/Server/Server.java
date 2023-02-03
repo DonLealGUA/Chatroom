@@ -1,5 +1,6 @@
 package Server;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,7 +24,7 @@ public class Server {
         server = new ServerSocket(port);
         System.out.println("Port 1234 is now open.");
 
-        while (true) {
+        while(true) {
             // accepts a new client
             Socket client = server.accept();
 
@@ -41,7 +42,7 @@ public class Server {
             newUser.getOutStream().println("<b>Welcome</b> " + newUser.toString());
 
             // create a new thread for newUser incoming messages handling
-            new Thread(new UserHandler(this, newUser)).start();
+            new Thread(new UserHandler(this, client, newUser)).start();
         }
 
     }
@@ -57,6 +58,9 @@ public class Server {
         }
     }
 
+    /**
+     * Skickar privata meddelanden
+     */
     public void sendMessageToUser(String msg, User userSender, String user) {
         boolean find = false;
         for (User client : this.clients) {
@@ -91,7 +95,26 @@ public class Server {
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) {
+
             client.getOutStream().println(userSender.toString() + "<span> " + getTime() + msg+"</span>");
+
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            String messageToSend = ("<" + userSender.toString() + ":" + dtf.format(now) +">:"+"<span>: "+ msg+"</span>");
+            System.out.println(messageToSend);
+
+
+            //client.getOutStream().println("<" + userSender.toString() + ":" + dtf.format(now) +">:"+"<span>: "+ msg+"</span>");
+            client.getOutStream().println(userSender.toString() + "<span>: " + msg+"</span>");
+
+        }
+    }
+
+    // skicka meddelande till alla
+    public void broadcastImages(ImageIcon image, User userSender) {
+        for (User client : this.clients) {
+            client.getOutStream().println(userSender.toString() + image);
         }
     }
 
@@ -99,6 +122,7 @@ public class Server {
     public void removeUser(User user){
         this.clients.remove(user);
     }
+
 
     public String getTime(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

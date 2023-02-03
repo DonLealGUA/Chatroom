@@ -75,7 +75,7 @@ public class ChatPanel extends JPanel {
         scroll.setSize(width - 40, height - 100);
         this.add(scroll);
 
-        ImageIcon imageIcon = new ImageIcon("files/fotoicon.png"); // load the image to a imageIcon
+
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newimg);
@@ -153,7 +153,6 @@ public class ChatPanel extends JPanel {
 
         messageTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               /* ImageIcon finalImage = new ImageIcon("files/fotoicon.png");
                 ArrayList<User> temporaryTestArraylist = new ArrayList<>();
                 temporaryTestArraylist.add(new User("Kris", finalImage));
                 temporaryTestArraylist.add(new User("Amidala", finalImage));

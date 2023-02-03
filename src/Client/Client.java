@@ -2,6 +2,7 @@ package Client;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class Client {
     private String name;
     private Thread read;
     BufferedReader input;
-    PrintWriter output;
+    BufferedWriter bufferedWriter;
+    //PrintWriter output;
     Socket server;
     ClientUI clientUI;
     LoginUI loginUI;
@@ -21,7 +23,6 @@ public class Client {
     public Client(){
         this.serverName = "localhost";
         this.PORT = 1234;
-        this.name = "nickname";
 
         this.loginUI = new LoginUI(this);
     }
@@ -42,7 +43,11 @@ public class Client {
 
             clientUI.setOldMsg(messageToSend);
             //this.oldMsg = message;
-            output.println(messageToSend);
+            bufferedWriter.write(message);
+            System.out.println(message);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+           // output.println(message);
 
             clientUI.updateChatPanel();
 
@@ -67,29 +72,71 @@ public class Client {
 
         clientUI.writeConnectMessage(server);
 
-        input = new BufferedReader(new InputStreamReader(server.getInputStream()));
-        output = new PrintWriter(server.getOutputStream(), true);
+        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()));
+        this.input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        //input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        // output = new PrintWriter(server.getOutputStream(), true);
 
         // send nickname to server
-        output.println(name);
+        bufferedWriter.write(name);
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+
+        //output.println(name);
 
         read = new Read();
         read.start();
 
     }
 
+    /***
+     * Fixa detta
+     */
+    public void sendPicture (ImageIcon imageIcon) {
+        try {
+            ImageIcon image = imageIcon;
+            if (image == null) {
+                return;
+            }
+            clientUI.setOldImage(image);
+            //output.println(message);
+            clientUI.updateChatPanel();
+
+        } catch (Exception ex) {
+            clientUI.showExceptionMessage(ex);
+            System.exit(0);
+        }
+    }
+
+    public String getServerName(){
+        return serverName;
+
+    }
+
     public void disconnectPressed() {
-        read.interrupt();
-
-        clientUI.disconnectUpdate();
-
-        output.close();
+        try {
+            read.interrupt();
+            clientUI.disconnectUpdate();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // read new incoming messages
     class Read extends Thread {
-        public void run() {
-            String message;
+
+        public void SkickaObjekt() throws IOException {
+
+            /*OutputStream outputStream = server.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(image);
+            System.out.println(image);
+            server.close();*/
+        }
+
+        public void GamlaLäsa(){
+           /* String message;
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     message = input.readLine();
@@ -101,12 +148,39 @@ public class Client {
                             );
                             clientUI.updateUsers();
                             for (String user : ListUser) {
-
                                 clientUI.updateUsersPane(user);
                             }
                         }else{
-                            clientUI.updateUsersMessage(message);
 
+                            clientUI.updateUsersMessage(message);
+                        }
+                    }
+                }
+                catch (IOException ex) {
+                    clientUI.printError();
+                }
+            }*/
+        }
+
+        @Override
+        public void run() {
+            String message;
+            while(!Thread.currentThread().isInterrupted()){
+                try {
+                    message = input.readLine();
+                        if(message != null){
+                          if (message.charAt(0) == '[') {
+                            message = message.substring(1, message.length()-1);
+                            ArrayList<String> ListUser = new ArrayList<String>(
+                                    Arrays.asList(message.split(", "))
+                            );
+                            clientUI.updateUsers();
+                            for (String user : ListUser) {
+                                clientUI.updateUsersPane(user);
+                            }
+                        }else{
+
+                            clientUI.updateUsersMessage(message);
                         }
                     }
                 }
