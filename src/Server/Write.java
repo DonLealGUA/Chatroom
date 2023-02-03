@@ -52,7 +52,7 @@ public class Write {
     }
 
     public static void writePrivatChat(String User,String isFriendWith,String messege){
-        File file = new File("files/" +User+ "/" +isFriendWith+ ".txt");
+        File file = new File("files/privateMesseges/" +User+ "/" +isFriendWith+ ".txt");
         try {
             if (file.createNewFile()) {
                 System.out.println("File has been created.");

@@ -28,7 +28,7 @@ public class Read {
     public static ArrayList readPrivateChat(String User, String isFriendWith){
         try {
             ArrayList<String> chat = new ArrayList<String>();
-            File myObj = new File("files/" +User+ "/" +isFriendWith+ ".txt");
+            File myObj = new File("files/privateMesseges/\" +User+ \"/\" +isFriendWith+ \".txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 chat.add(myReader.nextLine());
