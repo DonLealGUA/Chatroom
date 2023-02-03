@@ -3,6 +3,8 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -61,10 +63,24 @@ public class Server {
             if (client.getUsername().equals(user) && client != userSender) {
                 find = true;
 
-                //TODO fixa tid och annat
                 userSender.getOutStream().println(userSender.toString() + " -> " + client.toString() +": " + msg);
                 client.getOutStream().println(
-                        "(<b>Private</b>)" + userSender.toString() + "<span>: " + msg+"</span>");
+                        "(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+            }
+        }
+        if (!find) {
+            userSender.getOutStream().println("Sorry, this user doesn't exist ");
+        }
+    }
+
+    public void sendFriendRequestToUser(String msg, User userSender, String user){
+        boolean find = false;
+        for (User client : this.clients) {
+            if (client.getUsername().equals(user) && client != userSender) {
+                find = true;
+
+                userSender.getOutStream().println("Added " + client.toString() + " to your contacts.");
+                client.getOutStream().println(msg);
             }
         }
         if (!find) {
@@ -75,7 +91,7 @@ public class Server {
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) {
-            client.getOutStream().println(userSender.toString() + "<span>: " + msg+"</span>");
+            client.getOutStream().println(userSender.toString() + "<span> " + getTime() + msg+"</span>");
         }
     }
 
@@ -83,4 +99,14 @@ public class Server {
     public void removeUser(User user){
         this.clients.remove(user);
     }
+
+    public String getTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String date = "(" + dtf.format(now) + "): ";
+
+        return date;
+
+    }
+
 }

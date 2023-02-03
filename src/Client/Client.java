@@ -1,9 +1,8 @@
 package Client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,19 +16,20 @@ public class Client {
     PrintWriter output;
     Socket server;
     ClientUI clientUI;
+    LoginUI loginUI;
 
     public Client(){
         this.serverName = "localhost";
         this.PORT = 1234;
         this.name = "nickname";
 
-        this.clientUI = new ClientUI(this);
+        this.loginUI = new LoginUI(this);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         Client client = new Client();
-    }
 
+    }
 
     public void sendMessage(String text) {
         try {
@@ -37,9 +37,12 @@ public class Client {
             if (message.equals("")) {
                 return;
             }
-            clientUI.setOldMsg(message);
+
+            String messageToSend = message;
+
+            clientUI.setOldMsg(messageToSend);
             //this.oldMsg = message;
-            output.println(message);
+            output.println(messageToSend);
 
             clientUI.updateChatPanel();
 
@@ -49,22 +52,14 @@ public class Client {
         }
     }
 
-    public String getServerName(){
-        return serverName;
-    }
+    public void connectClicked(String username, ClientUI clientUI, boolean login) throws IOException {
+        this.name = username;
+        this.clientUI = clientUI;
 
-    public int getPORT(){
-        return PORT;
-    }
-
-    public String getNameUser(){
-        return name;
-    }
-
-    public void connectClicked(String newName, int newPort, String newServerName) throws IOException {
-        this.name = newName;
-        this.PORT = newPort;
-        this.serverName = newServerName;
+        if (!login){
+            ImageIcon imageIcon = new ImageIcon(getPicture());
+            clientUI.updateImage(imageIcon);
+        }
 
         clientUI.updatePane(serverName, PORT);
 
@@ -121,4 +116,18 @@ public class Client {
             }
         }
     }
+
+    public static String getPicture() {
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        File selectedFile = null;
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+        }
+        return selectedFile.getAbsolutePath();
+
+    }
+
 }
