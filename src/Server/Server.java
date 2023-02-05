@@ -1,7 +1,11 @@
 package Server;
 
+import Client.Message;
+
 import javax.swing.*;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -96,18 +100,19 @@ public class Server {
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) {
+            try {
+                OutputStream outputStream = client.getClient().getOutputStream();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                objectOutputStream.writeObject(new Message<String>(message));
+                System.out.println(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            client.getOutStream().println(userSender.toString() + "<span> " + getTime() + msg+"</span>");
 
 
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime now = LocalDateTime.now();
-            String messageToSend = ("<" + userSender.toString() + ":" + dtf.format(now) +">:"+"<span>: "+ msg+"</span>");
-            System.out.println(messageToSend);
 
-
-            //client.getOutStream().println("<" + userSender.toString() + ":" + dtf.format(now) +">:"+"<span>: "+ msg+"</span>");
-            client.getOutStream().println(userSender.toString() + "<span>: " + msg+"</span>");
 
         }
     }

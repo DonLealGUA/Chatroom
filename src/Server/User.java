@@ -29,6 +29,10 @@ public class User {
         return this.streamOut;
     }
 
+    public Socket getClient() {
+        return client;
+    }
+
     public InputStream getInputStream(){
         return this.streamIn;
     }

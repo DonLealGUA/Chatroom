@@ -4,23 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 
-public class Message implements Serializable {
-    private  String text;
-    private ImageIcon image;
+public class Message<T extends Serializable> implements Serializable {
+    private T payload;
 
-    public Message(String text) {
-        this.text = text;
+    public Message() {
+        super();
     }
 
-    public Message(ImageIcon image) {
-        this.image = image;
+    public Message(T data) {
+        super();
+        setPayload(data);
     }
 
-    public String getText() {
-        return text;
+    public T getPayload() {
+        return payload;
     }
 
-    public ImageIcon getImage() {
-        return image;
+    public void setPayload(T aPayload) {
+        payload = aPayload;
     }
+
 }

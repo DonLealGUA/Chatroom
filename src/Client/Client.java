@@ -15,8 +15,7 @@ public class Client {
     private Thread read;
     BufferedReader input;
     BufferedWriter bufferedWriter;
-    //PrintWriter output;
-    Socket server;
+    Socket socket;
     ClientUI clientUI;
     LoginUI loginUI;
 
@@ -29,32 +28,6 @@ public class Client {
 
     public static void main(String[] args)  {
         Client client = new Client();
-
-    }
-
-    public void sendMessage(String text) {
-        try {
-            String message = text;
-            if (message.equals("")) {
-                return;
-            }
-
-            String messageToSend = message;
-
-            clientUI.setOldMsg(messageToSend);
-            //this.oldMsg = message;
-            bufferedWriter.write(message);
-            System.out.println(message);
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-           // output.println(message);
-
-            clientUI.updateChatPanel();
-
-        } catch (Exception ex) {
-            clientUI.showExceptionMessage(ex);
-            System.exit(0);
-        }
     }
 
     public void connectClicked(String username, ClientUI clientUI, boolean login) throws IOException {
@@ -68,12 +41,12 @@ public class Client {
 
         clientUI.updatePane(serverName, PORT);
 
-        server = new Socket(serverName, PORT);
+        socket = new Socket(serverName, PORT);
 
-        clientUI.writeConnectMessage(server);
+        clientUI.writeConnectMessage(socket);
 
-        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(server.getOutputStream()));
-        this.input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         //input = new BufferedReader(new InputStreamReader(server.getInputStream()));
         // output = new PrintWriter(server.getOutputStream(), true);
 
@@ -89,6 +62,24 @@ public class Client {
 
     }
 
+    public void sendMessage(String text) {
+        try {
+            if (text.equals("")) {
+                return;
+            }
+
+            clientUI.setOldMsg(text);
+            OutputStream outputStream = socket.getOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(new Message<String>(text));
+            clientUI.updateChatPanel();
+
+        } catch (Exception ex) {
+            clientUI.showExceptionMessage(ex);
+            System.exit(0);
+        }
+    }
+
     /***
      * Fixa detta
      */
@@ -99,7 +90,8 @@ public class Client {
                 return;
             }
             clientUI.setOldImage(image);
-            //output.println(message);
+
+
             clientUI.updateChatPanel();
 
         } catch (Exception ex) {
@@ -126,17 +118,8 @@ public class Client {
     // read new incoming messages
     class Read extends Thread {
 
-        public void SkickaObjekt() throws IOException {
-
-            /*OutputStream outputStream = server.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(image);
-            System.out.println(image);
-            server.close();*/
-        }
-
         public void GamlaLäsa(){
-           /* String message;
+            String message;
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     message = input.readLine();
@@ -159,36 +142,35 @@ public class Client {
                 catch (IOException ex) {
                     clientUI.printError();
                 }
-            }*/
-        }
-
-        @Override
-        public void run() {
-            String message;
-            while(!Thread.currentThread().isInterrupted()){
-                try {
-                    message = input.readLine();
-                        if(message != null){
-                          if (message.charAt(0) == '[') {
-                            message = message.substring(1, message.length()-1);
-                            ArrayList<String> ListUser = new ArrayList<String>(
-                                    Arrays.asList(message.split(", "))
-                            );
-                            clientUI.updateUsers();
-                            for (String user : ListUser) {
-                                clientUI.updateUsersPane(user);
-                            }
-                        }else{
-
-                            clientUI.updateUsersMessage(message);
-                        }
-                    }
-                }
-                catch (IOException ex) {
-                    clientUI.printError();
-                }
             }
         }
+
+        /**
+         * invalid stream header:
+         * Problem här
+         */
+        @Override
+        public void run() {
+                try {
+                    InputStream inputStream = socket.getInputStream();
+                    ObjectInputStream ois = new ObjectInputStream(inputStream);
+                    Message<?> msg = (Message<?>) ois.readObject();
+
+                    if(msg.getPayload() instanceof String){
+                        System.out.println("String");
+                        System.out.println(msg.getPayload());
+                    }
+                    else if(msg.getPayload() instanceof ImageIcon){
+                        System.out.println(msg.getPayload());
+                        System.out.println("Bild");
+                    }
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("Probem");
+                }
+            }
+
     }
 
     public static String getPicture() {
