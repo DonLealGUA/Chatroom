@@ -21,7 +21,7 @@ public class Server {
     private ServerSocket server;
 
     public static void main(String[] args) throws IOException {
-        new Server(1234).start();
+        new Server(1233).start();
     }
 
     private void start() throws IOException {
@@ -102,9 +102,9 @@ public class Server {
         for (User client : this.clients) {
             try {
                 OutputStream outputStream = client.getClient().getOutputStream();
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                ObjectOutputStream oos = new ObjectOutputStream(outputStream);
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
-                objectOutputStream.writeObject(new Message<String>(message));
+                oos.writeObject(new Message<String>(message));
                 System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();

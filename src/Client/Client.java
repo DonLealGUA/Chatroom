@@ -15,13 +15,15 @@ public class Client {
     private Thread read;
     BufferedReader input;
     BufferedWriter bufferedWriter;
+    ObjectInputStream ois;
+    ObjectOutputStream oos;
     Socket socket;
     ClientUI clientUI;
     LoginUI loginUI;
 
     public Client(){
         this.serverName = "localhost";
-        this.PORT = 1234;
+        this.PORT = 1233;
 
         this.loginUI = new LoginUI(this);
     }
@@ -70,8 +72,8 @@ public class Client {
 
             clientUI.setOldMsg(text);
             OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(new Message<String>(text));
+            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+            oos.writeObject(new Message<String>(text));
             clientUI.updateChatPanel();
 
         } catch (Exception ex) {
@@ -102,7 +104,6 @@ public class Client {
 
     public String getServerName(){
         return serverName;
-
     }
 
     public void disconnectPressed() {
@@ -110,6 +111,9 @@ public class Client {
             read.interrupt();
             clientUI.disconnectUpdate();
             bufferedWriter.close();
+            ois.close();
+            oos.close();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,16 +155,15 @@ public class Client {
          */
         @Override
         public void run() {
+            while (socket.isConnected()) {
                 try {
-                    InputStream inputStream = socket.getInputStream();
-                    ObjectInputStream ois = new ObjectInputStream(inputStream);
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                     Message<?> msg = (Message<?>) ois.readObject();
 
-                    if(msg.getPayload() instanceof String){
+                    if (msg.getPayload() instanceof String) {
                         System.out.println("String");
                         System.out.println(msg.getPayload());
-                    }
-                    else if(msg.getPayload() instanceof ImageIcon){
+                    } else if (msg.getPayload() instanceof ImageIcon) {
                         System.out.println(msg.getPayload());
                         System.out.println("Bild");
                     }
@@ -170,7 +173,7 @@ public class Client {
                     System.out.println("Probem");
                 }
             }
-
+        }
     }
 
     public static String getPicture() {
