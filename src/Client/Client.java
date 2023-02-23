@@ -44,18 +44,27 @@ public class Client {
         clientUI.updatePane(serverName, PORT);
 
         socket = new Socket(serverName, PORT);
-
         clientUI.writeConnectMessage(socket);
 
-        this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+
+        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+        oos.writeObject(new Message<String>(name));
+        oos.flush();
+        System.out.println("Skickar namn");
+
+
+
+       // this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+       // this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         //input = new BufferedReader(new InputStreamReader(server.getInputStream()));
         // output = new PrintWriter(server.getOutputStream(), true);
 
         // send nickname to server
-        bufferedWriter.write(name);
-        bufferedWriter.newLine();
-        bufferedWriter.flush();
+        //bufferedWriter.write(name);
+       // bufferedWriter.newLine();
+        //bufferedWriter.flush();
 
         //output.println(name);
 
@@ -69,11 +78,11 @@ public class Client {
             if (text.equals("")) {
                 return;
             }
-
             clientUI.setOldMsg(text);
-            OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-            oos.writeObject(new Message<String>(text));
+            System.out.println(text);
+            oos.writeObject(new Message<>(text));
+            System.out.println("sent");
+            oos.flush();
             clientUI.updateChatPanel();
 
         } catch (Exception ex) {
@@ -110,69 +119,11 @@ public class Client {
         try {
             read.interrupt();
             clientUI.disconnectUpdate();
-            bufferedWriter.close();
             ois.close();
             oos.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    // read new incoming messages
-    class Read extends Thread {
-
-        public void GamlaLäsa(){
-            String message;
-            while(!Thread.currentThread().isInterrupted()){
-                try {
-                    message = input.readLine();
-                    if(message != null){
-                        if (message.charAt(0) == '[') {
-                            message = message.substring(1, message.length()-1);
-                            ArrayList<String> ListUser = new ArrayList<String>(
-                                    Arrays.asList(message.split(", "))
-                            );
-                            clientUI.updateUsers();
-                            for (String user : ListUser) {
-                                clientUI.updateUsersPane(user);
-                            }
-                        }else{
-
-                            clientUI.updateUsersMessage(message);
-                        }
-                    }
-                }
-                catch (IOException ex) {
-                    clientUI.printError();
-                }
-            }
-        }
-
-        /**
-         * invalid stream header:
-         * Problem här
-         */
-        @Override
-        public void run() {
-            while (socket.isConnected()) {
-                try {
-                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                    Message<?> msg = (Message<?>) ois.readObject();
-
-                    if (msg.getPayload() instanceof String) {
-                        System.out.println("String");
-                        System.out.println(msg.getPayload());
-                    } else if (msg.getPayload() instanceof ImageIcon) {
-                        System.out.println(msg.getPayload());
-                        System.out.println("Bild");
-                    }
-
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println("Probem");
-                }
-            }
         }
     }
 
@@ -189,4 +140,28 @@ public class Client {
 
     }
 
+    // read new incoming messages
+    class Read extends Thread {
+        /**
+         * invalid stream header:
+         * Problem här
+         */
+        @Override
+        public void run() {
+            try {
+                while (socket.isConnected()) {
+                    Message<?> msg = (Message<?>) ois.readObject();
+                    if (msg.getPayload() instanceof String) {
+                        System.out.println("String");
+                        System.out.println(msg.getPayload());
+                    } else if (msg.getPayload() instanceof ImageIcon) {
+                        System.out.println(msg.getPayload());
+                        System.out.println("Bild");
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

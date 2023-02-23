@@ -3,9 +3,7 @@ package Server;
 import Client.Message;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -19,12 +17,14 @@ public class Server {
     private int port;
     private List<User> clients;
     private ServerSocket server;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         new Server(1233).start();
     }
 
-    private void start() throws IOException {
+    private void start() throws IOException, ClassNotFoundException {
         server = new ServerSocket(port);
         System.out.println("Port 1234 is now open.");
 
@@ -32,8 +32,14 @@ public class Server {
             // accepts a new client
             Socket client = server.accept();
 
+            this.oos = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
+            oos.flush();
+
+            this.ois = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+
             // get username of newUser
-            String username = (new Scanner( client.getInputStream() )).nextLine();
+            Message<?> readObject = (Message<?>) ois.readObject();
+            String username = (String) readObject.getPayload();
             System.out.println("New Client: \"" + username + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
 
             // create new User
@@ -101,19 +107,13 @@ public class Server {
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) {
             try {
-                OutputStream outputStream = client.getClient().getOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(outputStream);
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
                 oos.writeObject(new Message<String>(message));
+                oos.flush();
                 System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
         }
     }
 
