@@ -51,8 +51,8 @@ public class Client {
         this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
         oos.writeObject(new Message<String>(name));
-        oos.flush();
-        System.out.println("Skickar namn");
+        //oos.flush();
+       // System.out.println("Skickar namn");
 
 
 
@@ -80,7 +80,7 @@ public class Client {
             }
             clientUI.setOldMsg(text);
             System.out.println(text);
-            oos.writeObject(new Message<>(text));
+            oos.writeObject(new Message<String>(text));
             System.out.println("sent");
             oos.flush();
             clientUI.updateChatPanel();

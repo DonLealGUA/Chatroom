@@ -3,11 +3,8 @@ package Server;
 import Client.Message;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class UserHandler implements Runnable {
     private Socket socket;
@@ -17,7 +14,7 @@ public class UserHandler implements Runnable {
     private BufferedWriter bufferedWriter;
     private ObjectInputStream ois;
 
-    public UserHandler(Server server, Socket socket, User newUser) {
+    public UserHandler(Server server, Socket socket, User newUser, ObjectInputStream ois) {
         try {
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -25,6 +22,7 @@ public class UserHandler implements Runnable {
             this.server = server;
             this.user = newUser;
             this.server.broadcastAllUsers();
+            this.ois = ois;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +34,6 @@ public class UserHandler implements Runnable {
     @Override
     public void run() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
             while (socket.isConnected()){
                 Message<?> readObject = (Message<?>) ois.readObject();
                 if(readObject.getPayload() instanceof String){
@@ -59,6 +56,7 @@ public class UserHandler implements Runnable {
                      }else{
                         // update user list
                         server.broadcastMessages(message, user);
+                        System.out.println(message);
                         // server.broadcastImages(image,user);
                     }
                 }

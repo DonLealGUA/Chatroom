@@ -26,7 +26,7 @@ public class Server {
 
     private void start() throws IOException, ClassNotFoundException {
         server = new ServerSocket(port);
-        System.out.println("Port 1234 is now open.");
+        System.out.println("Port" + port + " is now open.");
 
         while(true) {
             // accepts a new client
@@ -43,16 +43,16 @@ public class Server {
             System.out.println("New Client: \"" + username + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
 
             // create new User
-            User newUser = new User(client, username);
+            User newUser = new User(client, "hej");
 
             // add newUser message to list
             this.clients.add(newUser);
 
             // Welcome msg
-            newUser.getOutStream().println("<b>Welcome</b> " + newUser.toString());
+            //newUser.getOutStream().println("<b>Welcome</b> " + newUser.toString());
 
             // create a new thread for newUser incoming messages handling
-            new Thread(new UserHandler(this, client, newUser)).start();
+            new Thread(new UserHandler(this, client, newUser, ois)).start();
         }
 
     }
@@ -62,9 +62,9 @@ public class Server {
         this.clients = new ArrayList<User>();
     }
 
-    public void broadcastAllUsers() {
+    public void broadcastAllUsers() throws IOException {
         for (User client : this.clients) {
-            client.getOutStream().println(this.clients);
+            oos.writeObject(new Message<String>(this.clients.toString()));
         }
     }
 
@@ -108,7 +108,9 @@ public class Server {
         for (User client : this.clients) {
             try {
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
-                oos.writeObject(new Message<String>(message));
+                System.out.println(message);
+                ImageIcon image = new ImageIcon("C:\\Users\\Kristoffer\\OneDrive\\Dokument\\GitHub\\Chatt\\files\\Stockx_logo.png");
+                oos.writeObject(new Message<ImageIcon>(image));
                 oos.flush();
                 System.out.println(message);
             } catch (IOException e) {
@@ -120,7 +122,9 @@ public class Server {
     // skicka meddelande till alla
     public void broadcastImages(ImageIcon image, User userSender) {
         for (User client : this.clients) {
-            client.getOutStream().println(userSender.toString() + image);
+
+
+
         }
     }
 
