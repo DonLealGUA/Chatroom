@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Client {
-    private String serverName;
+    private String IP;
     private int PORT;
     private String name;
     private Thread read;
@@ -22,7 +22,7 @@ public class Client {
     LoginUI loginUI;
 
     public Client(){
-        this.serverName = "localhost";
+        this.IP = "localhost";
         this.PORT = 1233;
 
         this.loginUI = new LoginUI(this);
@@ -41,9 +41,9 @@ public class Client {
             clientUI.updateImage(imageIcon);
         }
 
-        clientUI.updatePane(serverName, PORT);
+        clientUI.updatePane(IP, PORT);
 
-        socket = new Socket(serverName, PORT);
+        socket = new Socket(IP, PORT);
         clientUI.writeConnectMessage(socket);
 
         this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
@@ -111,8 +111,8 @@ public class Client {
         }
     }
 
-    public String getServerName(){
-        return serverName;
+    public String getIP(){
+        return IP;
     }
 
     public void disconnectPressed() {

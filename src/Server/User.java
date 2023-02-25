@@ -1,9 +1,7 @@
 package Server;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 
 public class User {
@@ -15,8 +13,14 @@ public class User {
     private Socket client;
     private ImageIcon imageIcon;
 
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    private ObjectOutputStream oos;
+
     public User(Socket client, String username) throws IOException {
-        this.streamOut = new PrintStream(client.getOutputStream());
+        this.oos = new ObjectOutputStream(client.getOutputStream());
         this.streamIn = client.getInputStream();
         this.client = client;
         this.username = username;
@@ -33,10 +37,6 @@ public class User {
         return client;
     }
 
-    public InputStream getInputStream(){
-        return this.streamIn;
-    }
-
     public String getUsername() {
         return this.username;
     }
@@ -45,5 +45,9 @@ public class User {
 
         return this.getUsername();
 
+    }
+
+    public ObjectOutputStream getOutputStream() {
+        return oos;
     }
 }

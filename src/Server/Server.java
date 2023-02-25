@@ -111,11 +111,11 @@ public class Server {
 
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
-        for (User client : this.clients) {
+        for (User client : this.clients) { //todo fixa att den skriver till alla clienter och itne bara skriver så många gånger clienter finns
             try {
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
                 System.out.println(message);
-                oos.writeObject(new Message<String>("hej"));
+                oos.writeObject(new Message<String>(message));
                 oos.flush();
                 System.out.println(message);
             } catch (IOException e) {
@@ -123,6 +123,7 @@ public class Server {
             }
         }
     }
+
 
     // skicka meddelande till alla
     public void broadcastImages(ImageIcon image, User userSender) {
