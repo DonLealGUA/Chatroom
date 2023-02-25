@@ -60,9 +60,8 @@ public class UserHandler implements Runnable {
                         // server.broadcastImages(image,user);
                     }
                 }
-                else if(readObject.getPayload() instanceof ImageIcon){
-                    System.out.println(readObject.getPayload());
-                    System.out.println("Bild");
+                else if(readObject.getPayload() instanceof ImageIcon messageImage){
+                    server.broadcastImages(messageImage,user);
                 }
             }
             server.removeUser(user);

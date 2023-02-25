@@ -43,13 +43,15 @@ public class Server {
             System.out.println("New Client: \"" + username + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
 
             // create new User
-            User newUser = new User(client, "hej");
+            User newUser = new User(client, username);
 
             // add newUser message to list
             this.clients.add(newUser);
 
             // Welcome msg
-            //newUser.getOutStream().println("<b>Welcome</b> " + newUser.toString());
+            oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
+            oos.flush();
+
 
             // create a new thread for newUser incoming messages handling
             new Thread(new UserHandler(this, client, newUser, ois)).start();
@@ -65,11 +67,12 @@ public class Server {
     public void broadcastAllUsers() throws IOException {
         for (User client : this.clients) {
             oos.writeObject(new Message<String>(this.clients.toString()));
+            oos.flush();
         }
     }
 
     /**
-     * Skickar privata meddelanden
+     * Behövs fixa
      */
     public void sendMessageToUser(String msg, User userSender, String user) {
         boolean find = false;
@@ -87,6 +90,9 @@ public class Server {
         }
     }
 
+    /**
+     * Behövs fixa
+     */
     public void sendFriendRequestToUser(String msg, User userSender, String user){
         boolean find = false;
         for (User client : this.clients) {
@@ -109,8 +115,7 @@ public class Server {
             try {
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
                 System.out.println(message);
-                ImageIcon image = new ImageIcon("C:\\Users\\Kristoffer\\OneDrive\\Dokument\\GitHub\\Chatt\\files\\Stockx_logo.png");
-                oos.writeObject(new Message<ImageIcon>(image));
+                oos.writeObject(new Message<String>("hej"));
                 oos.flush();
                 System.out.println(message);
             } catch (IOException e) {
@@ -122,9 +127,12 @@ public class Server {
     // skicka meddelande till alla
     public void broadcastImages(ImageIcon image, User userSender) {
         for (User client : this.clients) {
-
-
-
+            try {
+                oos.writeObject(new Message<ImageIcon>(image));
+                oos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

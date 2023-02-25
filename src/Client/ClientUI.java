@@ -188,6 +188,7 @@ public class ClientUI {
                     jfr.add(jtextInputChatSP);
                     jfr.add(jsbtndeco);
                     jfr.revalidate();
+                    jfr.add(sendPicture);
                     jfr.repaint();
                     jtextFilDiscu.setBackground(Color.WHITE);
                     jtextListUsers.setBackground(Color.WHITE);

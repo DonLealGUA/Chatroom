@@ -51,7 +51,7 @@ public class Client {
         this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
         oos.writeObject(new Message<String>(name));
-        //oos.flush();
+        oos.flush();
        // System.out.println("Skickar namn");
 
 
@@ -142,21 +142,15 @@ public class Client {
 
     // read new incoming messages
     class Read extends Thread {
-        /**
-         * invalid stream header:
-         * Problem här
-         */
         @Override
         public void run() {
             try {
                 while (socket.isConnected()) {
                     Message<?> msg = (Message<?>) ois.readObject();
                     if (msg.getPayload() instanceof String) {
-                        System.out.println("String");
-                        System.out.println(msg.getPayload());
+                        //clientUI.appendToPane((String) msg.getPayload()); //todo fix
                     } else if (msg.getPayload() instanceof ImageIcon) {
-                        System.out.println(msg.getPayload());
-                        System.out.println("Bild");
+                        clientUI.updateImage((ImageIcon) msg.getPayload());
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
