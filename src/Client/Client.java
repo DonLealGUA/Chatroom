@@ -21,7 +21,7 @@ public class Client {
 
     public Client(){
         this.IP = "localhost";
-        this.PORT = 1244;
+        this.PORT = 1234;
 
         this.loginUI = new LoginUI(this);
     }
@@ -36,6 +36,7 @@ public class Client {
 
         if (!login){
             ImageIcon imageIcon = new ImageIcon(getPicture());
+            clientUI.updateImageIcon(imageIcon);
         }
 
         clientUI.updatePane(IP, PORT);
@@ -87,10 +88,6 @@ public class Client {
             System.exit(0);
         }
     }
-
-    /***
-     * Fixa detta
-     */
     public void sendPicture (ImageIcon imageIcon) {
         try {
             ImageIcon image = imageIcon;

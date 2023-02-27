@@ -318,12 +318,19 @@ public class ClientUI {
             }
 
             public void updateImage(ImageIcon imageIcon) {
+
+                jtextFilDiscu.insertIcon(imageIcon);
+
+            }
+
+            public void updateImageIcon(ImageIcon imageIcon){
                 Image image2 = imageIcon.getImage(); // transform it
                 Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 ImageIcon imageIcon2 = new ImageIcon(newimg);
-                image.add(new JLabel(imageIcon2));
-                jtextFilDiscu.insertIcon(imageIcon);
 
+                JLabel imgLabel = new JLabel(imageIcon2);
+
+                image.add(imgLabel);
             }
 
         }

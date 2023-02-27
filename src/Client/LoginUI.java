@@ -77,6 +77,8 @@ public class LoginUI {
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
         connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), true));
+        connect.addActionListener(l -> frame.dispose());
+
         loginPanel.add(connect);
 
         frame.remove(mainPanel);
@@ -107,6 +109,7 @@ public class LoginUI {
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
         connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), false));
+        connect.addActionListener(l -> frame.dispose());
         registerPanel.add(connect);
 
         frame.remove(mainPanel);
