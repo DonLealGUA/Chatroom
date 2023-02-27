@@ -257,6 +257,13 @@ public class ClientUI {
 
     }
 
+    public void ClearUserpane() {
+        userList.removeAll();
+    }
+
+
+
+
     public void updateUsersMessage(String message) {
         appendToPane(jtextFilDiscu, message);
     }
@@ -272,6 +279,8 @@ public class ClientUI {
     public void setOldImage(ImageIcon image) {
         this.oldImage = image;
     }
+
+
 
 
     public class TextListener implements DocumentListener {

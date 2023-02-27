@@ -17,7 +17,7 @@ public class Write {
         try{
             FileWriter fstream = new FileWriter("files/chat.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + messege);
+            out.write(User + " " + messege +"\n");
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " +
@@ -30,7 +30,7 @@ public class Write {
         try{
             FileWriter fstream = new FileWriter("files/Users.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + image);
+            out.write(User + " " + image +"\n");
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " +

@@ -101,6 +101,7 @@ public class Server {
               //          "(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
             }
         }
+        Write.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
          //   userSender.getOutStream().println("Sorry, this user doesn't exist ");
         }
@@ -127,18 +128,20 @@ public class Server {
 
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
+        String message = null;
         for (User client : this.clients) {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
-                String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                message = (": " + getTime() + msg);
                 System.out.println(message + " got message broadcastmessages");
-                userHandler.getOos().writeObject(new Message<String>(message));
+                userHandler.getOos().writeObject(new Message<String>(userSender.toString() + message));
                 userHandler.getOos().flush();
                 System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        Write.writeChat(userSender.getUsername(),message);
     }
 
 
@@ -155,6 +158,7 @@ public class Server {
                 e.printStackTrace();
             }
         }
+        Write.writeChat(userSender.getUsername(),image.toString());
     }
 
     // ta bort användare från listan

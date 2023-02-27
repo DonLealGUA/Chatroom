@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
-public class Read {
+public class Reader {
 
 
     public static ArrayList readChat(){
@@ -39,10 +39,6 @@ public class Read {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        Read.readUsers();
     }
 
 

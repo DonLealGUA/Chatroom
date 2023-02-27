@@ -1,1 +1,2 @@
-Testare files/Stockx_logo.png
+test C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\cobraslogo.jpg
+pii C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_7.png
