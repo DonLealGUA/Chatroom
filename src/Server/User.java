@@ -11,16 +11,10 @@ public class User {
     private InputStream streamIn;
     private String username;
     private Socket client;
+
     private ImageIcon imageIcon;
 
-    public ObjectOutputStream getOos() {
-        return oos;
-    }
-
-    private ObjectOutputStream oos;
-
     public User(Socket client, String username) throws IOException {
-        this.oos = new ObjectOutputStream(client.getOutputStream());
         this.streamIn = client.getInputStream();
         this.client = client;
         this.username = username;
@@ -47,7 +41,4 @@ public class User {
 
     }
 
-    public ObjectOutputStream getOutputStream() {
-        return oos;
-    }
 }

@@ -13,8 +13,6 @@ public class Client {
     private int PORT;
     private String name;
     private Thread read;
-    BufferedReader input;
-    BufferedWriter bufferedWriter;
     ObjectInputStream ois;
     ObjectOutputStream oos;
     Socket socket;
@@ -23,7 +21,7 @@ public class Client {
 
     public Client(){
         this.IP = "localhost";
-        this.PORT = 1233;
+        this.PORT = 1244;
 
         this.loginUI = new LoginUI(this);
     }
@@ -148,7 +146,10 @@ public class Client {
                 while (socket.isConnected()) {
                     Message<?> msg = (Message<?>) ois.readObject();
                     if (msg.getPayload() instanceof String) {
-                        //clientUI.appendToPane((String) msg.getPayload()); //todo fix
+                        String newMessage = (String) msg.getPayload();
+                        System.out.println(newMessage);
+                        System.out.println(" got message");
+                        clientUI.updateUsersMessage(String.valueOf(newMessage));
                     } else if (msg.getPayload() instanceof ImageIcon) {
                         clientUI.updateImage((ImageIcon) msg.getPayload());
                     }

@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,8 +21,10 @@ public class Server {
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
+    private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
+
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        new Server(1233).start();
+        new Server(1244).start();
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -45,6 +48,10 @@ public class Server {
             // create new User
             User newUser = new User(client, username);
 
+            UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
+
+            this.clientHashmap.put(newUser, userHandler);
+
             // add newUser message to list
             this.clients.add(newUser);
 
@@ -52,9 +59,8 @@ public class Server {
             oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
             oos.flush();
 
-
             // create a new thread for newUser incoming messages handling
-            new Thread(new UserHandler(this, client, newUser, ois)).start();
+            new Thread(userHandler).start();
         }
 
     }
@@ -113,10 +119,11 @@ public class Server {
     public void broadcastMessages(String msg, User userSender) {
         for (User client : this.clients) { //todo fixa att den skriver till alla clienter och itne bara skriver så många gånger clienter finns
             try {
+                UserHandler userHandler = clientHashmap.get(client);
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
                 System.out.println(message);
-                oos.writeObject(new Message<String>(message));
-                oos.flush();
+                userHandler.getOos().writeObject(new Message<String>(message));
+                userHandler.getOos().flush();
                 System.out.println(message);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -129,8 +136,9 @@ public class Server {
     public void broadcastImages(ImageIcon image, User userSender) {
         for (User client : this.clients) {
             try {
-                oos.writeObject(new Message<ImageIcon>(image));
-                oos.flush();
+                UserHandler userHandler = clientHashmap.get(client);
+                userHandler.getOos().writeObject(new Message<ImageIcon>(image));
+                userHandler.getOos().flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
