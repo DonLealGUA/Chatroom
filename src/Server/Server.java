@@ -121,7 +121,7 @@ public class Server {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
-                System.out.println(message);
+                System.out.println(message + " got message broadcastmessages");
                 userHandler.getOos().writeObject(new Message<String>(message));
                 userHandler.getOos().flush();
                 System.out.println(message);
@@ -137,7 +137,9 @@ public class Server {
         for (User client : this.clients) {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
+                System.out.println(image);
                 userHandler.getOos().writeObject(new Message<ImageIcon>(image));
+                System.out.println(new Message<ImageIcon>(image));
                 userHandler.getOos().flush();
             } catch (IOException e) {
                 e.printStackTrace();

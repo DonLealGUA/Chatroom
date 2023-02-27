@@ -36,7 +36,6 @@ public class Client {
 
         if (!login){
             ImageIcon imageIcon = new ImageIcon(getPicture());
-            clientUI.updateImage(imageIcon);
         }
 
         clientUI.updatePane(IP, PORT);
@@ -99,8 +98,10 @@ public class Client {
                 return;
             }
             clientUI.setOldImage(image);
-
-
+            System.out.println(image);
+            oos.writeObject(new Message<ImageIcon>(image));
+            System.out.println("sent image");
+            oos.flush();
             clientUI.updateChatPanel();
 
         } catch (Exception ex) {

@@ -147,12 +147,12 @@ public class ClientUI {
         //Send picture
         sendPicture .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                String imagepath = client.getPicture();
+                String imagepath = Client.getPicture();
                 ImageIcon imageIcon = new ImageIcon(imagepath);
                 Image image = imageIcon.getImage(); // transform it
                 Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
-                jtextFilDiscu.insertIcon(imageIcon);
+               // jtextFilDiscu.insertIcon(imageIcon);
                 //TODO fixa att man skickar bild till andra klienter
                 client.sendPicture(imageIcon);
 
@@ -322,6 +322,8 @@ public class ClientUI {
                 Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 ImageIcon imageIcon2 = new ImageIcon(newimg);
                 image.add(new JLabel(imageIcon2));
+                jtextFilDiscu.insertIcon(imageIcon);
+
             }
 
         }
