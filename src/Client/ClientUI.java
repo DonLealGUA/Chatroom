@@ -1,5 +1,7 @@
 package Client;
 
+import Server.User;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -13,6 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientUI {
 
@@ -23,6 +26,8 @@ public class ClientUI {
     JLabel jLabelUsername;
     JPanel image;
     String username;
+
+    private final JList<String> userList;
 
     private String oldMsg = "";
     private ImageIcon oldImage;
@@ -81,13 +86,16 @@ public class ClientUI {
 
 
         // användarlista
-        jtextListUsers.setBounds(520, 125, 156, 220);
-        jtextListUsers.setEditable(true);
-        jtextListUsers.setFont(font);
-        jtextListUsers.setMargin(new Insets(6, 6, 6, 6));
-        jtextListUsers.setEditable(false);
-        JScrollPane jsplistuser = new JScrollPane(jtextListUsers);
-        jsplistuser.setBounds(520, 125, 156, 220);
+        JPanel userListPanel = new JPanel();
+        userListPanel.setLayout(null);
+        userListPanel.setSize(156, 220);
+        userListPanel.setLocation(520, 125);
+
+        userList = new JList();
+        userList.setLocation(0,0);
+        userList.setSize(156, 220);
+
+        userListPanel.add(userList);
 
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
@@ -167,170 +175,182 @@ public class ClientUI {
         jtextUserInfo.setBackground(Color.LIGHT_GRAY);
 
         jfr.add(jtextFilDiscuSP);
-        jfr.add(jsplistuser);
+        jfr.add(userListPanel);
         jfr.add(jtextUserInfo);
+        jfr.add(jtextListUsers);
         jfr.setVisible(true);
 
-                // on deco
-                jsbtndeco.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent ae) {
-                        client.disconnectPressed();
-                        jsbtndeco.setEnabled(false);
-                        jsbtn.setEnabled(false);
-                        jtextInputChat.setEnabled(false);
-                    }
-                });
-
-                try {
-                    client.connectClicked(username, this, existingUser);
-                    updateUsername(username);
-                    jfr.add(jsbtn);
-                    jfr.add(jtextInputChatSP);
-                    jfr.add(jsbtndeco);
-                    jfr.revalidate();
-                    jfr.add(sendPicture);
-                    jfr.repaint();
-                    jtextFilDiscu.setBackground(Color.WHITE);
-                    jtextListUsers.setBackground(Color.WHITE);
-                    jtextUserInfo.setBackground(Color.WHITE);
-                } catch (Exception ex) {
-                    appendToPane(jtextFilDiscu, "<span>Could not connect to Server</span>");
-                    JOptionPane.showMessageDialog(jfr, ex.getMessage());
-                }
-
+        // on deco
+        jsbtndeco.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                client.disconnectPressed();
+                jsbtndeco.setEnabled(false);
+                jsbtn.setEnabled(false);
+                jtextInputChat.setEnabled(false);
             }
+        });
 
-            public void disconnectUpdate() {
-                jtextListUsers.setText(null);
-                jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
-                jtextListUsers.setBackground(Color.LIGHT_GRAY);
-                appendToPane(jtextFilDiscu, "<span>Connection closed.</span>");
-            }
-
-            public void updateChatPanel() {
-                jtextInputChat.requestFocus();
-                jtextInputChat.setText(null);
-            }
-
-            public static String getPicture() {
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                File selectedFile = null;
-                int returnValue = jfc.showOpenDialog(null);
-
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    selectedFile = jfc.getSelectedFile();
-                    System.out.println(selectedFile.getAbsolutePath());
-                }
-                return selectedFile.getAbsolutePath();
-            }
-
-            public void showExceptionMessage(Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
-            }
-
-            public void updateUsers() {
-                jtextListUsers.setText(null);
-            }
-
-            public void updateUsersPane(String user) {
-                appendToPane(jtextListUsers, "@" + user);
-            }
-
-            public void updateUsersMessage(String message) {
-                appendToPane(jtextFilDiscu, message);
-            }
-
-            public void printError() {
-                System.err.println("Failed to parse incoming message");
-            }
-
-            public void setOldMsg(String message) {
-                this.oldMsg = message;
-            }
-
-            public void setOldImage(ImageIcon image) {
-                this.oldImage = image;
-            }
-
-
-            public class TextListener implements DocumentListener {
-                JTextField jtf1;
-                JTextField jtf2;
-                JTextField jtf3;
-                JButton jcbtn;
-
-                public TextListener(JTextField jtf1, JTextField jtf2, JTextField jtf3, JButton jcbtn) {
-                    this.jtf1 = jtf1;
-                    this.jtf2 = jtf2;
-                    this.jtf3 = jtf3;
-                    this.jcbtn = jcbtn;
-                }
-
-                public void changedUpdate(DocumentEvent e) {
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-                    if (jtf1.getText().trim().equals("") ||
-                            jtf2.getText().trim().equals("") ||
-                            jtf3.getText().trim().equals("")
-                    ) {
-                        jcbtn.setEnabled(false);
-                    } else {
-                        jcbtn.setEnabled(true);
-                    }
-                }
-
-                public void insertUpdate(DocumentEvent e) {
-                    if (jtf1.getText().trim().equals("") ||
-                            jtf2.getText().trim().equals("") ||
-                            jtf3.getText().trim().equals("")
-                    ) {
-                        jcbtn.setEnabled(false);
-                    } else {
-                        jcbtn.setEnabled(true);
-                    }
-                }
-
-            }
-
-            public void updatePane(String serverName, int PORT) {
-                appendToPane(jtextFilDiscu, "<span>Connecting to " + serverName + " on port " + PORT + "...</span>");
-            }
-
-            public void writeConnectMessage(Socket server) {
-                appendToPane(jtextFilDiscu, "<span>Connected to " + server.getRemoteSocketAddress() + "</span>");
-
-            }
-
-            public void appendToPane(JTextPane tp, String msg) {
-                HTMLDocument doc = (HTMLDocument) tp.getDocument();
-                HTMLEditorKit editorKit = (HTMLEditorKit) tp.getEditorKit();
-                try {
-                    editorKit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
-                    tp.setCaretPosition(doc.getLength());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            public void updateUsername(String text) {
-                jLabelUsername.setText(text);
-            }
-
-            public void updateImage(ImageIcon imageIcon) {
-
-                jtextFilDiscu.insertIcon(imageIcon);
-
-            }
-
-            public void updateImageIcon(ImageIcon imageIcon){
-                Image image2 = imageIcon.getImage(); // transform it
-                Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-                ImageIcon imageIcon2 = new ImageIcon(newimg);
-
-                JLabel imgLabel = new JLabel(imageIcon2);
-
-                image.add(imgLabel);
-            }
-
+        try {
+            client.connectClicked(username, this, existingUser);
+            updateUsername(username);
+            jfr.add(jsbtn);
+            jfr.add(jtextInputChatSP);
+            jfr.add(jsbtndeco);
+            jfr.revalidate();
+            jfr.add(sendPicture);
+            jfr.repaint();
+            jtextFilDiscu.setBackground(Color.WHITE);
+            jtextListUsers.setBackground(Color.WHITE);
+            jtextUserInfo.setBackground(Color.WHITE);
+        } catch (Exception ex) {
+            appendToPane(jtextFilDiscu, "<span>Could not connect to Server</span>");
+            JOptionPane.showMessageDialog(jfr, ex.getMessage());
         }
+
+    }
+
+    public void disconnectUpdate() {
+        jtextListUsers.setText(null);
+        jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
+        jtextListUsers.setBackground(Color.LIGHT_GRAY);
+        appendToPane(jtextFilDiscu, "<span>Connection closed.</span>");
+    }
+
+    public void updateChatPanel() {
+        jtextInputChat.requestFocus();
+        jtextInputChat.setText(null);
+    }
+
+    public static String getPicture() {
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        File selectedFile = null;
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+        }
+        return selectedFile.getAbsolutePath();
+    }
+
+    public void showExceptionMessage(Exception ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage());
+    }
+
+    public void updateUsers() {
+        jtextListUsers.setText(null);
+    }
+
+    public void updateUsersPane(String user) {
+        appendToPane(jtextListUsers, "@" + user);
+    }
+
+    public void updateUsersList(ArrayList<String> list){
+        String[] arr = new String[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+
+        userList.removeAll();
+        userList.setListData(arr);
+
+    }
+
+    public void updateUsersMessage(String message) {
+        appendToPane(jtextFilDiscu, message);
+    }
+
+    public void printError() {
+        System.err.println("Failed to parse incoming message");
+    }
+
+    public void setOldMsg(String message) {
+        this.oldMsg = message;
+    }
+
+    public void setOldImage(ImageIcon image) {
+        this.oldImage = image;
+    }
+
+
+    public class TextListener implements DocumentListener {
+        JTextField jtf1;
+        JTextField jtf2;
+        JTextField jtf3;
+        JButton jcbtn;
+
+        public TextListener(JTextField jtf1, JTextField jtf2, JTextField jtf3, JButton jcbtn) {
+            this.jtf1 = jtf1;
+            this.jtf2 = jtf2;
+            this.jtf3 = jtf3;
+            this.jcbtn = jcbtn;
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            if (jtf1.getText().trim().equals("") ||
+                    jtf2.getText().trim().equals("") ||
+                    jtf3.getText().trim().equals("")
+            ) {
+                jcbtn.setEnabled(false);
+            } else {
+                jcbtn.setEnabled(true);
+            }
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+            if (jtf1.getText().trim().equals("") ||
+                    jtf2.getText().trim().equals("") ||
+                    jtf3.getText().trim().equals("")
+            ) {
+                jcbtn.setEnabled(false);
+            } else {
+                jcbtn.setEnabled(true);
+            }
+        }
+
+    }
+
+    public void updatePane(String serverName, int PORT) {
+        appendToPane(jtextFilDiscu, "<span>Connecting to " + serverName + " on port " + PORT + "...</span>");
+    }
+
+    public void writeConnectMessage(Socket server) {
+        appendToPane(jtextFilDiscu, "<span>Connected to " + server.getRemoteSocketAddress() + "</span>");
+
+    }
+
+    public void appendToPane(JTextPane tp, String msg) {
+        HTMLDocument doc = (HTMLDocument) tp.getDocument();
+        HTMLEditorKit editorKit = (HTMLEditorKit) tp.getEditorKit();
+        try {
+            editorKit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
+            tp.setCaretPosition(doc.getLength());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUsername(String text) {
+        jLabelUsername.setText(text);
+    }
+
+    public void updateImage(ImageIcon imageIcon) {
+        jtextFilDiscu.insertIcon(imageIcon);
+
+    }
+
+    public void updateImageIcon(ImageIcon imageIcon){
+        Image image2 = imageIcon.getImage(); // transform it
+        Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon2 = new ImageIcon(newimg);
+
+        JLabel imgLabel = new JLabel(imageIcon2);
+
+        image.add(imgLabel);
+    }
+
+}

@@ -23,9 +23,9 @@ public class UserHandler implements Runnable {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.server = server;
             this.user = newUser;
-            this.server.broadcastAllUsers();
             this.ois = ois;
             this.oos = oos;
+            server.broadcastAllUsers();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +58,7 @@ public class UserHandler implements Runnable {
                          }
                      }else{
                         // update user list
+                        server.broadcastAllUsers();
                         server.broadcastMessages(message, user);
                         System.out.println(message);
                         // server.broadcastImages(image,user);
@@ -66,10 +67,16 @@ public class UserHandler implements Runnable {
                 else if(readObject.getPayload() instanceof ImageIcon messageImage){
                     System.out.println("körs detta?");
                     server.broadcastImages(messageImage,user);
+                }else if(readObject.getPayload() instanceof User){
+                    System.out.println("när körs user instansen?");
+                    server.addUser(user);
+                    server.broadcastAllUsers();
                 }
             }
             server.removeUser(user);
             this.server.broadcastAllUsers();
+            oos.close();
+            ois.close();
             socket.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

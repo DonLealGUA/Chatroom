@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class Server {
 
@@ -42,11 +41,12 @@ public class Server {
 
             // get username of newUser
             Message<?> readObject = (Message<?>) ois.readObject();
-            String username = (String) readObject.getPayload();
-            System.out.println("New Client: \"" + username + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
+            User newUser = (User) readObject.getPayload();
+
+            System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
 
             // create new User
-            User newUser = new User(client, username);
+           // User newUser = new User(username);
 
             UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
 
@@ -54,6 +54,8 @@ public class Server {
 
             // add newUser message to list
             this.clients.add(newUser);
+
+            broadcastAllUsers();
 
             // Welcome msg
             oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
@@ -71,9 +73,17 @@ public class Server {
     }
 
     public void broadcastAllUsers() throws IOException {
+        ArrayList<String> onlineList = new ArrayList<String>();
         for (User client : this.clients) {
-            oos.writeObject(new Message<String>(this.clients.toString()));
-            oos.flush();
+            try {
+                onlineList.add(client.getUsername());
+                UserHandler userHandler = clientHashmap.get(client);
+                userHandler.getOos().writeObject(new Message<ArrayList<String>>(onlineList));
+                System.out.println(new Message<>(onlineList));
+                userHandler.getOos().flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -86,13 +96,13 @@ public class Server {
             if (client.getUsername().equals(user) && client != userSender) {
                 find = true;
 
-                userSender.getOutStream().println(userSender.toString() + " -> " + client.toString() +": " + msg);
-                client.getOutStream().println(
-                        "(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+               // userSender.getOutStream().println(userSender.toString() + " -> " + client.toString() +": " + msg);
+              //  client.getOutStream().println(
+              //          "(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
             }
         }
         if (!find) {
-            userSender.getOutStream().println("Sorry, this user doesn't exist ");
+         //   userSender.getOutStream().println("Sorry, this user doesn't exist ");
         }
     }
 
@@ -105,19 +115,19 @@ public class Server {
             if (client.getUsername().equals(user) && client != userSender) {
                 find = true;
 
-                userSender.getOutStream().println("Added " + client.toString() + " to your contacts.");
-                client.getOutStream().println(msg);
+              //  userSender.getOutStream().println("Added " + client.toString() + " to your contacts.");
+               // client.getOutStream().println(msg);
                 Write.writeFriends(userSender.getUsername(),user);
             }
         }
         if (!find) {
-            userSender.getOutStream().println("Sorry, this user doesn't exist ");
+           // userSender.getOutStream().println("Sorry, this user doesn't exist ");
         }
     }
 
     // skicka meddelande till alla
     public void broadcastMessages(String msg, User userSender) {
-        for (User client : this.clients) { //todo fixa att den skriver till alla clienter och itne bara skriver så många gånger clienter finns
+        for (User client : this.clients) {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 String message = (userSender.toString() + "<span> " + getTime() + msg+"</span>");
@@ -162,4 +172,7 @@ public class Server {
 
     }
 
+    public void addUser(User user) {
+        this.clients.add(user);
+    }
 }

@@ -1,13 +1,14 @@
 package Client;
 
-import javax.swing.*;
-import java.awt.*;
+import Server.User;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class Message<T extends Serializable> implements Serializable {
     private T payload;
 
-    public Message() {
+    public Message(List<User> clients) {
         super();
     }
 

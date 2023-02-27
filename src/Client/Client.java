@@ -1,16 +1,17 @@
 package Client;
 
+import Server.User;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Client {
-    private String IP;
-    private int PORT;
+    private final String IP;
+    private final int PORT;
     private String name;
     private Thread read;
     ObjectInputStream ois;
@@ -18,6 +19,7 @@ public class Client {
     Socket socket;
     ClientUI clientUI;
     LoginUI loginUI;
+    ImageIcon imageIcon;
 
     public Client(){
         this.IP = "localhost";
@@ -32,6 +34,7 @@ public class Client {
 
     public void connectClicked(String username, ClientUI clientUI, boolean login) throws IOException {
         this.name = username;
+        this.imageIcon = imageIcon;
         this.clientUI = clientUI;
 
         if (!login){
@@ -48,7 +51,7 @@ public class Client {
 
         this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
-        oos.writeObject(new Message<String>(name));
+        oos.writeObject(new Message<User>(new User(name, imageIcon)));
         oos.flush();
        // System.out.println("Skickar namn");
 
@@ -143,13 +146,16 @@ public class Client {
             try {
                 while (socket.isConnected()) {
                     Message<?> msg = (Message<?>) ois.readObject();
-                    if (msg.getPayload() instanceof String) {
-                        String newMessage = (String) msg.getPayload();
+                    if (msg.getPayload() instanceof String newMessage) {
                         System.out.println(newMessage);
                         System.out.println(" got message");
-                        clientUI.updateUsersMessage(String.valueOf(newMessage));
+                        clientUI.updateUsersMessage(newMessage);
                     } else if (msg.getPayload() instanceof ImageIcon) {
                         clientUI.updateImage((ImageIcon) msg.getPayload());
+                    } else if (msg.getPayload() instanceof ArrayList userList){
+                        System.out.println("när körs detta?");
+                        System.out.println(userList);
+                        clientUI.updateUsersList(userList);
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
