@@ -118,9 +118,9 @@ public class Client {
 
     public void disconnectPressed() {
         try {
+            ois.close();
             read.interrupt();
             clientUI.disconnectUpdate();
-            ois.close();
             oos.close();
             socket.close();
         } catch (IOException e) {
@@ -170,8 +170,8 @@ public class Client {
                     } else if (msg.getPayload() instanceof ArrayList userList){
                         System.out.println("när körs detta?");
                         System.out.println(userList);
-                        clientUI.ClearUserpane();
-                        clientUI.updateUsersList(userList);
+                        //clientUI.ClearUserpane();
+                        //clientUI.updateUsersList(userList);
 
                     }
                 }

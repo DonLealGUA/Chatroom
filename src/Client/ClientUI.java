@@ -27,7 +27,7 @@ public class ClientUI {
     JPanel image;
     String username;
 
-    private final JList<String> userList;
+    //private final JList<String> userList;
 
     private String oldMsg = "";
     private ImageIcon oldImage;
@@ -86,16 +86,13 @@ public class ClientUI {
 
 
         // användarlista
-        JPanel userListPanel = new JPanel();
-        userListPanel.setLayout(null);
-        userListPanel.setSize(156, 220);
-        userListPanel.setLocation(520, 125);
-
-        userList = new JList();
-        userList.setLocation(0,0);
-        userList.setSize(156, 220);
-
-        userListPanel.add(userList);
+        jtextListUsers.setBounds(520, 125, 156, 220);
+        jtextListUsers.setEditable(true);
+        jtextListUsers.setFont(font);
+        jtextListUsers.setMargin(new Insets(6, 6, 6, 6));
+        jtextListUsers.setEditable(false);
+        JScrollPane jsplistuser = new JScrollPane(jtextListUsers);
+        jsplistuser.setBounds(520, 125, 156, 220);
 
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
@@ -175,7 +172,7 @@ public class ClientUI {
         jtextUserInfo.setBackground(Color.LIGHT_GRAY);
 
         jfr.add(jtextFilDiscuSP);
-        jfr.add(userListPanel);
+        jfr.add(jsplistuser);
         jfr.add(jtextUserInfo);
         jfr.add(jtextListUsers);
         jfr.setVisible(true);
@@ -245,7 +242,7 @@ public class ClientUI {
         appendToPane(jtextListUsers, "@" + user);
     }
 
-    public void updateUsersList(ArrayList<String> list){
+   /* public void updateUsersList(ArrayList<String> list){
         String[] arr = new String[list.size()];
 
         for (int i = 0; i < list.size(); i++) {
@@ -259,7 +256,7 @@ public class ClientUI {
 
     public void ClearUserpane() {
         userList.removeAll();
-    }
+    }*/
 
 
 
