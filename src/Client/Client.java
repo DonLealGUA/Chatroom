@@ -9,10 +9,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Client {
     private final String IP;
@@ -71,9 +68,11 @@ public class Client {
 
         ArrayList<List<String>> Friends = Reader.readFriends();
         for (List<String> friendList : Friends) {
-            if (friendList.contains(username)) {
+            if (Objects.equals(friendList.get(0), username)) {
                 // Found the username in the current friend list
-                System.out.println("Found " + username + " in the friend list: " + friendList);
+                System.out.println("Found " + username + " in the friend list: " + friendList.get(1));
+
+
                 // Do something with the friend list, e.g. display it in the UI
                 //clientUI.updateFriendList(friendList); //todo byta färg eller något.
             }
@@ -150,24 +149,34 @@ public class Client {
                     Message<?> msg = (Message<?>) ois.readObject();
                     if (msg.getPayload() instanceof String newMessage) {
                         String message = (String) msg.getPayload();
-                        if(message != null){
+                        if (message != null) {
                             if (message.charAt(0) == '[') {
                                 System.out.println(message);
-                                message = message.substring(1, message.length()-1);
-                                ArrayList<String> ListUser = new ArrayList<String>(
-                                        Arrays.asList(message.split(", "))
-                                );
+                                message = message.substring(1, message.length() - 1);
+                                ArrayList<String> ListUser = new ArrayList<String>(Arrays.asList(message.split(", ")));
+                                ArrayList<List<String>> Friends = Reader.readFriends();
                                 clientUI.updateUsers();
-                                for (String user : ListUser) {
-                                    clientUI.updateUsersPane(user);
+
+
+                                for (List<String> friendList : Friends) {
+                                    for (String user : ListUser) {
+                                        //todo repeterar samma användare konstant. plus alla ändrar färg.
+                                        if (Objects.equals(friendList.get(0), name) && ListUser.contains(friendList.get(1))) {
+                                            System.out.println("Vänner");
+                                            clientUI.updateUsersFriendsMessage(friendList.get(1));
+                                        } else {
+                                            clientUI.updateUsersPane(user);
+                                            System.out.println("Inte Vänner");
+                                        }
+                                    }
                                 }
-                            }else {
+                            } else {
                                 clientUI.updateUsersMessage(newMessage);
                             }
                         }
                     } else if (msg.getPayload() instanceof ImageIcon) {
                         clientUI.updateImage((ImageIcon) msg.getPayload());
-                    } else if (msg.getPayload() instanceof ArrayList userList){
+                    } else if (msg.getPayload() instanceof ArrayList userList) {
                         System.out.println("när körs detta?");
                         System.out.println(userList);
                         //clientUI.ClearUserpane();

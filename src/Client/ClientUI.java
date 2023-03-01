@@ -160,8 +160,6 @@ public class ClientUI {
         });
 
         // Connection view
-
-
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
         jtextListUsers.setBackground(Color.LIGHT_GRAY);
         jtextUserInfo.setBackground(Color.LIGHT_GRAY);
@@ -237,6 +235,14 @@ public class ClientUI {
 
     public void updateUsersMessage(String message) {
         appendToPane(jtextFilDiscu, message);
+    }
+
+    /**
+     * Ändrar färg på alla och inte individuell
+     */
+    public void updateUsersFriendsMessage(String user) {
+        appendToPane(jtextListUsers, "@" + user);
+        jtextListUsers.setForeground(Color.BLUE);
     }
 
     public void printError() {
