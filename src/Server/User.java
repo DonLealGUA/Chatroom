@@ -8,7 +8,6 @@ public class User implements Serializable {
     private static int nbUser = 0;
     private int userId;
     private String username;
-
     private ImageIcon imageIcon;
 
     public User(String username, ImageIcon imageIcon) throws IOException {

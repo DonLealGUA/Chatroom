@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Server {
     private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        new Server(1234).start();
+        new Server(1233).start();
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -54,7 +55,6 @@ public class Server {
 
             // add newUser message to list
             this.clients.add(newUser);
-
             broadcastAllUsers();
 
             // Welcome msg
@@ -73,13 +73,11 @@ public class Server {
     }
 
     public void broadcastAllUsers() throws IOException {
-        ArrayList<String> onlineList = new ArrayList<String>();
         for (User client : this.clients) {
             try {
-                onlineList.add(client.getUsername());
                 UserHandler userHandler = clientHashmap.get(client);
-                userHandler.getOos().writeObject(new Message<ArrayList<String>>(onlineList));
-                System.out.println(new Message<>(onlineList));
+                userHandler.getOos().writeObject(new Message<String>(this.clients.toString()));
+                System.out.println(this.clients.toString());
                 userHandler.getOos().flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -162,8 +160,9 @@ public class Server {
     }
 
     // ta bort användare från listan
-    public void removeUser(User user){
+    public void removeUser(User user) throws IOException {
         this.clients.remove(user);
+        broadcastAllUsers();
     }
 
 

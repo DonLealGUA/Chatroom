@@ -13,7 +13,6 @@ public class UserHandler implements Runnable {
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private ObjectInputStream ois;
-
     private ObjectOutputStream oos;
 
     public UserHandler(Server server, Socket socket, User newUser, ObjectInputStream ois, ObjectOutputStream oos) {
@@ -31,9 +30,6 @@ public class UserHandler implements Runnable {
         }
     }
 
-    /**
-     * Fixa detta
-     */
     @Override
     public void run() {
         try {
@@ -58,26 +54,24 @@ public class UserHandler implements Runnable {
                          }
                      }else{
                         // update user list
-                        server.broadcastAllUsers();
                         server.broadcastMessages(message, user);
-                        System.out.println(message);
-                        // server.broadcastImages(image,user);
                     }
                 }
                 else if(readObject.getPayload() instanceof ImageIcon messageImage){
-                    System.out.println("körs detta?");
                     server.broadcastImages(messageImage,user);
-                }else if(readObject.getPayload() instanceof User){
+                }
+
+                //tror inte behövs
+                else if(readObject.getPayload() instanceof User){
                     System.out.println("när körs user instansen?");
                     server.addUser(user);
                     server.broadcastAllUsers();
                 }
             }
             server.removeUser(user);
-            this.server.broadcastAllUsers();
-            oos.close();
             ois.close();
             socket.close();
+            this.server.broadcastAllUsers();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

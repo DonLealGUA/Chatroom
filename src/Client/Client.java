@@ -10,6 +10,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Client {
 
     public Client(){
         this.IP = "localhost";
-        this.PORT = 1234;
+        this.PORT = 1233;
 
         this.loginUI = new LoginUI(this);
     }
@@ -41,49 +42,31 @@ public class Client {
         this.imageIcon = imageIcon;
         this.clientUI = clientUI;
 
+        /*
         if(login){
             //todo fixa så att bilden setts och visas
             HashMap users = Reader.readUsers();
-            imageIcon = (ImageIcon) users.get(username);
+            this.imageIcon = new ImageIcon((String) users.get(username));
 
-        }
+        }*/
 
         if (!login){
-            HashMap users = Reader.readUsers();
-
-            assert users != null;
-            if(users.containsKey(username)){
-                //Todo skriva namn igen
-            }
-            ImageIcon imageIcon = new ImageIcon(getPicture());
+            this.imageIcon = new ImageIcon(getPicture());
             clientUI.updateImageIcon(imageIcon);
 
             Write.writeAddUser(username,imageIcon);
         }
 
+       // clientUI.updateImageIcon(imageIcon);
         clientUI.updatePane(IP, PORT);
 
         socket = new Socket(IP, PORT);
         clientUI.writeConnectMessage(socket);
 
         this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-
         this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-
         oos.writeObject(new Message<User>(new User(name, imageIcon)));
         oos.flush();
-       // System.out.println("Skickar namn");
-
-       // this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-       // this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        //input = new BufferedReader(new InputStreamReader(server.getInputStream()));
-        // output = new PrintWriter(server.getOutputStream(), true);
-
-        // send nickname to server
-        //bufferedWriter.write(name);
-       // bufferedWriter.newLine();
-        //bufferedWriter.flush();
-        //output.println(name);
 
 
         ArrayList<List<String>> Friends = Reader.readFriends();
@@ -96,9 +79,6 @@ public class Client {
             }
         }
 
-
-
-
         read = new Read();
         read.start();
 
@@ -110,9 +90,7 @@ public class Client {
                 return;
             }
             clientUI.setOldMsg(text);
-            System.out.println(text);
             oos.writeObject(new Message<String>(text));
-            System.out.println("sent");
             oos.flush();
             clientUI.updateChatPanel();
 
@@ -128,9 +106,7 @@ public class Client {
                 return;
             }
             clientUI.setOldImage(image);
-            System.out.println(image);
             oos.writeObject(new Message<ImageIcon>(image));
-            System.out.println("sent image");
             oos.flush();
             clientUI.updateChatPanel();
 
@@ -138,10 +114,6 @@ public class Client {
             clientUI.showExceptionMessage(ex);
             System.exit(0);
         }
-    }
-
-    public String getIP(){
-        return IP;
     }
 
     public void disconnectPressed() {
@@ -177,9 +149,22 @@ public class Client {
                 while (socket.isConnected()) {
                     Message<?> msg = (Message<?>) ois.readObject();
                     if (msg.getPayload() instanceof String newMessage) {
-                        System.out.println(newMessage);
-                        System.out.println(" got message");
-                        clientUI.updateUsersMessage(newMessage);
+                        String message = (String) msg.getPayload();
+                        if(message != null){
+                            if (message.charAt(0) == '[') {
+                                System.out.println(message);
+                                message = message.substring(1, message.length()-1);
+                                ArrayList<String> ListUser = new ArrayList<String>(
+                                        Arrays.asList(message.split(", "))
+                                );
+                                clientUI.updateUsers();
+                                for (String user : ListUser) {
+                                    clientUI.updateUsersPane(user);
+                                }
+                            }else {
+                                clientUI.updateUsersMessage(newMessage);
+                            }
+                        }
                     } else if (msg.getPayload() instanceof ImageIcon) {
                         clientUI.updateImage((ImageIcon) msg.getPayload());
                     } else if (msg.getPayload() instanceof ArrayList userList){
