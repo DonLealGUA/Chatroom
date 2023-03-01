@@ -1,7 +1,5 @@
 package Client;
 
-import Server.User;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,7 +13,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ClientUI {
 
@@ -26,8 +23,6 @@ public class ClientUI {
     JLabel jLabelUsername;
     JPanel image;
     String username;
-
-    //private final JList<String> userList;
 
     private String oldMsg = "";
     private ImageIcon oldImage;
@@ -152,12 +147,12 @@ public class ClientUI {
         //Send picture
         sendPicture .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                String imagepath = Client.getPicture();
+                String imagepath = client.getPicture();
                 ImageIcon imageIcon = new ImageIcon(imagepath);
                 Image image = imageIcon.getImage(); // transform it
                 Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
-               // jtextFilDiscu.insertIcon(imageIcon);
+                jtextFilDiscu.insertIcon(imageIcon);
                 //TODO fixa att man skickar bild till andra klienter
                 client.sendPicture(imageIcon);
 
@@ -174,7 +169,6 @@ public class ClientUI {
         jfr.add(jtextFilDiscuSP);
         jfr.add(jsplistuser);
         jfr.add(jtextUserInfo);
-        jfr.add(jtextListUsers);
         jfr.setVisible(true);
 
         // on deco
@@ -194,7 +188,6 @@ public class ClientUI {
             jfr.add(jtextInputChatSP);
             jfr.add(jsbtndeco);
             jfr.revalidate();
-            jfr.add(sendPicture);
             jfr.repaint();
             jtextFilDiscu.setBackground(Color.WHITE);
             jtextListUsers.setBackground(Color.WHITE);
@@ -242,25 +235,6 @@ public class ClientUI {
         appendToPane(jtextListUsers, "@" + user);
     }
 
-   /* public void updateUsersList(ArrayList<String> list){
-        String[] arr = new String[list.size()];
-
-        for (int i = 0; i < list.size(); i++) {
-            arr[i] = list.get(i);
-        }
-
-        userList.removeAll();
-        userList.setListData(arr);
-
-    }
-
-    public void ClearUserpane() {
-        userList.removeAll();
-    }*/
-
-
-
-
     public void updateUsersMessage(String message) {
         appendToPane(jtextFilDiscu, message);
     }
@@ -276,8 +250,6 @@ public class ClientUI {
     public void setOldImage(ImageIcon image) {
         this.oldImage = image;
     }
-
-
 
 
     public class TextListener implements DocumentListener {
@@ -345,18 +317,10 @@ public class ClientUI {
     }
 
     public void updateImage(ImageIcon imageIcon) {
-        jtextFilDiscu.insertIcon(imageIcon);
-
-    }
-
-    public void updateImageIcon(ImageIcon imageIcon){
         Image image2 = imageIcon.getImage(); // transform it
         Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon2 = new ImageIcon(newimg);
-
-        JLabel imgLabel = new JLabel(imageIcon2);
-
-        image.add(imgLabel);
+        image.add(new JLabel(imageIcon2));
     }
 
 }

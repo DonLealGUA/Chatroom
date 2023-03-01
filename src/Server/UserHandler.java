@@ -73,6 +73,25 @@ public class UserHandler implements Runnable {
             socket.close();
             this.server.broadcastAllUsers();
         } catch (IOException | ClassNotFoundException e) {
+            closeEverything(socket,ois);
+            e.printStackTrace();
+        }
+    }
+
+    private void closeEverything(Socket socket, ObjectInputStream ois) {
+        try {
+            server.removeUser(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            if (ois != null) {
+                ois.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -52,7 +52,7 @@ public class Client {
 
         if (!login){
             this.imageIcon = new ImageIcon(getPicture());
-            clientUI.updateImageIcon(imageIcon);
+            //clientUI.updateImageIcon(imageIcon);
 
             Write.writeAddUser(username,imageIcon);
         }
