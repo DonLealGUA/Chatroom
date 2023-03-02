@@ -53,7 +53,7 @@ public class Reader {
                 List<Object> res = List.of(line.split(" "));
                 String username = (String) res.get(0);
                 ImageIcon image = new ImageIcon((String) res.get(1)); //TODO kanske behöver fixas 
-                 chat.put(username,image);
+                chat.put(username,image);
             }
             return chat;
 

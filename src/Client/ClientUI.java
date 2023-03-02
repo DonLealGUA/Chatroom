@@ -329,4 +329,14 @@ public class ClientUI {
         image.add(new JLabel(imageIcon2));
     }
 
+    public void updateImageIcon(ImageIcon imageIcon){
+        Image image2 = imageIcon.getImage(); // transform it
+        Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon2 = new ImageIcon(newimg);
+
+        JLabel imgLabel = new JLabel(imageIcon2);
+
+        image.add(imgLabel);
+    }
+
 }

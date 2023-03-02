@@ -24,7 +24,7 @@ public class Client {
     ImageIcon imageIcon;
 
     public Client(){
-        this.IP = "localhost";
+        this.IP = "10.2.3.146";
         this.PORT = 1233;
 
         this.loginUI = new LoginUI(this);
@@ -39,6 +39,11 @@ public class Client {
         this.imageIcon = imageIcon;
         this.clientUI = clientUI;
 
+        socket = new Socket(IP, PORT);
+        clientUI.writeConnectMessage(socket);
+
+        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
         /*
         if(login){
             //todo fixa så att bilden setts och visas
@@ -50,20 +55,27 @@ public class Client {
         if (!login){
             this.imageIcon = new ImageIcon(getPicture());
             //clientUI.updateImageIcon(imageIcon);
+            clientUI.updateImageIcon(imageIcon);
 
             Write.writeAddUser(username,imageIcon);
+
+            oos.writeObject(new Message<User>(new User(name, imageIcon)));
+            oos.flush();
+        }
+        if (login){
+            ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
+            if (temp == null){
+                System.exit(0);
+            }
+
+            oos.writeObject(new Message<User>(new User(name, temp)));
+            oos.flush();
+
+            clientUI.updateImageIcon(temp);
         }
 
        // clientUI.updateImageIcon(imageIcon);
         clientUI.updatePane(IP, PORT);
-
-        socket = new Socket(IP, PORT);
-        clientUI.writeConnectMessage(socket);
-
-        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-        oos.writeObject(new Message<User>(new User(name, imageIcon)));
-        oos.flush();
 
 
         ArrayList<List<String>> Friends = Reader.readFriends();
