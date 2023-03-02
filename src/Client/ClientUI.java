@@ -191,7 +191,7 @@ public class ClientUI {
             jtextListUsers.setBackground(Color.WHITE);
             jtextUserInfo.setBackground(Color.WHITE);
         } catch (Exception ex) {
-            appendToPane(jtextFilDiscu, "<span>Could not connect to Server</span>");
+            appendToPane(jtextFilDiscu, "Could not connect to Server");
             JOptionPane.showMessageDialog(jfr, ex.getMessage());
         }
 
@@ -201,7 +201,7 @@ public class ClientUI {
         jtextListUsers.setText(null);
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
         jtextListUsers.setBackground(Color.LIGHT_GRAY);
-        appendToPane(jtextFilDiscu, "<span>Connection closed.</span>");
+        appendToPane(jtextFilDiscu, "Connection closed.");
     }
 
     public void updateChatPanel() {
@@ -299,11 +299,12 @@ public class ClientUI {
     }
 
     public void updatePane(String serverName, int PORT) {
-        appendToPane(jtextFilDiscu, "<span>Connecting to " + serverName + " on port " + PORT + "...</span>");
+        appendToPane(jtextFilDiscu, "Connecting to " + serverName + " on port " + PORT + "...");
+
     }
 
     public void writeConnectMessage(Socket server) {
-        appendToPane(jtextFilDiscu, "<span>Connected to " + server.getRemoteSocketAddress() + "</span>");
+        appendToPane(jtextFilDiscu, "Connected to " + server.getRemoteSocketAddress() );
 
     }
 

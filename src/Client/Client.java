@@ -44,13 +44,6 @@ public class Client {
 
         this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-        /*
-        if(login){
-            //todo fixa så att bilden setts och visas
-            HashMap users = Reader.readUsers();
-            this.imageIcon = new ImageIcon((String) users.get(username));
-
-        }*/
 
         if (!login){
             this.imageIcon = new ImageIcon(getPicture());
