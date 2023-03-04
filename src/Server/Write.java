@@ -22,6 +22,18 @@ public class Write {
     }
 
 
+    public static void writeServerLogg(String User, String messege){
+        try{
+            FileWriter fstream = new FileWriter("files/server.txt",true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(User + " " + messege +"\n");
+            out.close();
+        }catch (Exception e){
+            System.err.println("Error while writing to file: " +
+                    e.getMessage());
+        }
+    }
+
     public static void writeAddUser(String User, ImageIcon image){
         try{
             FileWriter fstream = new FileWriter("files/Users.txt",true);
@@ -34,9 +46,6 @@ public class Write {
         }
     }
 
-    public static void main(String[] args) {
-        Write.writeFriends("Test1","Test2");
-    }
 
     public static void writeFriends(String User, String isFriendsWith){
         try{

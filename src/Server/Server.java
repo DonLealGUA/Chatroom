@@ -20,11 +20,18 @@ public class Server {
     private ServerSocket server;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
+    ServerGUI serverGUI;
 
     private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         new Server(1233).start();
+    }
+
+    public Server(int port) {
+        this.port = port;
+        this.clients = new ArrayList<User>();
+        serverGUI = new ServerGUI();
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -44,10 +51,9 @@ public class Server {
             Message<?> readObject = (Message<?>) ois.readObject();
             User newUser = (User) readObject.getPayload();
 
-            System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t     Host:" + client.getInetAddress().getHostAddress());
+            System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t  Host:" + client.getInetAddress().getHostAddress());
+            serverGUI.updateText("New Client: " + newUser.getUsername() +"Joined");
 
-            // create new User
-           // User newUser = new User(username);
 
             UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
 
@@ -65,11 +71,6 @@ public class Server {
             new Thread(userHandler).start();
         }
 
-    }
-
-    public Server(int port) {
-        this.port = port;
-        this.clients = new ArrayList<User>();
     }
 
     public void broadcastAllUsers() throws IOException {
@@ -114,6 +115,7 @@ public class Server {
                 }
 
                 Write.writeFriends(userSender.getUsername(), user);
+                serverGUI.updateText(userSender.getUsername() + " Added " + user + " as a friend");
             }
         }
     }
@@ -141,6 +143,7 @@ public class Server {
                 }
             }
         }
+        serverGUI.updateText(userSender.getUsername() + " sent the message " + msg + user + "");
         Write.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
             try {
@@ -168,6 +171,7 @@ public class Server {
                 e.printStackTrace();
             }
         }
+        serverGUI.updateText("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + msg);
         Write.writeChat(userSender.getUsername(),message);
     }
 
@@ -186,6 +190,7 @@ public class Server {
                 e.printStackTrace();
             }
         }
+        serverGUI.updateText("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
         Write.writeChat(userSender.getUsername(),image.toString());
     }
 

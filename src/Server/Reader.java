@@ -25,6 +25,24 @@ public class Reader {
         return null;
     }
 
+    public static ArrayList readServerLogg(){
+        try {
+            ArrayList<String> chat = new ArrayList<String>();
+            File myObj = new File("files/server.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                chat.add(myReader.nextLine());
+            }
+            System.out.println(chat);
+            return chat;
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static ArrayList readPrivateChat(String User, String isFriendWith){
         try {
             ArrayList<String> chat = new ArrayList<String>();
