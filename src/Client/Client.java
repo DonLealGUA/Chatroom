@@ -24,7 +24,7 @@ public class Client {
     ImageIcon imageIcon;
 
     public Client(){
-        this.IP = "10.2.3.146";
+        this.IP = "localhost";
         this.PORT = 1233;
 
         this.loginUI = new LoginUI(this);
@@ -58,7 +58,7 @@ public class Client {
         if (login){
             ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
             if (temp == null){
-                System.exit(0);
+                imageIcon = new ImageIcon("files/Stockx_logo.png");
             }
 
             oos.writeObject(new Message<User>(new User(name, temp)));
@@ -163,16 +163,19 @@ public class Client {
                                 clientUI.updateUsers();
 
 
-                                for (List<String> friendList : Friends) {
-                                    for (String user : ListUser) {
-                                        //todo repeterar samma användare konstant. plus alla ändrar färg.
-                                        if (Objects.equals(friendList.get(0), name) && ListUser.contains(friendList.get(1))) {
+                                for (String user : ListUser) {
+                                    boolean isFriend = false;
+                                    for (List<String> friendList : Friends) {
+                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
                                             System.out.println("Vänner");
-                                            clientUI.updateUsersFriendsMessage(friendList.get(1));
-                                        } else {
-                                            clientUI.updateUsersPane(user);
-                                            System.out.println("Inte Vänner");
+                                            clientUI.updateUsersFriendsMessage(user);
+                                            isFriend = true;
+                                            break;
                                         }
+                                    }
+                                    if (!isFriend) {
+                                        System.out.println("Inte Vänner");
+                                        clientUI.updateUsersPane(user);
                                     }
                                 }
                             } else {

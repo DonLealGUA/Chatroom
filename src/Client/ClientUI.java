@@ -191,7 +191,7 @@ public class ClientUI {
             jtextListUsers.setBackground(Color.WHITE);
             jtextUserInfo.setBackground(Color.WHITE);
         } catch (Exception ex) {
-            appendToPane(jtextFilDiscu, "Could not connect to Server");
+            appendToPane(jtextFilDiscu, "Could not connect to Server",Color.black);
             JOptionPane.showMessageDialog(jfr, ex.getMessage());
         }
 
@@ -201,7 +201,7 @@ public class ClientUI {
         jtextListUsers.setText(null);
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
         jtextListUsers.setBackground(Color.LIGHT_GRAY);
-        appendToPane(jtextFilDiscu, "Connection closed.");
+        appendToPane(jtextFilDiscu, "Connection closed.",Color.black);
     }
 
     public void updateChatPanel() {
@@ -230,18 +230,18 @@ public class ClientUI {
     }
 
     public void updateUsersPane(String user) {
-        appendToPane(jtextListUsers, "@" + user);
+        appendToPane(jtextListUsers, "@" + user,Color.black);
     }
 
     public void updateUsersMessage(String message) {
-        appendToPane(jtextFilDiscu, message);
+        appendToPane(jtextFilDiscu, message,Color.black);
     }
 
     /**
      * Ändrar färg på alla och inte individuell
      */
     public void updateUsersFriendsMessage(String user) {
-        appendToPane(jtextListUsers, "@" + user);
+        appendToPane(jtextListUsers, "@" + user,Color.ORANGE);
         jtextListUsers.setForeground(Color.BLUE);
     }
 
@@ -299,20 +299,22 @@ public class ClientUI {
     }
 
     public void updatePane(String serverName, int PORT) {
-        appendToPane(jtextFilDiscu, "Connecting to " + serverName + " on port " + PORT + "...");
+        appendToPane(jtextFilDiscu, "Connecting to " + serverName + " on port " + PORT + "...",Color.black);
 
     }
 
     public void writeConnectMessage(Socket server) {
-        appendToPane(jtextFilDiscu, "Connected to " + server.getRemoteSocketAddress() );
+        appendToPane(jtextFilDiscu, "Connected to " + server.getRemoteSocketAddress(), Color.black);
 
     }
 
-    public void appendToPane(JTextPane tp, String msg) {
+    public void appendToPane(JTextPane tp, String msg, Color color) {
         HTMLDocument doc = (HTMLDocument) tp.getDocument();
         HTMLEditorKit editorKit = (HTMLEditorKit) tp.getEditorKit();
         try {
-            editorKit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
+            String colorHex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+            String message = "<font color='" + colorHex + "'>" + msg + "</font>";
+            editorKit.insertHTML(doc, doc.getLength(), message, 0, 0, null);
             tp.setCaretPosition(doc.getLength());
         } catch (Exception e) {
             e.printStackTrace();
