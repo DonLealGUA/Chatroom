@@ -85,42 +85,71 @@ public class Server {
         }
     }
 
-    /**
-     * Behövs fixa
-     */
+    public void sendFriendRequestToUser(String msg, User userSender, String user) {
+        boolean find = false;
+        for (User client : this.clients) {
+            if (client.getUsername().equals(user) && client != userSender) {
+                find = true;
+
+                try {
+                    UserHandler userHandler = clientHashmap.get(userSender);
+                    userHandler.getOos().writeObject(new Message<String>("Added " + client.toString() + " to your contacts."));
+                    userHandler.getOos().flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    UserHandler userHandler = clientHashmap.get(client);
+                    userHandler.getOos().writeObject(new Message<String>(msg));
+                    userHandler.getOos().flush();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    broadcastAllUsers();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Write.writeFriends(userSender.getUsername(), user);
+            }
+        }
+    }
+
     public void sendMessageToUser(String msg, User userSender, String user) {
         boolean find = false;
         for (User client : this.clients) {
             if (client.getUsername().equals(user) && client != userSender) {
                 find = true;
 
-               // userSender.getOutStream().println(userSender.toString() + " -> " + client.toString() +": " + msg);
-              //  client.getOutStream().println(
-              //          "(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                try {
+                    UserHandler userHandler = clientHashmap.get(userSender);
+                    userHandler.getOos().writeObject(new Message<String>(userSender.toString() + " -> " + client.toString() +": " + msg));
+                    userHandler.getOos().flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    UserHandler userHandler = clientHashmap.get(client);
+                    userHandler.getOos().writeObject(new Message<String>("(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>"));
+                    userHandler.getOos().flush();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         Write.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
-         //   userSender.getOutStream().println("Sorry, this user doesn't exist ");
-        }
-    }
-
-    /**
-     * Behövs fixa
-     */
-    public void sendFriendRequestToUser(String msg, User userSender, String user){
-        boolean find = false;
-        for (User client : this.clients) {
-            if (client.getUsername().equals(user) && client != userSender) {
-                find = true;
-
-              //  userSender.getOutStream().println("Added " + client.toString() + " to your contacts.");
-               // client.getOutStream().println(msg);
-                Write.writeFriends(userSender.getUsername(),user);
+            try {
+                UserHandler userHandler = clientHashmap.get(userSender);
+                userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
+                userHandler.getOos().flush();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-        if (!find) {
-           // userSender.getOutStream().println("Sorry, this user doesn't exist ");
         }
     }
 
@@ -152,6 +181,7 @@ public class Server {
                 userHandler.getOos().writeObject(new Message<ImageIcon>(image));
                 System.out.println(new Message<ImageIcon>(image));
                 userHandler.getOos().flush();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

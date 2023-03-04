@@ -8,10 +8,6 @@ import java.io.IOException;
 
 public class Write {
 
-    public static void main(String[] args) {
-        ImageIcon imageIcon = new ImageIcon("files/Stockx_logo.png");
-        Write.writeAddUser("Testare",imageIcon);
-    }
 
     public static void writeChat(String User, String messege){
         try{
@@ -38,17 +34,20 @@ public class Write {
         }
     }
 
+    public static void main(String[] args) {
+        Write.writeFriends("Test1","Test2");
+    }
+
     public static void writeFriends(String User, String isFriendsWith){
         try{
             FileWriter fstream = new FileWriter("files/Friends.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + isFriendsWith);
+            out.write(User + " " + isFriendsWith + System.lineSeparator()); // write with line separator
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " +
                     e.getMessage());
         }
-
     }
 
     public static void writePrivatChat(String User,String isFriendWith,String messege){
