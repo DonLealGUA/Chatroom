@@ -1,9 +1,6 @@
 package Server;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 public class ServerGUI extends JFrame {
     private JFrame frame;
@@ -11,7 +8,7 @@ public class ServerGUI extends JFrame {
 
     public ServerGUI() {
         // Initialize the frame
-        frame = new JFrame("My Client");
+        frame = new JFrame("Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
@@ -25,7 +22,7 @@ public class ServerGUI extends JFrame {
     }
 
     public void updateText(String text) {
-        // Update the text area with the new text
-        textArea.setText(text);
+        // Append the new text to a new line in the text area
+        textArea.append(text + "\n");
     }
 }

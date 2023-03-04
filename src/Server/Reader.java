@@ -59,6 +59,22 @@ public class Reader {
         return null;
     }
 
+    public static ArrayList readUnsentMessage(String User, String isFriendWith){
+        try {
+            ArrayList<String> chat = new ArrayList<String>();
+            File myObj = new File("files/unSentMessages.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                chat.add(myReader.nextLine());
+            }
+            return chat;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static HashMap readUsers(){
         try {
@@ -70,7 +86,7 @@ public class Reader {
                 if (line == null) { break; }
                 List<Object> res = List.of(line.split(" "));
                 String username = (String) res.get(0);
-                ImageIcon image = new ImageIcon((String) res.get(1)); //TODO kanske behöver fixas 
+                ImageIcon image = new ImageIcon((String) res.get(1));
                 chat.put(username,image);
             }
             return chat;

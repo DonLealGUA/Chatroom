@@ -16,21 +16,19 @@ public class Write {
             out.write(User + " " + messege +"\n");
             out.close();
         }catch (Exception e){
-            System.err.println("Error while writing to file: " +
-                    e.getMessage());
+            System.err.println("Error while writing to file: " + e.getMessage());
         }
     }
 
 
-    public static void writeServerLogg(String User, String messege){
+    public static void writeServerLogg( String messege){
         try{
             FileWriter fstream = new FileWriter("files/server.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + messege +"\n");
+            out.write( messege +"\n");
             out.close();
         }catch (Exception e){
-            System.err.println("Error while writing to file: " +
-                    e.getMessage());
+            System.err.println("Error while writing to file: " + e.getMessage());
         }
     }
 
@@ -41,8 +39,7 @@ public class Write {
             out.write(User + " " + image +"\n");
             out.close();
         }catch (Exception e){
-            System.err.println("Error while writing to file: " +
-                    e.getMessage());
+            System.err.println("Error while writing to file: " + e.getMessage());
         }
     }
 
@@ -54,8 +51,7 @@ public class Write {
             out.write(User + " " + isFriendsWith + System.lineSeparator()); // write with line separator
             out.close();
         }catch (Exception e){
-            System.err.println("Error while writing to file: " +
-                    e.getMessage());
+            System.err.println("Error while writing to file: " + e.getMessage());
         }
     }
 
@@ -79,6 +75,16 @@ public class Write {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void writeUnsentMessage(String UserSender,String User,String messege){
+        try{
+            FileWriter fstream = new FileWriter("files/unSentMessages.txt",true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(UserSender + ": " + messege );
+            out.close();
+        }catch (Exception e){
+            System.err.println("Error while writing to file: " + e.getMessage());
+        }
     }
 }
