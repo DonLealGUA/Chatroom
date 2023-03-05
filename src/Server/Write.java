@@ -55,6 +55,9 @@ public class Write {
         }
     }
 
+    /**
+     * Tror inte den behövs längre
+     */
     public static void writePrivatChat(String User,String isFriendWith,String messege){
         File file = new File("files/privateMesseges/" +User+ "/" +isFriendWith+ ".txt");
         try {

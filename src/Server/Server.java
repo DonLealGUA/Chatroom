@@ -21,8 +21,7 @@ public class Server {
     private ServerSocket server;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    ServerGUI serverGUI;
-
+    private ServerGUI serverGUI;
     private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
