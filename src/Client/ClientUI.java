@@ -167,6 +167,7 @@ public class ClientUI {
         jfr.add(jtextFilDiscuSP);
         jfr.add(jsplistuser);
         jfr.add(jtextUserInfo);
+        jfr.add(sendPicture);
         jfr.setVisible(true);
 
         // on deco
