@@ -1,6 +1,9 @@
 test files/Stockx_logo.png
 pii C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_7.png
-amidala /Users/amidala/Desktop/?/blank-profile-picture-973460_640.png
+amidala C:\Users\amida\OneDrive\Skrivbord\a.jpg
 bot1 files/Stockx_logo.png
 bot2 files/Stockx_logo.png
 kriss C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_8.png
+Testar C:\Users\amida\Downloads\2020_11_07_blue-among-us-15696051.png
+Amitest C:\Users\amida\OneDrive\Skrivbord\a.jpg
+Testar2 C:\Users\amida\OneDrive\Skrivbord\mini2.jpg

@@ -25,7 +25,7 @@ public class Client {
 
     public Client(){
         this.IP = "localhost";
-        this.PORT = 1233;
+        this.PORT = 1234;
 
         this.loginUI = new LoginUI(this);
     }
@@ -34,40 +34,63 @@ public class Client {
         Client client = new Client();
     }
 
-    public void connectClicked(String username, ClientUI clientUI, boolean login) throws IOException {
+    public void connectClicked(String username, boolean login) throws IOException {
         this.name = username;
-        this.imageIcon = imageIcon;
-        this.clientUI = clientUI;
-
-        socket = new Socket(IP, PORT);
-        clientUI.writeConnectMessage(socket);
-
-        this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-        this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
         if (!login){
             this.imageIcon = new ImageIcon(getPicture());
+
+            this.clientUI = new ClientUI(this, username);
             //clientUI.updateImageIcon(imageIcon);
             clientUI.updateImageIcon(imageIcon);
+
+            socket = new Socket(IP, PORT);
+            clientUI.writeConnectMessage(socket);
+
+            this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+            this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
             Write.writeAddUser(username,imageIcon);
 
             oos.writeObject(new Message<User>(new User(name, imageIcon)));
             oos.flush();
+
+            startConnection(username);
         }
         if (login){
-            ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
-            if (temp == null){
-                imageIcon = new ImageIcon("files/Stockx_logo.png");
+            if (Reader.readIfUserExist(username)){
+                ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
+                if (temp == null) {
+                    imageIcon = new ImageIcon("files/Stockx_logo.png");
+                }
+
+                this.clientUI = new ClientUI(this, username);
+
+                socket = new Socket(IP, PORT);
+                clientUI.writeConnectMessage(socket);
+
+                this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+                oos.writeObject(new Message<User>(new User(name, temp)));
+                oos.flush();
+
+                clientUI.updateImageIcon(temp);
+
+                startConnection(username);
+            }else{
+                JOptionPane.showMessageDialog(null, "No user with the name " + username + " is registered.", "Login", JOptionPane.INFORMATION_MESSAGE);
+                loginUI.noUserExist();
+                new LoginUI(this);
             }
 
-            oos.writeObject(new Message<User>(new User(name, temp)));
-            oos.flush();
-
-            clientUI.updateImageIcon(temp);
         }
 
-       // clientUI.updateImageIcon(imageIcon);
+    }
+
+    public void startConnection(String username) throws IOException {
+
+
         clientUI.updatePane(IP, PORT);
 
 
@@ -85,7 +108,6 @@ public class Client {
 
         read = new Read();
         read.start();
-
     }
 
     public void sendMessage(String text) {

@@ -27,7 +27,7 @@ public class ClientUI {
     private String oldMsg = "";
     private ImageIcon oldImage;
 
-    public ClientUI(Client client, String newUsernameTest, boolean existingUser){
+    public ClientUI(Client client, String newUsernameTest){
         this.username = newUsernameTest;
         String fontfamily = "Arial, sans-serif";
         Font font = new Font(fontfamily, Font.PLAIN, 15);
@@ -179,8 +179,8 @@ public class ClientUI {
             }
         });
 
+
         try {
-            client.connectClicked(username, this, existingUser);
             updateUsername(username);
             jfr.add(jsbtn);
             jfr.add(jtextInputChatSP);
@@ -194,6 +194,7 @@ public class ClientUI {
             appendToPane(jtextFilDiscu, "Could not connect to Server",Color.black);
             JOptionPane.showMessageDialog(jfr, ex.getMessage());
         }
+
 
     }
 
@@ -256,7 +257,6 @@ public class ClientUI {
     public void setOldImage(ImageIcon image) {
         this.oldImage = image;
     }
-
 
     public class TextListener implements DocumentListener {
         JTextField jtf1;

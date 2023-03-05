@@ -26,7 +26,7 @@ public class Server {
     private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        new Server(1233).start();
+        new Server(1234).start();
     }
 
     public Server(int port) {
