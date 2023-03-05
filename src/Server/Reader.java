@@ -80,20 +80,27 @@ public class Reader {
         return null;
     }
 
-    public static ArrayList readUnsentMessage(String User, String isFriendWith){
-        try {
-            ArrayList<String> chat = new ArrayList<String>();
-            File myObj = new File("files/unSentMessages.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                chat.add(myReader.nextLine());
+    public static List<String> getUnsentMessages(String username) throws IOException {
+        List<String> unsentMessages = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader("files/unSentMessages.txt"));
+        PrintWriter writer = new PrintWriter(new FileWriter("files/unSentMessages_temp.txt"));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(" ", 2);
+            if (parts.length == 2 && parts[0].equals(username)) {
+                unsentMessages.add(parts[1]);
+            } else {
+                writer.println(line);
             }
-            return chat;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-        return null;
+        reader.close();
+        writer.close();
+        boolean deleteSuccess = new File("files/unSentMessages.txt").delete();
+        boolean renameSuccess = new File("files/unSentMessages_temp.txt").renameTo(new File("files/unSentMessages.txt"));
+        if (!deleteSuccess || !renameSuccess) {
+            throw new IOException("Failed to update unsent messages file.");
+        }
+        return unsentMessages;
     }
 
 

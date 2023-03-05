@@ -73,13 +73,25 @@ public class Server {
             this.clients.add(newUser);
             broadcastAllUsers();
 
+            try {
+                List<String> unsentMessages = Reader.getUnsentMessages(newUser.getUsername());
+                oos.writeObject(new Message<String>("<b>You have:<b> " + unsentMessages.size() + "<b> missed messages<b>"));
+                oos.flush();
+                for (String message : unsentMessages) {
+                    broadcastMessages(message,newUser);
+                }
+                oos.writeObject(new Message<String>("<b>----------------------------------------------------------------------------<b>"));
+                oos.flush();
+
+            } catch (IOException e) {
+                System.err.println("Error reading unsent messages file: " + e.getMessage());
+            }
+            serverGUI.updateText("Client: " + newUser.getUsername() +" Received old messages");
+            Write.writeServerLogg("Client: " + newUser.getUsername() +" Received old messages");
+
             // Welcome msg
             oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
             oos.flush();
-
-            //unsent messages:
-            //todo läs metoden Reader.readUnsentMessages(); se ifall användaren har meddelanden som väntar.
-            //Todo har den meddelanden som väntar display:a dem.
 
             // create a new thread for newUser incoming messages handling
             new Thread(userHandler).start();
@@ -163,47 +175,19 @@ public class Server {
         Write.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
             try {
+
                 UserHandler userHandler = clientHashmap.get(userSender);
-                userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
-                userHandler.getOos().flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //todo Denna metod ska kallas på ifall en offline användare som har väntade meddelanden på går online
-    public void sendUnsentMessageToUser(String msg, User userSender, String user) {
-        boolean find = false;
-        for (User client : this.clients) {
-            if (client.getUsername().equals(user) && client != userSender) {
-                find = true;
-
-                try {
-                    UserHandler userHandler = clientHashmap.get(userSender);
-                    userHandler.getOos().writeObject(new Message<String>(userSender.toString() + " -> " + client.toString() +": " + msg));
+                HashMap userList = Reader.readUsers();
+                if(userList.containsKey(user)){
+                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user is Offline and will receive your message once they log in "));
                     userHandler.getOos().flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                    Write.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                }else{
+                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
+                    userHandler.getOos().flush();
                 }
 
-                try {
-                    UserHandler userHandler = clientHashmap.get(client);
-                    userHandler.getOos().writeObject(new Message<String>("(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>"));
-                    userHandler.getOos().flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        serverGUI.updateText(userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Write.writeServerLogg(userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Write.writePrivatChat(String.valueOf(userSender),user,msg);
-        if (!find) {
-            try {
-                UserHandler userHandler = clientHashmap.get(userSender);
-                userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
-                userHandler.getOos().flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

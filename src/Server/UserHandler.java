@@ -60,13 +60,6 @@ public class UserHandler implements Runnable {
                 else if(readObject.getPayload() instanceof ImageIcon messageImage){
                     server.broadcastImages(messageImage,user);
                 }
-
-                //tror inte behövs
-                else if(readObject.getPayload() instanceof User){
-                    System.out.println("när körs user instansen?");
-                    server.addUser(user);
-                    server.broadcastAllUsers();
-                }
             }
             server.removeUser(user);
             ois.close();

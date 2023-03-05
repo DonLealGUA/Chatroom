@@ -77,11 +77,11 @@ public class Write {
         }
     }
 
-    public static void writeUnsentMessage(String UserSender,String User,String messege){
+    public static void writeUnsentMessage(String UserSender,String messege){
         try{
             FileWriter fstream = new FileWriter("files/unSentMessages.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(UserSender + ": " + messege );
+            out.write(UserSender + " " + messege );
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " + e.getMessage());

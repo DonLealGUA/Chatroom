@@ -1,3 +1,22 @@
 
 out/production/Chatt/Client/Message.class
 src/Client/Message.java
+*.class
+out/production/Chatt/Server/Reader.class
+out/production/Chatt/chat.txt
+out/production/Chatt/Client/Client$Read.class
+out/production/Chatt/Client/Client.class
+out/production/Chatt/server.txt
+out/production/Chatt/Server/Reader.class
+out/production/Chatt/Server/Server.class
+out/production/Chatt/Server/UserHandler.class
+out/production/Chatt/Server/Write.class
+out/production/Chatt/unSentMessages.txt
+out/production/Chatt/chat.txt
+out/production/Chatt/Client/Client$Read.class
+out/production/Chatt/Client/Client.class
+out/production/Chatt/server.txt
+out/production/Chatt/Server/Reader.class
+out/production/Chatt/Server/Server.class
+out/production/Chatt/Server/UserHandler.class
+out/production/Chatt/Server/Write.class
