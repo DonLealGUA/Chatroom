@@ -1,55 +1,21 @@
-hello hello
-m,r
-gbrtbtr-------(05/03/2023 13:58): -------
+-------(05/03/2023 19:42): -------
 New Client: ami Joined
-Client: ami Disconnected
-New Client: ammmi Joined
-Client: ammmi Disconnected
--------(05/03/2023 14:06): -------
+Client: ami Received old messages
 New Client: aaa Joined
+Client: aaa Received old messages
+Received Image from aaa@ (05/03/2023 19:42): 
+aaajavax.swing.ImageIcon@a01eef7
+Received Image from aaa@ (05/03/2023 19:42): 
+aaajavax.swing.ImageIcon@3baedd98
+-------(05/03/2023 19:43): -------
+New Client: aaa Joined
+Client: aaa Received old messages
+New Client: ami Joined
+Client: ami Received old messages
+Received Image from aaa@ (05/03/2023 19:44): 
+aaajavax.swing.ImageIcon@3fba61c7
+Client: ami Disconnected
 Client: aaa Disconnected
--------(05/03/2023 14:16): -------
-New Client: aaaa Joined
-Client: aaaa Disconnected
--------(05/03/2023 14:18): -------
--------(05/03/2023 14:19): -------
--------(05/03/2023 15:18): -------
--------(05/03/2023 15:19): -------
--------(05/03/2023 15:21): -------
--------(05/03/2023 15:22): -------
--------(05/03/2023 15:27): -------
--------(05/03/2023 15:27): -------
--------(05/03/2023 15:29): -------
--------(05/03/2023 15:31): -------
--------(05/03/2023 15:32): -------
--------(05/03/2023 15:32): -------
--------(05/03/2023 15:33): -------
--------(05/03/2023 15:34): -------
-New Client: amidala Joined
--------(05/03/2023 15:35): -------
-New Client: amidala Joined
-Received message from amidala@ (05/03/2023 15:35): 
-amidala: hejjj
-New Client: Testar Joined
-Received message from Testar@ (05/03/2023 15:36): 
-Testar: hejj
-Received message from amidala@ (05/03/2023 15:36): 
-amidala: !!!
-Received message from amidala@ (05/03/2023 15:36): 
-amidala: funkar :D
-Received message from Testar@ (05/03/2023 15:36): 
-Testar: jaa
-Testar Added amidala as a friend
-amidala Added Testar as a friend
-Received message from Testar@ (05/03/2023 15:36): 
-Testar: jaa
-Received message from Testar@ (05/03/2023 15:37): 
-Testar: /msg amidala hej
-amidala sent the message hej to Testar
-Client: Testar Disconnected
-Received message from amidala@ (05/03/2023 15:38): 
-amidala: aaa
-Client: amidala Disconnected
--------(05/03/2023 15:42): -------
-New Client: Amitest Joined
-New Client: Testar2 Joined
+-------(05/03/2023 19:44): -------
+New Client: ami Joined
+Client: ami Received old messages

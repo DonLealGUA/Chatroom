@@ -152,7 +152,7 @@ public class ClientUI {
                 Image image = imageIcon.getImage(); // transform it
                 Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 imageIcon = new ImageIcon(newimg);
-                jtextFilDiscu.insertIcon(imageIcon);
+               // jtextFilDiscu.insertIcon(imageIcon);
                 //TODO fixa att man skickar bild till andra klienter
                 client.sendPicture(imageIcon);
 
@@ -327,10 +327,7 @@ public class ClientUI {
     }
 
     public void updateImage(ImageIcon imageIcon) {
-        Image image2 = imageIcon.getImage(); // transform it
-        Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        ImageIcon imageIcon2 = new ImageIcon(newimg);
-        image.add(new JLabel(imageIcon2));
+        jtextFilDiscu.insertIcon(imageIcon);
     }
 
     public void updateImageIcon(ImageIcon imageIcon){

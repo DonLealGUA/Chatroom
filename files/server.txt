@@ -1,0 +1,35 @@
+-------(05/03/2023 19:42): -------
+New Client: ami Joined
+Client: ami Received old messages
+New Client: aaa Joined
+Client: aaa Received old messages
+Received Image from aaa@ (05/03/2023 19:42): 
+aaajavax.swing.ImageIcon@a01eef7
+Received Image from aaa@ (05/03/2023 19:42): 
+aaajavax.swing.ImageIcon@3baedd98
+-------(05/03/2023 19:43): -------
+New Client: aaa Joined
+Client: aaa Received old messages
+New Client: ami Joined
+Client: ami Received old messages
+Received Image from aaa@ (05/03/2023 19:44): 
+aaajavax.swing.ImageIcon@3fba61c7
+Client: ami Disconnected
+Client: aaa Disconnected
+-------(05/03/2023 19:44): -------
+New Client: ami Joined
+Client: ami Received old messages
+New Client: aaa Joined
+Client: aaa Received old messages
+Received Image from aaa@ (05/03/2023 19:45): 
+aaajavax.swing.ImageIcon@31749d33
+Received Image from ami@ (05/03/2023 19:45): 
+amijavax.swing.ImageIcon@23a88438
+Received Image from aaa@ (05/03/2023 19:45): 
+aaajavax.swing.ImageIcon@34c1ed41
+Received message from ami@ (05/03/2023 19:45): 
+ami: hej
+Received Image from ami@ (05/03/2023 19:45): 
+amijavax.swing.ImageIcon@833f385
+Client: aaa Disconnected
+Client: ami Disconnected

@@ -1,0 +1,2 @@
+ami C:\Users\amida\OneDrive\Skrivbord\a.jpg
+aaa C:\Users\amida\OneDrive\Skrivbord\c.jpg
