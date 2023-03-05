@@ -7,6 +7,27 @@ import java.util.*;
 public class Reader {
 
 
+    public static boolean readIfUserExist(String newUsername){
+        try {
+            File myObj = new File("files/Users.txt");
+            BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(myObj)));
+            while (true) {
+                String line = r.readLine();
+                if (line == null) { break; }
+                List<Object> res = List.of(line.split(" "));
+                String username = (String) res.get(0);
+                if (newUsername.equals(username)){
+                    return true;
+                }
+            }
+            return false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
     public static ArrayList readChat(){
         try {
             ArrayList<String> chat = new ArrayList<String>();

@@ -2,6 +2,7 @@ package Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class LoginUI {
     ClientUI clientUI;
@@ -76,7 +77,15 @@ public class LoginUI {
         connect.setLayout(null);
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
-        connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), true));
+        //connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), true));
+        connect.addActionListener(l -> {
+            try {
+                client.connectClicked(getUsername(), true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         connect.addActionListener(l -> frame.dispose());
 
         loginPanel.add(connect);
@@ -108,7 +117,14 @@ public class LoginUI {
         connect.setLayout(null);
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
-        connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), false));
+      //  connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), false));
+        connect.addActionListener(l -> {
+            try {
+                client.connectClicked(getUsername(), false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         connect.addActionListener(l -> frame.dispose());
         registerPanel.add(connect);
 
@@ -125,4 +141,8 @@ public class LoginUI {
     }
 
 
+    public void noUserExist() {
+
+        frame.dispose();
+    }
 }

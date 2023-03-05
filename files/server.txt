@@ -1,3 +1,62 @@
 hello hello
 m,r
-gbrtbtr
+gbrtbtr-------(05/03/2023 13:58): -------
+New Client: ami Joined
+Client: ami Disconnected
+New Client: ammmi Joined
+Client: ammmi Disconnected
+-------(05/03/2023 14:06): -------
+New Client: aaa Joined
+Client: aaa Disconnected
+-------(05/03/2023 14:16): -------
+New Client: aaaa Joined
+Client: aaaa Disconnected
+-------(05/03/2023 14:18): -------
+-------(05/03/2023 14:19): -------
+-------(05/03/2023 15:18): -------
+-------(05/03/2023 15:19): -------
+-------(05/03/2023 15:21): -------
+-------(05/03/2023 15:22): -------
+-------(05/03/2023 15:27): -------
+-------(05/03/2023 15:27): -------
+-------(05/03/2023 15:29): -------
+-------(05/03/2023 15:31): -------
+-------(05/03/2023 15:32): -------
+-------(05/03/2023 15:32): -------
+-------(05/03/2023 15:33): -------
+-------(05/03/2023 15:34): -------
+New Client: amidala Joined
+-------(05/03/2023 15:35): -------
+New Client: amidala Joined
+Received message from amidala@ (05/03/2023 15:35): 
+amidala: hejjj
+New Client: Testar Joined
+Received message from Testar@ (05/03/2023 15:36): 
+Testar: hejj
+Received message from amidala@ (05/03/2023 15:36): 
+amidala: !!!
+Received message from Testar@ (05/03/2023 15:36): 
+Testar: jaa
+Testar Added amidala as a friend
+amidala Added Testar as a friend
+Received message from Testar@ (05/03/2023 15:36): 
+Testar: jaa
+Received message from Testar@ (05/03/2023 15:37): 
+Testar: /msg amidala hej
+amidala sent the message hej to Testar
+Client: Testar Disconnected
+Received message from amidala@ (05/03/2023 15:38): 
+amidala: aaa
+Client: amidala Disconnected
+-------(05/03/2023 15:42): -------
+New Client: Amitest Joined
+New Client: Testar2 Joined
+New Client: Test3 Joined
+Received message from Test3@ (05/03/2023 15:43): 
+Test3: hej
+Amitest sent the message hej to Test3
+Testar2 Added Amitest as a friend
+Test3 Added Testar2 as a friend
+Client: Amitest Disconnected
+Client: Testar2 Disconnected
+Client: Test3 Disconnected
