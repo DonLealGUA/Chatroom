@@ -70,6 +70,7 @@ public class Server {
             this.clients.add(newUser);
             broadcastAllUsers();
 
+            //Skickar o-skickade meddelanden till användaren.
             try {
                 List<String> unsentMessages = Reader.getUnsentMessages(newUser.getUsername());
                 oos.writeObject(new Message<String>("<b>You have:<b> " + unsentMessages.size() + "<b> missed messages<b>"));
