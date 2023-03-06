@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Write {
+public class Writer {
 
 
     public static void writeChat(String User, String message){

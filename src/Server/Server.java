@@ -2,7 +2,6 @@ package Server;
 
 import Client.Message;
 
-import javax.imageio.plugins.tiff.GeoTIFFTagSet;
 import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
@@ -10,7 +9,6 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,7 +37,7 @@ public class Server {
         }
 
         serverGUI.updateText("-------" + getTime() + "-------");
-        Write.writeServerLogg("-------" + getTime() + "-------");
+        Writer.writeServerLogg("-------" + getTime() + "-------");
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -62,7 +60,7 @@ public class Server {
 
             System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t  Host:" + client.getInetAddress().getHostAddress());
             serverGUI.updateText("New Client: " + newUser.getUsername() +" Joined");
-            Write.writeServerLogg("New Client: " + newUser.getUsername() +" Joined");
+            Writer.writeServerLogg("New Client: " + newUser.getUsername() +" Joined");
 
 
             UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
@@ -86,7 +84,7 @@ public class Server {
                 System.err.println("Error reading unsent messages file: " + e.getMessage());
             }
             serverGUI.updateText("Client: " + newUser.getUsername() +" Received old messages");
-            Write.writeServerLogg("Client: " + newUser.getUsername() +" Received old messages");
+            Writer.writeServerLogg("Client: " + newUser.getUsername() +" Received old messages");
 
             // Welcome msg
             oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
@@ -139,9 +137,9 @@ public class Server {
                     e.printStackTrace();
                 }
 
-                Write.writeFriends(userSender.getUsername(), user);
+                Writer.writeFriends(userSender.getUsername(), user);
                 serverGUI.updateText(userSender.getUsername() + " Added " + user + " as a friend");
-                Write.writeServerLogg(userSender.getUsername() + " Added " + user + " as a friend");
+                Writer.writeServerLogg(userSender.getUsername() + " Added " + user + " as a friend");
             }
         }
     }
@@ -170,8 +168,8 @@ public class Server {
             }
         }
         serverGUI.updateText(userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Write.writeServerLogg(userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Write.writePrivatChat(String.valueOf(userSender),user,msg);
+        Writer.writeServerLogg(userSender.getUsername() + " sent the message " + msg + " to " + user);
+        Writer.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
             try {
 
@@ -181,7 +179,7 @@ public class Server {
                     userHandler.getOos().writeObject(new Message<String>("Sorry, this user is Offline and will receive your message once they log in "));
                     userHandler.getOos().flush();
 
-                    Write.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                    Writer.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
                 }else{
                     userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
                     userHandler.getOos().flush();
@@ -209,8 +207,8 @@ public class Server {
             }
         }
         serverGUI.updateText("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() +": " + msg);
-        Write.writeServerLogg("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() +": " + msg);
-        Write.writeChat(userSender.getUsername(),message);
+        Writer.writeServerLogg("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() +": " + msg);
+        Writer.writeChat(userSender.getUsername(),message);
     }
 
     // skicka bilder till alla
@@ -228,8 +226,8 @@ public class Server {
             }
         }
         serverGUI.updateText("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
-        Write.writeServerLogg("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
-        Write.writeChat(userSender.getUsername(),image.toString());
+        Writer.writeServerLogg("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
+        Writer.writeChat(userSender.getUsername(),image.toString());
     }
 
 
@@ -238,7 +236,7 @@ public class Server {
         this.clients.remove(user);
         broadcastAllUsers();
         serverGUI.updateText("Client: " + user.getUsername() +" Disconnected");
-        Write.writeServerLogg("Client: " + user.getUsername() +" Disconnected");
+        Writer.writeServerLogg("Client: " + user.getUsername() +" Disconnected");
     }
 
 

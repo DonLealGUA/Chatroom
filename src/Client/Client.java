@@ -2,7 +2,7 @@ package Client;
 
 import Server.Reader;
 import Server.User;
-import Server.Write;
+import Server.Writer;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -50,7 +50,7 @@ public class Client {
             this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
-            Write.writeAddUser(username,imageIcon);
+            Writer.writeAddUser(username,imageIcon);
 
             oos.writeObject(new Message<User>(new User(name, imageIcon)));
             oos.flush();
