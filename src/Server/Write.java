@@ -9,11 +9,11 @@ import java.io.IOException;
 public class Write {
 
 
-    public static void writeChat(String User, String messege){
+    public static void writeChat(String User, String message){
         try{
             FileWriter fstream = new FileWriter("files/chat.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + messege +"\n");
+            out.write(User + " " + message +"\n");
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " + e.getMessage());
@@ -21,11 +21,11 @@ public class Write {
     }
 
 
-    public static void writeServerLogg( String messege){
+    public static void writeServerLogg(String message){
         try{
             FileWriter fstream = new FileWriter("files/server.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write( messege +"\n");
+            out.write( message +"\n");
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " + e.getMessage());
@@ -80,11 +80,11 @@ public class Write {
         }
     }
 
-    public static void writeUnsentMessage(String UserSender,String messege){
+    public static void writeUnsentMessage(String userSender,String message){
         try{
             FileWriter fstream = new FileWriter("files/unSentMessages.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(UserSender + " " + messege );
+            out.write(userSender + " " + message );
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " + e.getMessage());
