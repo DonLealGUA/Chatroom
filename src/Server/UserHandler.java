@@ -62,7 +62,14 @@ public class UserHandler implements Runnable {
                             String msg = user + " added you to their contacts. Type /add " + user + " to add them to your contacts";
                             server.sendFriendRequestToUser(msg, user, userPrivate);
                          }
-                     }else{
+                     }else if (message.startsWith("(")) {
+                        // extract the timestamp string between the parentheses
+                        int start = message.indexOf("(") + 1;
+                        int end = message.indexOf(")");
+                        String timestamp = message.substring(start, end);
+                        Writer.writeServerLogg("Client received message at " + timestamp);
+                        server.getServerGUI().updateText("Client received message at " + timestamp);
+                    }else{
                         // update user list
                         server.broadcastMessages(message, user);
                     }

@@ -237,7 +237,6 @@ public class Server {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 message = (": " + getTime() + msg);
-                System.out.println(message + " got message broadcastmessages");
                 userHandler.getOos().writeObject(new Message<String>(userSender.toString() + message));
                 userHandler.getOos().flush();
                 System.out.println(message);
@@ -298,6 +297,10 @@ public class Server {
         String date = "(" + dtf.format(now) + "): ";
 
         return date;
+    }
+
+    public ServerGUI getServerGUI() {
+        return serverGUI;
     }
 
     //todo Ta bort?

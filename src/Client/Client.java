@@ -126,64 +126,6 @@ public class Client {
     }
 
     /**
-     * En inre klass som extends Thread och läser meddelanden som den får av servern
-     */
-    class Read extends Thread {
-        @Override
-        public void run() {
-            try {
-                while (socket.isConnected()) {
-                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
-                    if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
-                        String message = (String) msg.getPayload();
-                        String time = getTime(); //tid meddelandet levererades till mottagaren
-                        if (message != null) {
-                            if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
-                                message = message.substring(1, message.length() - 1);
-                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
-                                //läser vilka vänner användaren har och uppdaterar GUI:t
-                                ArrayList<List<String>> Friends = Reader.readFriends();
-                                clientUI.updateUsers();
-                                for (String user : ListUser) { //går igenom varje sträng i listUser
-                                    boolean isFriend = false;
-                                    for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
-                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med blå färg om de är vänner
-                                            isFriend = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!isFriend) {
-                                        clientUI.updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
-                                    }
-                                }
-                            } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
-                                clientUI.updateUsersMessage(newMessage);
-                            }
-                        }
-                    } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
-                        clientUI.updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
-                    }
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * hämtar tid just nu
-     * @return tiden just nu formaterad som string
-     */
-    public String getTime(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        String date = "(" + dtf.format(now) + "): ";
-
-        return date;
-    }
-
-    /**
      * När en klient skrivit in ett meddelande i GUI:t skickas det till servern här
      * @param text meddelandet klienten skrev in
      */
@@ -225,14 +167,33 @@ public class Client {
 //TODO vet inte hur man gör så klienten disconnectar på bra sätt 😢😢😢😢😢😢
     public void disconnectPressed() {
         try {
-            ois.close();
-            read.interrupt();
-            clientUI.disconnectUpdate();
-            oos.close();
-            socket.close();
+            if (socket != null) {
+                socket.close();
+            }
+            if (ois != null) {
+                ois.close();
+            }
+            if (oos != null) {
+                oos.close();
+            }
+            if (read != null && read.isAlive()) {
+                read.interrupt();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            // handle the exception
         }
+    }
+
+    /**
+     * hämtar tid just nu
+     * @return tiden just nu formaterad som string
+     */
+    public String getTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String date = "(" + dtf.format(now) + ")";
+
+        return date;
     }
 
     /**
@@ -250,6 +211,57 @@ public class Client {
         }
         return selectedFile.getAbsolutePath();
 
+    }
+
+    /**
+     * En inre klass som extends Thread och läser meddelanden som den får av servern
+     */
+    class Read extends Thread {
+        @Override
+        public void run() {
+            try {
+                while (socket.isConnected()) {
+                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
+                    if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
+                        String message = (String) msg.getPayload();
+                        String time = getTime(); //tid meddelandet levererades till mottagaren
+                        if (message != null) {
+                            if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
+                                message = message.substring(1, message.length() - 1);
+                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
+                                //läser vilka vänner användaren har och uppdaterar GUI:t
+                                ArrayList<List<String>> Friends = Reader.readFriends();
+                                clientUI.updateUsers();
+                                for (String user : ListUser) { //går igenom varje sträng i listUser
+                                    boolean isFriend = false;
+                                    for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
+                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
+                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med blå färg om de är vänner
+                                            isFriend = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!isFriend) {
+                                        clientUI.updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                                    }
+                                }
+                            } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
+                                clientUI.updateUsersMessage(newMessage);
+                                Message<String> timeMsg = new Message<>(time); // create a new message containing the time
+                                oos.writeObject(timeMsg); // send the time message back to the server
+
+                            }
+                        }
+                    } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
+                        clientUI.updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
+                        System.out.println(getTime());
+                       // sendMessage("|" + getTime());
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
