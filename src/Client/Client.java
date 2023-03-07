@@ -11,6 +11,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
+/**
+ * En klient som kan ansluta sig till systemet
+ */
 public class Client {
     private final String IP;
     private final int PORT;
@@ -23,6 +26,9 @@ public class Client {
     LoginUI loginUI;
     ImageIcon imageIcon;
 
+    /**
+     * Sparar IP och PORT. Startar ett GUI där klienten ska logga in eller registrera sig
+     */
     public Client(){
         this.IP = "localhost";
         this.PORT = 1234;
@@ -30,55 +36,65 @@ public class Client {
         this.loginUI = new LoginUI(this);
     }
 
-    public static void main(String[] args)  {
-        Client client = new Client();
-    }
-
+    /**
+     * när en klient tryck på connect i loginGUIt sparas användarnamnet. Klienten ska välja en bild
+     * eller inte beroende på om den loggar in eller registrerar sig.
+     * @param username
+     * @param login
+     * @throws IOException
+     */
     public void connectClicked(String username, boolean login) throws IOException {
         this.name = username;
 
-        if (!login){
+        if (!login){ //om klienten inte tryck på logga in ska klienten välja en bild som profilbild
             this.imageIcon = new ImageIcon(getPicture());
+            this.clientUI = new ClientUI(this, username); //skapar ett user interface för klienten
+            clientUI.updateImageIcon(imageIcon); //uppdaterar klientens profilbild
 
-            this.clientUI = new ClientUI(this, username);
-            //clientUI.updateImageIcon(imageIcon);
-            clientUI.updateImageIcon(imageIcon);
-
-            socket = new Socket(IP, PORT);
+            socket = new Socket(IP, PORT); //startar socket
             clientUI.writeConnectMessage(socket);
 
+            //ObjectOutputStream och ObjectInputStream som används för att läsa och skriva till servern
             this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
+            //Skriver in användaren till filen med registrerade användare
             Writer.writeAddUser(username,imageIcon);
 
+            //skickar användaren till servern
             oos.writeObject(new Message<User>(new User(name, imageIcon)));
             oos.flush();
 
             startConnection(username);
         }
-        if (login){
-            if (Reader.readIfUserExist(username)){
+
+        if (login){ //om användaren valt att logga in
+            if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registreade användare
                 ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
+
+                //TODO vet inte vad som händer, får en default bild om det inte finns nån?
                 if (temp == null) {
                     imageIcon = new ImageIcon("files/Stockx_logo.png");
                 }
 
-                this.clientUI = new ClientUI(this, username);
+                this.clientUI = new ClientUI(this, username); //Skapar ett UI för klienten
 
-                socket = new Socket(IP, PORT);
+                socket = new Socket(IP, PORT); //startar socket
                 clientUI.writeConnectMessage(socket);
 
+                //ObjectOutputStream och ObjectInputStream som används för att läsa och skriva till servern
                 this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                 this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
+                //skickar användaren till servern
                 oos.writeObject(new Message<User>(new User(name, temp)));
                 oos.flush();
 
+                //uppdaterar klientens profilbild
                 clientUI.updateImageIcon(temp);
 
                 startConnection(username);
-            }else{
+            }else{ //skriver om ingen användare finns registrerad
                 JOptionPane.showMessageDialog(null, "No user with the name " + username + " is registered.", "Login", JOptionPane.INFORMATION_MESSAGE);
                 loginUI.noUserExist();
                 new LoginUI(this);
@@ -88,21 +104,19 @@ public class Client {
 
     }
 
+    /**
+     * Hämtar vänner och startar en tråd som läser meddelanden
+     * @param username användarnamn på klienten
+     * @throws IOException
+     */
     public void startConnection(String username) throws IOException {
-
-
         clientUI.updatePane(IP, PORT);
 
-
+        //gör en lista och lägger till vänner i den
         ArrayList<List<String>> Friends = Reader.readFriends();
         for (List<String> friendList : Friends) {
-            if (Objects.equals(friendList.get(0), username)) {
-                // Found the username in the current friend list
+            if (Objects.equals(friendList.get(0), username)) { //skriver ut om en vän har hittats
                 System.out.println("Found " + username + " in the friend list: " + friendList.get(1));
-
-
-                // Do something with the friend list, e.g. display it in the UI
-                //clientUI.updateFriendList(friendList); //todo byta färg eller något.
             }
         }
 
@@ -218,5 +232,13 @@ public class Client {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * main metod för att starta en ny klient
+     * @param args
+     */
+    public static void main(String[] args)  {
+        Client client = new Client();
     }
 }

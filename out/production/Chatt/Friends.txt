@@ -1,6 +1,0 @@
-bot1 bot2
-test bot2
-bot1 test
-bot1 bot2
-Testar amidala
-amidala Testar

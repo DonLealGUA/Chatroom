@@ -1,3 +1,8 @@
 aaa javax.swing.ImageIcon@a01eef7
 aaa javax.swing.ImageIcon@3baedd98
 aaa javax.swing.ImageIcon@3fba61c7
+aaa javax.swing.ImageIcon@31749d33
+ami javax.swing.ImageIcon@23a88438
+aaa javax.swing.ImageIcon@34c1ed41
+ami : (05/03/2023 19:45): hej
+ami javax.swing.ImageIcon@833f385

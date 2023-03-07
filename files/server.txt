@@ -33,3 +33,4 @@ Received Image from ami@ (05/03/2023 19:45):
 amijavax.swing.ImageIcon@833f385
 Client: aaa Disconnected
 Client: ami Disconnected
+-------(07/03/2023 12:39): -------
