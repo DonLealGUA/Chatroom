@@ -34,3 +34,9 @@ ami : (07/03/2023 15:05): hej
 ami : (07/03/2023 15:05): aaa
 ami : (07/03/2023 15:05): hejjj
 ami : (07/03/2023 15:13): hejj
+ami : (07/03/2023 15:21): hejj
+ami : (07/03/2023 15:21): aaaaa
+ami javax.swing.ImageIcon@611bc173
+krisse : (07/03/2023 16:51): hej
+krisse : (07/03/2023 16:51): nej
+test : (07/03/2023 16:57): hej

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Server-klassen
+ * Server-klassen som hanterar alla Klienter
  */
 public class Server {
     private final int port;
@@ -21,10 +21,18 @@ public class Server {
     private final ServerGUI serverGUI;
     private final HashMap<User, UserHandler> clientHashmap = new HashMap<>(); //lista med alla registrerade användare
 
+    /**
+     * Startar servern
+     */
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         new Server(1234).start();
     }
 
+    /**
+     * Sätter porten samt initierar Array:en som innehåller alla Klienter.
+     * Startar serverGUI samt uppdaterar GUI:t med gammal logg historik.
+     * @param port servern porten alla klienter ska ansluta till.
+     */
     public Server(int port) {
         this.port = port;
         this.clients = new ArrayList<User>();
@@ -36,9 +44,17 @@ public class Server {
         }
 
         serverGUI.updateText("-------" + getTime() + "-------");
-       // Writer.writeServerLogg("-------" + getTime() + "-------");
+       //Writer.writeServerLogg("-------" + getTime() + "-------");
     }
 
+    /**
+     * Startar servern och väntar på anslutningar från nya klienter.
+     * När en Klient kopplar upp sig skapar den ObjectOutputStream & ObjectInputStream för användaren.
+     * Läser namnet som Klienten skickar från deras sida.
+     * Skapar en UserHandler med Klientens information.
+     * Kollar även ifall den nya användaren har meddelanden som väntar på dem och skickar dem till användaren ifall de har väntande meddelanden.
+     * Uppdaterar även serverGUI samt skriver ner det i serverlogg.txt.
+     */
     private void start() throws IOException, ClassNotFoundException {
         ServerSocket server = new ServerSocket(port);
         System.out.println("Port" + port + " is now open.");
@@ -96,6 +112,9 @@ public class Server {
 
     }
 
+    /**
+     * Skickar en lista med online användare till alla uppkopplade Klienter
+     */
     public void broadcastAllUsers() throws IOException {
         for (User client : this.clients) {
             try {
@@ -109,6 +128,15 @@ public class Server {
         }
     }
 
+    /**
+     * Skickar till user att userSender har blivit tillagd i deras vänLista.
+     * Skickar ett meddelande till userSender att de har blivit tillagda av user.
+     * Sparar i Friends.txt att user är vän med userSender.
+     * Uppdaterar serverGUI & skriver ner till serverLogg.
+     * @param msg Meddelandet som ska skickas till Klienten.
+     * @param userSender personen som skickar vänförfrågan
+     * @param user personen som ska få meddelande om att den har blivit tillagd av userSender.
+     */
     public void sendFriendRequestToUser(String msg, User userSender, String user) {
         boolean find = false;
         for (User client : this.clients) {
@@ -144,6 +172,14 @@ public class Server {
         }
     }
 
+
+    /**
+     * Skickar ett privatmeddelande till userSender.
+     * Ifall personen inte är online så sparas meddelandet i unSentMessages så den kan skickas när personen loggar in.
+     * @param msg Meddelandet som ska skickas till Klienten.
+     * @param userSender personen som skickar vänförfrågan
+     * @param user personen som ska få meddelande om att den har blivit tillagd av userSender.
+     */
     public void sendMessageToUser(String msg, User userSender, String user) {
         boolean find = false;
         for (User client : this.clients) {
@@ -172,7 +208,6 @@ public class Server {
         Writer.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
             try {
-
                 UserHandler userHandler = clientHashmap.get(userSender);
                 HashMap userList = Reader.readUsers();
                 if(userList.containsKey(user)){
@@ -191,7 +226,12 @@ public class Server {
         }
     }
 
-    // skicka meddelande till alla
+
+    /**
+     * Skickar meddelande till alla Klinter som är uppkopplade.
+     * @param msg meddelandet som ska skickas.
+     * @param userSender personen som skickade meddelandet.
+     */
     public void broadcastMessages(String msg, User userSender) {
         String message = null;
         for (User client : this.clients) {
@@ -211,7 +251,11 @@ public class Server {
         Writer.writeChat(userSender.getUsername(),message);
     }
 
-    // skicka bilder till alla
+    /**
+     * Skickar bilder till alla Klinter som är uppkopplade.
+     * @param image bilden som ska skickas.
+     * @param userSender personen som skickade meddelandet.
+     */
     public void broadcastImages(ImageIcon image, User userSender) {
         for (User client : this.clients) {
             try {
@@ -231,7 +275,11 @@ public class Server {
     }
 
 
-    // ta bort användare från listan
+    /**
+     * Tar bort en användare som disconnected:ar från Listan.
+     * Skickar en ny lista med alla användare till Klienter.
+     * @param user användaren som har lämnat.
+     */
     public void removeUser(User user) throws IOException {
         this.clients.remove(user);
         broadcastAllUsers();
@@ -239,6 +287,9 @@ public class Server {
         Writer.writeServerLogg(getTime() + "Client: " + user.getUsername() +" Disconnected");
     }
 
+    /**
+     * @return en String med Dag/Månad/År : Timme: Minut
+     */
     public String getTime(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime now = LocalDateTime.now();
@@ -247,6 +298,7 @@ public class Server {
         return date;
     }
 
+    //todo Ta bort?
     public void addUser(User user) {
         this.clients.add(user);
     }

@@ -1,2 +1,5 @@
 ami C:\Users\amida\OneDrive\Skrivbord\a.jpg
 aaa C:\Users\amida\OneDrive\Skrivbord\c.jpg
+krisse C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_2.png
+krisse C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_8.png
+test C:\Users\Kristoffer\OneDrive\Skrivbord\cobra logo\Screenshot_9.png

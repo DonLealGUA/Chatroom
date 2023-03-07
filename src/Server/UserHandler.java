@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Tråd för Servern som lyssnar på meddelanden osm Klienter skickar.
+ */
 public class UserHandler implements Runnable {
     private Socket socket;
     private Server server;
@@ -13,6 +16,14 @@ public class UserHandler implements Runnable {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
+    /**
+     * Constructor som setter alla värden
+     * @param server servern.
+     * @param socket socket:en som ska lyssnas av.
+     * @param newUser den nya användaren.
+     * @param ois ObjectInputStream för att lyssna på meddelade.
+     * @param oos ObjectOutputStream för att skicka meddelanden.
+     */
     public UserHandler(Server server, Socket socket, User newUser, ObjectInputStream ois, ObjectOutputStream oos) {
         try {
             this.socket = socket;
@@ -26,6 +37,10 @@ public class UserHandler implements Runnable {
         }
     }
 
+    /**
+     * Run metod som lyssnar på meddelanden som skickas av klienter till servern.
+     * Baserat på typen av meddelande och vad meddelanden innehåller kallar denna metod på andra metoder i Servern klassen.
+     */
     @Override
     public void run() {
         try {
@@ -66,6 +81,11 @@ public class UserHandler implements Runnable {
         }
     }
 
+    /**
+     * Stänger ner socket & ObjectInputStream.
+     * @param socket socket.
+     * @param ois ObjectInputStream.
+     */
     private void closeEverything(Socket socket, ObjectInputStream ois) {
         try {
             server.removeUser(user);
@@ -84,6 +104,9 @@ public class UserHandler implements Runnable {
         }
     }
 
+    /**
+     * Getter för ObjectOutputStream.
+     */
     public ObjectOutputStream getOos() {
         return oos;
     }

@@ -29,3 +29,17 @@
 (07/03/2023 15:21): Received message from ami@ (07/03/2023 15:21): aaaaa
 (07/03/2023 15:21): Received Image from ami@ (07/03/2023 15:21): javax.swing.ImageIcon@611bc173
 (07/03/2023 15:21): Client: ami Disconnected
+(07/03/2023 16:51): New Client: krisse Joined
+(07/03/2023 16:51): Client: krisse Received old messages
+(07/03/2023 16:51): Received message from krisse@ (07/03/2023 16:51): hej
+(07/03/2023 16:51): Received message from krisse@ (07/03/2023 16:51): nej
+(07/03/2023 16:52): Client: krisse Disconnected
+(07/03/2023 16:57): New Client: krisse Joined
+(07/03/2023 16:57): Client: krisse Received old messages
+(07/03/2023 16:57): New Client: test Joined
+(07/03/2023 16:57): Client: test Received old messages
+(07/03/2023 16:57): Received message from test@ (07/03/2023 16:57): hej
+(07/03/2023 16:58): test Added krisse as a friend
+(07/03/2023 16:58): test sent the message hej to krisse
+(07/03/2023 16:58): Client: test Disconnected
+(07/03/2023 16:58): Client: krisse Disconnected
