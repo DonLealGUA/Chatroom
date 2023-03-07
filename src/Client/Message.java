@@ -28,20 +28,4 @@ public class Message<T extends Serializable> implements Serializable {
         payload = aPayload;
     }
 
-    public void setServerTime(LocalDateTime time){
-        this.serverTime = time;
-    }
-
-    public void setClientTime(LocalDateTime time){
-        this.clientTime = time;
-    }
-
-    public LocalDateTime getServerTime(){
-        return serverTime;
-    }
-
-    public LocalDateTime getClientTime(){
-        return clientTime;
-    }
-
 }

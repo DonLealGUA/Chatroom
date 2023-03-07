@@ -240,7 +240,6 @@ public class Server {
         Writer.writeServerLogg(getTime() + "Client: " + user.getUsername() +" Disconnected");
     }
 
-
     public String getTime(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime now = LocalDateTime.now();

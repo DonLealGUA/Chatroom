@@ -8,3 +8,14 @@
 (07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): !!!!!
 (07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): ....
 (07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): måste vänta..... tills 13:33
+(07/03/2023 14:59): New Client: ami Joined
+(07/03/2023 14:59): Client: ami Received old messages
+(07/03/2023 14:59): Received message from ami@ (07/03/2023 14:59): hejj
+(07/03/2023 14:59): Received message from ami@ (07/03/2023 14:59): aaaaa
+(07/03/2023 14:59): Received message from ami@ (07/03/2023 14:59): aaaaaaaaaaaaaaaa
+(07/03/2023 15:05): New Client: ami Joined
+(07/03/2023 15:05): Client: ami Received old messages
+(07/03/2023 15:05): Received message from ami@ (07/03/2023 15:05): hej
+(07/03/2023 15:05): Received message from ami@ (07/03/2023 15:05): aaa
+(07/03/2023 15:05): Received message from ami@ (07/03/2023 15:05): hejjj
+(07/03/2023 15:05): Client: ami Disconnected

@@ -1,9 +1,6 @@
 package Client;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
@@ -11,45 +8,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.net.Socket;
 
+/**
+ * User interface för Klienten
+ */
 public class ClientUI {
-
-    final JTextPane jtextFilDiscu = new JTextPane();
-    final JTextPane jtextListUsers = new JTextPane();
-    final JTextField jtextInputChat = new JTextField();
-    final JPanel jtextUserInfo = new JPanel();
-    JLabel jLabelUsername;
-    JPanel image;
-    String username;
-
+    private final JTextPane jtextFilDiscu = new JTextPane(); //rutan där alla chatt-meddelanden finns
+    private final JTextPane jtextListUsers = new JTextPane(); //rutan där användare online finns
+    private final JTextField jtextInputChat = new JTextField(); //där användare skriver in meddelande
+    private final JLabel jLabelUsername;
+    private final JPanel image;
     private String oldMsg = "";
-    private ImageIcon oldImage;
 
-    public ClientUI(Client client, String newUsernameTest){
-        this.username = newUsernameTest;
+    /**
+     * Startar upp GUI:t
+     * @param client klienten som startar GUI:t
+     * @param newUsername klientens användarnamn
+     */
+    public ClientUI(Client client, String newUsername){
         String fontfamily = "Arial, sans-serif";
         Font font = new Font(fontfamily, Font.PLAIN, 15);
 
+        //skapar JFrame
         final JFrame jfr = new JFrame("Chat");
         jfr.getContentPane().setLayout(null);
         jfr.setSize(700, 500);
         jfr.setResizable(false);
         jfr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // chatt-rutan
+        //skapar chatt-rutan
         jtextFilDiscu.setBounds(25, 25, 490, 320);
         jtextFilDiscu.setFont(font);
         jtextFilDiscu.setMargin(new Insets(6, 6, 6, 6));
         jtextFilDiscu.setEditable(false);
         JScrollPane jtextFilDiscuSP = new JScrollPane(jtextFilDiscu);
         jtextFilDiscuSP.setBounds(25, 25, 490, 320);
-
         jtextFilDiscu.setContentType("text/html");
         jtextFilDiscu.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        //sin egen profil
+        //rutan där användarnamn och bild finns
+        JPanel jtextUserInfo = new JPanel();
         jtextUserInfo.setBounds(520, 25, 156, 48);
         jtextUserInfo.setFont(font);
         jtextUserInfo.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
@@ -71,7 +70,8 @@ public class ClientUI {
         jLabelUsername.setHorizontalAlignment(JLabel.LEFT);
         jtextUserInfo.add(jLabelUsername);
 
-
+        //everyone knappen
+        //TODO ska detta bort? den gör inget
         JButton everyoneButton = new JButton("Everyone");
         everyoneButton.setEnabled(true);
         everyoneButton.setLayout(null);
@@ -79,8 +79,7 @@ public class ClientUI {
         everyoneButton.setSize(156, 50);
         jfr.add(everyoneButton);
 
-
-        // användarlista
+        //användarlista
         jtextListUsers.setBounds(520, 125, 156, 220);
         jtextListUsers.setEditable(true);
         jtextListUsers.setFont(font);
@@ -88,47 +87,50 @@ public class ClientUI {
         jtextListUsers.setEditable(false);
         JScrollPane jsplistuser = new JScrollPane(jtextListUsers);
         jsplistuser.setBounds(520, 125, 156, 220);
-
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
-        // text meddelande rutan (det användaren skriver in)
+        //chattmeddelande-rutan (det användaren skriver in)
         jtextInputChat.setBounds(0, 350, 400, 50);
         jtextInputChat.setFont(font);
         jtextInputChat.setMargin(new Insets(6, 6, 6, 6));
         final JScrollPane jtextInputChatSP = new JScrollPane(jtextInputChat);
         jtextInputChatSP.setBounds(25, 350, 650, 50);
 
-        // sent knapp
+        //send knapp
         final JButton jsbtn = new JButton("Send");
         jsbtn.setFont(font);
         jsbtn.setBounds(575, 410, 100, 35);
 
-        // Disconnect knapp
+        //Disconnect knapp
         final JButton jsbtndeco = new JButton("Disconnect");
         jsbtndeco.setFont(font);
         jsbtndeco.setBounds(25, 410, 130, 35);
 
 
-        // button send picture
+        //send picture knapp
         final JButton sendPicture = new JButton("Send Picture");
         sendPicture.setFont(font);
         sendPicture.setBounds(440, 410, 120, 35);
 
+        //om man klickar enter ska meddelandet skickas
         jtextInputChat.addKeyListener(new KeyAdapter() {
             // send message on Enter
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     client.sendMessage(jtextInputChat.getText().trim());
+                    setOldMsg(jtextInputChat.getText().trim());
+                    updateChatPanel();
                 }
 
-                // Get last message typed
+                //TODO onödig funktion, visste inte att det fanns, ta bort??
+                //Get last message typed
                 if (e.getKeyCode() == KeyEvent.VK_UP) {
                     String currentMessage = jtextInputChat.getText().trim();
                     jtextInputChat.setText(oldMsg);
                     oldMsg = currentMessage;
                 }
-
+                //TODO onödig funktion, visste inte att det fanns, ta bort??
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     String currentMessage = jtextInputChat.getText().trim();
                     jtextInputChat.setText(oldMsg);
@@ -137,40 +139,41 @@ public class ClientUI {
             }
         });
 
-        // Click on send button
+        //när man trycker på skicka
         jsbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 client.sendMessage(jtextInputChat.getText().trim());
+                updateChatPanel();
             }
         });
 
-        //Send picture
+        //när man skickar bild
         sendPicture .addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                String imagepath = client.getPicture();
-                ImageIcon imageIcon = new ImageIcon(imagepath);
+                String imagePath = Client.getPicture();
+                ImageIcon imageIcon = new ImageIcon(imagePath);
                 Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+                Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it
                 imageIcon = new ImageIcon(newimg);
-               // jtextFilDiscu.insertIcon(imageIcon);
-                //TODO fixa att man skickar bild till andra klienter
                 client.sendPicture(imageIcon);
-
+                updateChatPanel();
             }
         });
 
-        // Connection view
+        //sätter färger
+        //TODO kan man ta bort det här?
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
         jtextListUsers.setBackground(Color.LIGHT_GRAY);
         jtextUserInfo.setBackground(Color.LIGHT_GRAY);
 
+        //lägger till saker på frame
         jfr.add(jtextFilDiscuSP);
         jfr.add(jsplistuser);
         jfr.add(jtextUserInfo);
         jfr.add(sendPicture);
         jfr.setVisible(true);
 
-        // on deco
+        //när man klickar disconnect
         jsbtndeco.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 client.disconnectPressed();
@@ -180,9 +183,9 @@ public class ClientUI {
             }
         });
 
-
+        //TODO ???
         try {
-            updateUsername(username);
+            updateUsername(newUsername);
             jfr.add(jsbtn);
             jfr.add(jtextInputChatSP);
             jfr.add(jsbtndeco);
@@ -195,10 +198,12 @@ public class ClientUI {
             appendToPane(jtextFilDiscu, "Could not connect to Server",Color.black);
             JOptionPane.showMessageDialog(jfr, ex.getMessage());
         }
-
-
     }
 
+    /**
+     * detta händer när man trycker disconnect men tror vi kan ta bort
+     */
+    //TODO ta bort kanske
     public void disconnectUpdate() {
         jtextListUsers.setText(null);
         jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
@@ -206,109 +211,88 @@ public class ClientUI {
         appendToPane(jtextFilDiscu, "Connection closed.",Color.black);
     }
 
+    /**
+     * uppdaterar det man skrivit i chatten så det försvinner
+     */
     public void updateChatPanel() {
         jtextInputChat.requestFocus();
         jtextInputChat.setText(null);
     }
 
-    public static String getPicture() {
-        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        File selectedFile = null;
-        int returnValue = jfc.showOpenDialog(null);
-
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            selectedFile = jfc.getSelectedFile();
-            System.out.println(selectedFile.getAbsolutePath());
-        }
-        return selectedFile.getAbsolutePath();
-    }
-
+    /**
+     * visar exception meddelande
+     * @param ex meddelandet som ska visas
+     */
     public void showExceptionMessage(Exception ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage());
     }
 
+    /**
+     * uppdaterar användare-online-listan så den blir tom
+     */
     public void updateUsers() {
         jtextListUsers.setText(null);
     }
+
+    /**
+     * uppdaterar användare-online-listan så användaren skrivs ut med svart
+     * @param user användaren som ska skrivas ut
+     */
 
     public void updateUsersPane(String user) {
         appendToPane(jtextListUsers, "@" + user,Color.black);
     }
 
+    /**
+     * skickar meddelande till alla
+     * @param message meddelandet som ska skickas
+     */
     public void updateUsersMessage(String message) {
         appendToPane(jtextFilDiscu, message,Color.black);
     }
 
     /**
-     * Ändrar färg på alla och inte individuell
+     * uppdaterar användare-online-listan så användaren skrivs ut med blått
+     * @param user användaren som ska skrivas ut
      */
     public void updateUsersFriendsMessage(String user) {
         appendToPane(jtextListUsers, "@" + user,Color.ORANGE);
         jtextListUsers.setForeground(Color.BLUE);
     }
 
-    public void printError() {
-        System.err.println("Failed to parse incoming message");
-    }
-
+    /**
+     * kan nog ta bort
+     */
+    //TODO ta bort?
     public void setOldMsg(String message) {
         this.oldMsg = message;
     }
 
-    public void setOldImage(ImageIcon image) {
-        this.oldImage = image;
-    }
-
-    public class TextListener implements DocumentListener {
-        JTextField jtf1;
-        JTextField jtf2;
-        JTextField jtf3;
-        JButton jcbtn;
-
-        public TextListener(JTextField jtf1, JTextField jtf2, JTextField jtf3, JButton jcbtn) {
-            this.jtf1 = jtf1;
-            this.jtf2 = jtf2;
-            this.jtf3 = jtf3;
-            this.jcbtn = jcbtn;
-        }
-
-        public void changedUpdate(DocumentEvent e) {
-        }
-
-        public void removeUpdate(DocumentEvent e) {
-            if (jtf1.getText().trim().equals("") ||
-                    jtf2.getText().trim().equals("") ||
-                    jtf3.getText().trim().equals("")
-            ) {
-                jcbtn.setEnabled(false);
-            } else {
-                jcbtn.setEnabled(true);
-            }
-        }
-
-        public void insertUpdate(DocumentEvent e) {
-            if (jtf1.getText().trim().equals("") ||
-                    jtf2.getText().trim().equals("") ||
-                    jtf3.getText().trim().equals("")
-            ) {
-                jcbtn.setEnabled(false);
-            } else {
-                jcbtn.setEnabled(true);
-            }
-        }
-
-    }
-
+    /**
+     * skriver ut ett meddelande till klienten
+     * @param serverName ip
+     * @param PORT port
+     */
     public void updatePane(String serverName, int PORT) {
         appendToPane(jtextFilDiscu, "Connecting to " + serverName + " on port " + PORT + "...",Color.black);
 
     }
 
+    /**
+     * skriver ut ett meddelande till klienten
+     * @param server socket
+     */
     public void writeConnectMessage(Socket server) {
         appendToPane(jtextFilDiscu, "Connected to " + server.getRemoteSocketAddress(), Color.black);
 
     }
 
+    /**
+     * skickar ut meddelande till chatten
+     * @param tp vilken panel det ska till
+     * @param msg meddelandet
+     * @param color vilken färg det ska va
+     */
     public void appendToPane(JTextPane tp, String msg, Color color) {
         HTMLDocument doc = (HTMLDocument) tp.getDocument();
         HTMLEditorKit editorKit = (HTMLEditorKit) tp.getEditorKit();
@@ -322,14 +306,26 @@ public class ClientUI {
         }
     }
 
+    /**
+     * uppdaterar användarnamnet
+     * @param text användarnamnet
+     */
     public void updateUsername(String text) {
         jLabelUsername.setText(text);
     }
 
+    /**
+     * uppdaterar bild som skickats
+     * @param imageIcon bilden
+     */
     public void updateImage(ImageIcon imageIcon) {
         jtextFilDiscu.insertIcon(imageIcon);
     }
 
+    /**
+     * uppdaterar profilbild
+     * @param imageIcon profilbilden
+     */
     public void updateImageIcon(ImageIcon imageIcon){
         Image image2 = imageIcon.getImage(); // transform it
         Image newimg = image2.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way

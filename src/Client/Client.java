@@ -37,11 +37,10 @@ public class Client {
     }
 
     /**
-     * när en klient tryck på connect i loginGUIt sparas användarnamnet. Klienten ska välja en bild
+     * När en klient tryck på connect i loginGUIt sparas användarnamnet. Klienten ska välja en bild
      * eller inte beroende på om den loggar in eller registrerar sig.
-     * @param username
-     * @param login
-     * @throws IOException
+     * @param username klientens användarnamn
+     * @param login true om klienten loggar in, false om klienten registrerar sig
      */
     public void connectClicked(String username, boolean login) throws IOException {
         this.name = username;
@@ -62,14 +61,14 @@ public class Client {
             Writer.writeAddUser(username,imageIcon);
 
             //skickar användaren till servern
-            oos.writeObject(new Message<User>(new User(name, imageIcon)));
+            oos.writeObject(new Message<>(new User(name, imageIcon)));
             oos.flush();
 
             startConnection(username);
         }
 
         if (login){ //om användaren valt att logga in
-            if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registreade användare
+            if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registrerade användare
                 ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
 
                 //TODO vet inte vad som händer, får en default bild om det inte finns nån?
@@ -87,7 +86,7 @@ public class Client {
                 this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
                 //skickar användaren till servern
-                oos.writeObject(new Message<User>(new User(name, temp)));
+                oos.writeObject(new Message<>(new User(name, temp)));
                 oos.flush();
 
                 //uppdaterar klientens profilbild
@@ -107,12 +106,11 @@ public class Client {
     /**
      * Hämtar vänner och startar en tråd som läser meddelanden
      * @param username användarnamn på klienten
-     * @throws IOException
      */
     public void startConnection(String username) throws IOException {
         clientUI.updatePane(IP, PORT);
 
-        //gör en lista och lägger till vänner i den
+        //gör en lista och lägger till vänner i den som den läser från en fil
         ArrayList<List<String>> Friends = Reader.readFriends();
         for (List<String> friendList : Friends) {
             if (Objects.equals(friendList.get(0), username)) { //skriver ut om en vän har hittats
@@ -120,42 +118,96 @@ public class Client {
             }
         }
 
+        //startar tråden som läser meddelanden
         read = new Read();
         read.start();
     }
 
+    /**
+     * En inre klass som extends Thread och läser meddelanden som den får av servern
+     */
+    class Read extends Thread {
+        @Override
+        public void run() {
+            try {
+                while (socket.isConnected()) {
+                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
+                    if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
+                        String message = (String) msg.getPayload();
+                        if (message != null) {
+                            if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
+                                message = message.substring(1, message.length() - 1);
+                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
+                                //läser vilka vänner användaren har och uppdaterar GUI:t
+                                ArrayList<List<String>> Friends = Reader.readFriends();
+                                clientUI.updateUsers();
+                                for (String user : ListUser) { //går igenom varje sträng i listUser
+                                    boolean isFriend = false;
+                                    for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
+                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
+                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med blå färg om de är vänner
+                                            isFriend = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!isFriend) {
+                                        clientUI.updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                                    }
+                                }
+                            } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
+                                clientUI.updateUsersMessage(newMessage);
+                            }
+                        }
+                    } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
+                        clientUI.updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * När en klient skrivit in ett meddelande i GUI:t skickas det till servern här
+     * @param text meddelandet klienten skrev in
+     */
     public void sendMessage(String text) {
         try {
             if (text.equals("")) {
                 return;
             }
-            clientUI.setOldMsg(text);
-            oos.writeObject(new Message<String>(text));
+            //skickar meddelandet till servern
+            oos.writeObject(new Message<>(text));
             oos.flush();
-            clientUI.updateChatPanel();
-
         } catch (Exception ex) {
             clientUI.showExceptionMessage(ex);
             System.exit(0);
         }
     }
+
+    /**
+     * När en klient skickat en bild i GUI:t skickas det till servern här
+     * @param imageIcon bilden klienten skickade
+     */
     public void sendPicture (ImageIcon imageIcon) {
         try {
-            ImageIcon image = imageIcon;
-            if (image == null) {
+            if (imageIcon == null) {
                 return;
             }
-            clientUI.setOldImage(image);
-            oos.writeObject(new Message<ImageIcon>(image));
+            //skickar bilden till servern
+            oos.writeObject(new Message<>(imageIcon));
             oos.flush();
-            clientUI.updateChatPanel();
-
         } catch (Exception ex) {
             clientUI.showExceptionMessage(ex);
             System.exit(0);
         }
     }
 
+    /**
+     * när en klient trycker på disconnect
+     */
+//TODO vet inte hur man gör så klienten disconnectar på bra sätt 😢😢😢😢😢😢
     public void disconnectPressed() {
         try {
             ois.close();
@@ -168,6 +220,10 @@ public class Client {
         }
     }
 
+    /**
+     * Väljer en fil på datorn
+     * @return filen som blev vald
+     */
     public static String getPicture() {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         File selectedFile = null;
@@ -181,64 +237,10 @@ public class Client {
 
     }
 
-    // read new incoming messages
-    class Read extends Thread {
-        @Override
-        public void run() {
-            try {
-                while (socket.isConnected()) {
-                    Message<?> msg = (Message<?>) ois.readObject();
-                    if (msg.getPayload() instanceof String newMessage) {
-                        String message = (String) msg.getPayload();
-                        if (message != null) {
-                            if (message.charAt(0) == '[') {
-                                System.out.println(message);
-                                message = message.substring(1, message.length() - 1);
-                                ArrayList<String> ListUser = new ArrayList<String>(Arrays.asList(message.split(", ")));
-                                ArrayList<List<String>> Friends = Reader.readFriends();
-                                clientUI.updateUsers();
-
-
-                                for (String user : ListUser) {
-                                    boolean isFriend = false;
-                                    for (List<String> friendList : Friends) {
-                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                            System.out.println("Vänner");
-                                            clientUI.updateUsersFriendsMessage(user);
-                                            isFriend = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!isFriend) {
-                                        System.out.println("Inte Vänner");
-                                        clientUI.updateUsersPane(user);
-                                    }
-                                }
-                            } else {
-                                clientUI.updateUsersMessage(newMessage);
-                            }
-                        }
-                    } else if (msg.getPayload() instanceof ImageIcon) {
-                        clientUI.updateImage((ImageIcon) msg.getPayload());
-                    } else if (msg.getPayload() instanceof ArrayList userList) {
-                        System.out.println("när körs detta?");
-                        System.out.println(userList);
-                        //clientUI.ClearUserpane();
-                        //clientUI.updateUsersList(userList);
-
-                    }
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     /**
      * main metod för att starta en ny klient
-     * @param args
      */
     public static void main(String[] args)  {
-        Client client = new Client();
+        new Client();
     }
 }
