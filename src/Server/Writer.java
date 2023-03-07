@@ -74,31 +74,6 @@ public class Writer {
         }
     }
 
-    /**
-     * Tror inte den behövs längre
-     */
-    //TODO ta bort?
-    public static void writePrivatChat(String User,String isFriendWith,String messege){
-        File file = new File("files/privateMesseges/" +User+ "/" +isFriendWith+ ".txt");
-        try {
-            if (file.createNewFile()) {
-                System.out.println("File has been created.");
-                FileWriter fstream = new FileWriter(file,true);
-                BufferedWriter out = new BufferedWriter(fstream);
-                out.write(messege);
-                out.close();
-
-            } else {
-                System.out.println("File already exists.");
-                FileWriter fstream = new FileWriter(file,true);
-                BufferedWriter out = new BufferedWriter(fstream);
-                out.write(messege);
-                out.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * skriver in meddelanden som inte har kunnat skickas eftersom mottagaren är offline

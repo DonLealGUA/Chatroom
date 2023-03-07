@@ -36,24 +36,6 @@ public class Reader {
         return false;
     }
 
-    //TODO ta bort?
-    public static ArrayList readChat(){
-        try {
-            ArrayList<String> chat = new ArrayList<String>();
-            File myObj = new File("files/chat.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                chat.add(myReader.nextLine());
-            }
-            System.out.println(chat);
-            return chat;
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * Läser ur server-textfilen för att skriva ut det i server-GUI:t
@@ -77,22 +59,6 @@ public class Reader {
         return null;
     }
 
-    //TODO ta bort?
-    public static ArrayList readPrivateChat(String User, String isFriendWith){
-        try {
-            ArrayList<String> chat = new ArrayList<String>();
-            File myObj = new File("files/privateMesseges/\" +User+ \"/\" +isFriendWith+ \".txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                chat.add(myReader.nextLine());
-            }
-            return chat;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * Läser ur unSentMessages-textfilen för att kolla om en användare har missat några meddelanden
