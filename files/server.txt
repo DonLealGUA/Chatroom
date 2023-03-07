@@ -43,3 +43,16 @@
 (07/03/2023 16:58): test sent the message hej to krisse
 (07/03/2023 16:58): Client: test Disconnected
 (07/03/2023 16:58): Client: krisse Disconnected
+(07/03/2023 18:20): New Client: krisse Joined
+(07/03/2023 18:20): Client: krisse Received old messages
+(07/03/2023 18:20): New Client: test Joined
+(07/03/2023 18:20): Client: test Received old messages
+(07/03/2023 18:20): Received Image from krisse@ (07/03/2023 18:20): javax.swing.ImageIcon@692515d6
+(07/03/2023 18:21): Client: krisse Disconnected
+(07/03/2023 18:21): Client: test Disconnected
+(07/03/2023 18:27): New Client: krisse Joined
+(07/03/2023 18:27): Client: krisse Received old messages
+(07/03/2023 18:27): Client: krisse Disconnected
+(07/03/2023 18:29): New Client: krisse Joined
+(07/03/2023 18:29): Client: krisse Received old messages
+(07/03/2023 18:29): Client: krisse Disconnected

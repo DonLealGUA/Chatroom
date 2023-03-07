@@ -38,7 +38,7 @@ public class Server {
         this.clients = new ArrayList<User>();
         serverGUI = new ServerGUI();
 
-        ArrayList<String> serverLogg = Reader.readServerLogg();
+        ArrayList<String> serverLogg = Reader.readServerLogg(); //Visar gammal serverLogg historik
         for (String text : serverLogg) {
             serverGUI.updateText(text);
         }
@@ -64,23 +64,23 @@ public class Server {
             Socket client = server.accept();
 
 
+            //startar input och output kanalerna
             ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
             oos.flush();
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
 
-            // get username of newUser
+            // får username av newUser
             Message<?> readObject = (Message<?>) ois.readObject();
             User newUser = (User) readObject.getPayload();
 
-
+            //Skriver ut i consol & serverGUI att en client har anslutit sig till servern
             System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t  Host:" + client.getInetAddress().getHostAddress());
             serverGUI.updateText("New Client: " + newUser.getUsername() +" Joined");
             Writer.writeServerLogg(getTime() + "New Client: " + newUser.getUsername() +" Joined");
 
 
+            //Ny instans av userhandler för den nya klienten. Lägger av till den i Client listorna och skickar en lista med alla användare till Klienterna
             UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
-
-
             this.clientHashmap.put(newUser, userHandler);
             this.clients.add(newUser);
             broadcastAllUsers();
@@ -116,10 +116,10 @@ public class Server {
      * Skickar en lista med online användare till alla uppkopplade Klienter
      */
     public void broadcastAllUsers() throws IOException {
-        for (User client : this.clients) {
+        for (User client : this.clients) { //Går igenom alla uppkopplade Klienter
             try {
                 UserHandler userHandler = clientHashmap.get(client);
-                userHandler.getOos().writeObject(new Message<String>(this.clients.toString()));
+                userHandler.getOos().writeObject(new Message<String>(this.clients.toString())); //Skickar ett meddelande av typen String
                 System.out.println(this.clients.toString());
                 userHandler.getOos().flush();
             } catch (IOException e) {
@@ -139,13 +139,13 @@ public class Server {
      */
     public void sendFriendRequestToUser(String msg, User userSender, String user) {
         boolean find = false;
-        for (User client : this.clients) {
-            if (client.getUsername().equals(user) && client != userSender) {
+        for (User client : this.clients) { //Går igenom alla uppkopplade Klienter
+            if (client.getUsername().equals(user) && client != userSender) { //Kollar så klienten som ska få meddelandet inte är klienten som skickade meddelandet
                 find = true;
 
                 try {
                     UserHandler userHandler = clientHashmap.get(userSender);
-                    userHandler.getOos().writeObject(new Message<String>("Added " + client.toString() + " to your contacts."));
+                    userHandler.getOos().writeObject(new Message<String>("Added " + client.toString() + " to your contacts.")); // Skickar meddelande till personen som la till vännen
                     userHandler.getOos().flush();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -153,7 +153,7 @@ public class Server {
 
                 try {
                     UserHandler userHandler = clientHashmap.get(client);
-                    userHandler.getOos().writeObject(new Message<String>(msg));
+                    userHandler.getOos().writeObject(new Message<String>(msg)); // meddelande till personen som blev tillagd
                     userHandler.getOos().flush();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -165,7 +165,7 @@ public class Server {
                     e.printStackTrace();
                 }
 
-                Writer.writeFriends(userSender.getUsername(), user);
+                Writer.writeFriends(userSender.getUsername(), user); //Sparar vem som är vänner
                 serverGUI.updateText(userSender.getUsername() + " Added " + user + " as a friend");
                 Writer.writeServerLogg(getTime() + userSender.getUsername() + " Added " + user + " as a friend");
             }
@@ -183,12 +183,12 @@ public class Server {
     public void sendMessageToUser(String msg, User userSender, String user) {
         boolean find = false;
         for (User client : this.clients) {
-            if (client.getUsername().equals(user) && client != userSender) {
+            if (client.getUsername().equals(user) && client != userSender) { //Kollar så det skickas till rätt person och inte alla
                 find = true;
 
                 try {
                     UserHandler userHandler = clientHashmap.get(userSender);
-                    userHandler.getOos().writeObject(new Message<String>(userSender.toString() + " -> " + client.toString() +": " + msg));
+                    userHandler.getOos().writeObject(new Message<String>(userSender.toString() + " -> " + client.toString() +": " + msg)); //Skickas till personen som skickade meddelandet
                     userHandler.getOos().flush();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -196,7 +196,7 @@ public class Server {
 
                 try {
                     UserHandler userHandler = clientHashmap.get(client);
-                    userHandler.getOos().writeObject(new Message<String>("(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>"));
+                    userHandler.getOos().writeObject(new Message<String>("(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>")); //skickar till vem meddelandet är till
                     userHandler.getOos().flush();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -205,18 +205,17 @@ public class Server {
         }
         serverGUI.updateText(userSender.getUsername() + " sent the message " + msg + " to " + user);
         Writer.writeServerLogg(getTime() + userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Writer.writePrivatChat(String.valueOf(userSender),user,msg);
-        if (!find) {
+        if (!find) { //Ifall personen inte finns
             try {
                 UserHandler userHandler = clientHashmap.get(userSender);
                 HashMap userList = Reader.readUsers();
-                if(userList.containsKey(user)){
-                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user is Offline and will receive your message once they log in "));
+                if(userList.containsKey(user)){ //kollar ifall personen är registrerad
+                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user is Offline and will receive your message once they log in ")); //Skriver att meddelandet skickas när personen går online
                     userHandler.getOos().flush();
 
-                    Writer.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>");
+                    Writer.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>"); //sparar meddelandet
                 }else{
-                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist "));
+                    userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist ")); // annars skickas error meddelande att personen inte finns.
                     userHandler.getOos().flush();
                 }
 
@@ -234,7 +233,7 @@ public class Server {
      */
     public void broadcastMessages(String msg, User userSender) {
         String message = null;
-        for (User client : this.clients) {
+        for (User client : this.clients) { //Skickar meddelande till alla klienter
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 message = (": " + getTime() + msg);
@@ -257,10 +256,13 @@ public class Server {
      * @param userSender personen som skickade meddelandet.
      */
     public void broadcastImages(ImageIcon image, User userSender) {
-        for (User client : this.clients) {
+        for (User client : this.clients) { //Skickar bilder till alla klienter
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 System.out.println(image);
+                userHandler.getOos().writeObject(new Message<String>(userSender.toString() + ": ")); //Skickar fört ett meddelande om vem som skickade bilden.
+                userHandler.getOos().flush();
+
                 userHandler.getOos().writeObject(new Message<ImageIcon>(image));
                 System.out.println(new Message<ImageIcon>(image));
                 userHandler.getOos().flush();

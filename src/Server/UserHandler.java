@@ -71,12 +71,14 @@ public class UserHandler implements Runnable {
                     server.broadcastImages(messageImage,user);
                 }
             }
-            server.removeUser(user);
             ois.close();
+            server.removeUser(user);
             socket.close();
             this.server.broadcastAllUsers();
+        } catch (EOFException e) {
+            closeEverything(socket, ois);
         } catch (IOException | ClassNotFoundException e) {
-            closeEverything(socket,ois);
+            closeEverything(socket, ois);
             e.printStackTrace();
         }
     }

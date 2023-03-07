@@ -40,3 +40,4 @@ ami javax.swing.ImageIcon@611bc173
 krisse : (07/03/2023 16:51): hej
 krisse : (07/03/2023 16:51): nej
 test : (07/03/2023 16:57): hej
+krisse javax.swing.ImageIcon@692515d6
