@@ -21,12 +21,11 @@ public class Client {
     private final int PORT;
     private String name;
     private Thread read;
-    ObjectInputStream ois;
-    ObjectOutputStream oos;
-    Socket socket;
-    ClientUI clientUI;
-    LoginUI loginUI;
-    ImageIcon imageIcon;
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
+    private Socket socket;
+    private ClientUI clientUI;
+    private final LoginUI loginUI;
 
     /**
      * Sparar IP och PORT. Startar ett GUI där klienten ska logga in eller registrera sig
@@ -47,8 +46,9 @@ public class Client {
     public void connectClicked(String username, boolean login) throws IOException {
         this.name = username;
 
+        ImageIcon imageIcon;
         if (!login){ //om klienten inte tryck på logga in ska klienten välja en bild som profilbild
-            this.imageIcon = new ImageIcon(getPicture());
+            imageIcon = new ImageIcon(getPicture());
             this.clientUI = new ClientUI(this, username); //skapar ett user interface för klienten
             clientUI.updateImageIcon(imageIcon); //uppdaterar klientens profilbild
 
@@ -60,7 +60,7 @@ public class Client {
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
             //Skriver in användaren till filen med registrerade användare
-            Writer.writeAddUser(username,imageIcon);
+            Writer.writeAddUser(username, imageIcon);
 
             //skickar användaren till servern
             oos.writeObject(new Message<>(new User(name, imageIcon)));

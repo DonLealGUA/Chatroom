@@ -2,23 +2,26 @@ package Server;
 
 import javax.swing.*;
 import java.io.*;
-import java.net.Socket;
 
+/**
+ * User-klass där användare sparas
+ */
 public class User implements Serializable {
-    private static int nbUser = 0;
-    private int userId;
-    private String username;
-    private ImageIcon imageIcon;
+    private final String username; //användarnamn
+    private final ImageIcon imageIcon; //profilbild
 
+    /**
+     * skapar en user
+     * @param username användarnamn
+     * @param imageIcon profilbild
+     */
     public User(String username, ImageIcon imageIcon) throws IOException {
-        this.imageIcon = imageIcon;
         this.username = username;
-        this.userId = nbUser;
         this.imageIcon = imageIcon;
-        nbUser += 1;
     }
 
 
+    //getter och setter
     public String getUsername() {
         return this.username;
     }
@@ -27,6 +30,7 @@ public class User implements Serializable {
         return imageIcon;
     }
 
+    //toString-metod
     public String toString(){
         return this.getUsername();
     }

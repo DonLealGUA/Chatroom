@@ -12,15 +12,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Server-klassen
+ */
 public class Server {
-
-    private int port;
-    private List<User> clients;
-    private ServerSocket server;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
-    private ServerGUI serverGUI;
-    private HashMap<User, UserHandler> clientHashmap = new HashMap<User, UserHandler>();
+    private final int port;
+    private final List<User> clients; //lista av klienter online
+    private final ServerGUI serverGUI;
+    private final HashMap<User, UserHandler> clientHashmap = new HashMap<>(); //lista med alla registrerade användare
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         new Server(1234).start();
@@ -41,7 +40,7 @@ public class Server {
     }
 
     private void start() throws IOException, ClassNotFoundException {
-        server = new ServerSocket(port);
+        ServerSocket server = new ServerSocket(port);
         System.out.println("Port" + port + " is now open.");
 
         while(true) {
@@ -49,9 +48,9 @@ public class Server {
             Socket client = server.accept();
 
 
-            this.oos = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(client.getOutputStream()));
             oos.flush();
-            this.ois = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
 
             // get username of newUser
             Message<?> readObject = (Message<?>) ois.readObject();

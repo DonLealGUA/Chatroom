@@ -10,16 +10,12 @@ public class UserHandler implements Runnable {
     private Socket socket;
     private Server server;
     private User user;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
     public UserHandler(Server server, Socket socket, User newUser, ObjectInputStream ois, ObjectOutputStream oos) {
         try {
             this.socket = socket;
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.server = server;
             this.user = newUser;
             this.ois = ois;
@@ -35,8 +31,7 @@ public class UserHandler implements Runnable {
         try {
             while (socket.isConnected()){
                 Message<?> readObject = (Message<?>) ois.readObject();
-                if(readObject.getPayload() instanceof String){
-                    String message = (String) readObject.getPayload();
+                if(readObject.getPayload() instanceof String message){
                     if (message.charAt(0) == '@'){
                         if(message.contains(" ")){
                             System.out.println("private msg : " + message);

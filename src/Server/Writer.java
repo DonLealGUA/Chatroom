@@ -6,9 +6,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Writer-klass som skriver till textfiler
+ */
 public class Writer {
-
-
+    /**
+     * skriver alla meddelanden som skickas till chat-textfilen
+     * @param User
+     * @param message
+     */
+    //TODO vi läser aldrig från den filen så osäker om denna metod behövs
     public static void writeChat(String User, String message){
         try{
             FileWriter fstream = new FileWriter("files/chat.txt",true);
@@ -20,7 +27,10 @@ public class Writer {
         }
     }
 
-
+    /**
+     * Skriver allt som händer i chatten till textfilen server. T.ex om en användare kopplat upp sig eller skickat ett meddelande
+     * @param message det vi ska skriva
+     */
     public static void writeServerLogg(String message){
         try{
             FileWriter fstream = new FileWriter("files/server.txt",true);
@@ -32,6 +42,11 @@ public class Writer {
         }
     }
 
+    /**
+     * Skriver in den nya användaren som registrerat sig till users-textfilen
+     * @param User användarnamn
+     * @param image profilbild
+     */
     public static void writeAddUser(String User, ImageIcon image){
         try{
             FileWriter fstream = new FileWriter("files/Users.txt",true);
@@ -43,7 +58,11 @@ public class Writer {
         }
     }
 
-
+    /**
+     * skriver in om någon har lagt till som vän
+     * @param User användaren som lagt till någon
+     * @param isFriendsWith den som användaren la till
+     */
     public static void writeFriends(String User, String isFriendsWith){
         try{
             FileWriter fstream = new FileWriter("files/Friends.txt",true);
@@ -58,6 +77,7 @@ public class Writer {
     /**
      * Tror inte den behövs längre
      */
+    //TODO ta bort?
     public static void writePrivatChat(String User,String isFriendWith,String messege){
         File file = new File("files/privateMesseges/" +User+ "/" +isFriendWith+ ".txt");
         try {
@@ -80,6 +100,11 @@ public class Writer {
         }
     }
 
+    /**
+     * skriver in meddelanden som inte har kunnat skickas eftersom mottagaren är offline
+     * @param userSender användaren som skickade
+     * @param message meddelandet
+     */
     public static void writeUnsentMessage(String userSender,String message){
         try{
             FileWriter fstream = new FileWriter("files/unSentMessages.txt",true);
