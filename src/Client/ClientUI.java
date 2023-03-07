@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
@@ -140,24 +138,20 @@ public class ClientUI {
         });
 
         //när man trycker på skicka
-        jsbtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                client.sendMessage(jtextInputChat.getText().trim());
-                updateChatPanel();
-            }
+        jsbtn.addActionListener(ae -> {
+            client.sendMessage(jtextInputChat.getText().trim());
+            updateChatPanel();
         });
 
         //när man skickar bild
-        sendPicture .addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                String imagePath = Client.getPicture();
-                ImageIcon imageIcon = new ImageIcon(imagePath);
-                Image image = imageIcon.getImage(); // transform it
-                Image newimg = image.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH); // scale it
-                imageIcon = new ImageIcon(newimg);
-                client.sendPicture(imageIcon);
-                updateChatPanel();
-            }
+        sendPicture .addActionListener(ae -> {
+            String imagePath = Client.getPicture();
+            ImageIcon imageIcon = new ImageIcon(imagePath);
+            Image image = imageIcon.getImage(); // transform it
+            Image newimg = image.getScaledInstance(200, 200,  Image.SCALE_SMOOTH); // scale it
+            imageIcon = new ImageIcon(newimg);
+            client.sendPicture(imageIcon);
+            updateChatPanel();
         });
 
         //sätter färger
@@ -174,13 +168,11 @@ public class ClientUI {
         jfr.setVisible(true);
 
         //när man klickar disconnect
-        jsbtndeco.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                client.disconnectPressed();
-                jsbtndeco.setEnabled(false);
-                jsbtn.setEnabled(false);
-                jtextInputChat.setEnabled(false);
-            }
+        jsbtndeco.addActionListener(ae -> {
+            client.disconnectPressed();
+            jsbtndeco.setEnabled(false);
+            jsbtn.setEnabled(false);
+            jtextInputChat.setEnabled(false);
         });
 
         //TODO ???

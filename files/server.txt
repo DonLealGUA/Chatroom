@@ -23,3 +23,9 @@
 (07/03/2023 15:13): Client: ami Received old messages
 (07/03/2023 15:13): Received message from ami@ (07/03/2023 15:13): hejj
 (07/03/2023 15:13): Client: ami Disconnected
+(07/03/2023 15:21): New Client: ami Joined
+(07/03/2023 15:21): Client: ami Received old messages
+(07/03/2023 15:21): Received message from ami@ (07/03/2023 15:21): hejj
+(07/03/2023 15:21): Received message from ami@ (07/03/2023 15:21): aaaaa
+(07/03/2023 15:21): Received Image from ami@ (07/03/2023 15:21): javax.swing.ImageIcon@611bc173
+(07/03/2023 15:21): Client: ami Disconnected

@@ -9,6 +9,8 @@ import javax.swing.filechooser.FileSystemView;
 
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -134,6 +136,7 @@ public class Client {
                     Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
                     if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
                         String message = (String) msg.getPayload();
+                        String time = getTime(); //tid meddelandet levererades till mottagaren
                         if (message != null) {
                             if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
                                 message = message.substring(1, message.length() - 1);
@@ -166,6 +169,18 @@ public class Client {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * hämtar tid just nu
+     * @return tiden just nu formaterad som string
+     */
+    public String getTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String date = "(" + dtf.format(now) + "): ";
+
+        return date;
     }
 
     /**

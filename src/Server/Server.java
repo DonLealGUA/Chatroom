@@ -246,7 +246,6 @@ public class Server {
         String date = "(" + dtf.format(now) + "): ";
 
         return date;
-
     }
 
     public void addUser(User user) {

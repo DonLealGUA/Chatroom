@@ -1,25 +1,24 @@
 package Client;
 
-import Server.User;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 
+/**
+ * Meddelande klass
+ * @param <T> vilken typ av meddelande det är
+ */
 public class Message<T extends Serializable> implements Serializable {
-    private T payload;
-    private LocalDateTime serverTime;
-    private LocalDateTime clientTime;
+    private T payload; //vad meddelandet innehåller
 
-    public Message(List<User> clients) {
-        super();
-    }
-
+    /**
+     * skapar ett meddelande objekt
+     * @param data vad meddelandet ska innehålla
+     */
     public Message(T data) {
         super();
         setPayload(data);
     }
 
+    //getter och setter
     public T getPayload() {
         return payload;
     }

@@ -4,22 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * User interface för när användaren ska logga in eller registrera sig
+ */
 public class LoginUI {
-    ClientUI clientUI;
-    JFrame frame;
-    JButton login;
-    JButton newUser;
-    int width;
-    int height;
-    JPanel mainPanel;
-    JPanel loginPanel;
-    JButton connect;
-    JTextField jtfName;
-    Client client;
-    JPanel registerPanel;
+    private final JFrame frame;
+    private final int width;
+    private final int height;
+    private final JPanel mainPanel;
+    private JButton connect;
+    private JTextField jtfName;
+    private final Client client;
 
-
+    /**
+     * skapar första sidan av GUI:t
+     * @param client klienten som vill logga in
+     */
     public LoginUI(Client client){
+        //skapar frame
         this.frame = new JFrame("Login");
         this.width = 500;
         this.height = 400;
@@ -31,15 +33,16 @@ public class LoginUI {
         mainPanel.setSize(width, height);
 
         //login button
-        login = new JButton("Login");
+        JButton login = new JButton("Login");
         login.setEnabled(true);
         login.setSize(300, 50);
         login.setLayout(null);
         login.setLocation(width/2-150, height/2);
-        login.addActionListener(l -> loginButton(client));
+        login.addActionListener(l -> loginButton());
         mainPanel.add(login);
 
-        newUser = new JButton("Register");
+        //register button
+        JButton newUser = new JButton("Register");
         newUser.setEnabled(true);
         newUser.setSize(300, 50);
         newUser.setLayout(null);
@@ -47,6 +50,7 @@ public class LoginUI {
         newUser.addActionListener(l -> registerButton());
         mainPanel.add(newUser);
 
+        //skapar frame
         frame.setPreferredSize(new Dimension(width, height));
         frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,8 +64,11 @@ public class LoginUI {
 
     }
 
-    private void loginButton(Client client) {
-        loginPanel = new JPanel();
+    /**
+     * om användaren klickade på logga in
+     */
+    private void loginButton() {
+        JPanel loginPanel = new JPanel();
         loginPanel.setLayout(null);
         loginPanel.setSize(width, height);
 
@@ -80,7 +87,7 @@ public class LoginUI {
         //connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), true));
         connect.addActionListener(l -> {
             try {
-                client.connectClicked(getUsername(), true);
+                client.connectClicked(jtfName.getText(), true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -100,8 +107,11 @@ public class LoginUI {
 
     }
 
+    /**
+     * om klienten klickade på registrera
+     */
     public void registerButton(){
-        registerPanel = new JPanel();
+        JPanel registerPanel = new JPanel();
         registerPanel.setLayout(null);
         registerPanel.setSize(width, height);
 
@@ -117,10 +127,9 @@ public class LoginUI {
         connect.setLayout(null);
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
-      //  connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), false));
         connect.addActionListener(l -> {
             try {
-                client.connectClicked(getUsername(), false);
+                client.connectClicked(jtfName.getText(), false);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -136,13 +145,10 @@ public class LoginUI {
         frame.repaint();
     }
 
-    private String getUsername() {
-        return jtfName.getText();
-    }
-
-
+    /**
+     * stäng ner frame om ingen användare med det namnet finns
+     */
     public void noUserExist() {
-
         frame.dispose();
     }
 }
