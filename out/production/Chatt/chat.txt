@@ -6,3 +6,24 @@ ami javax.swing.ImageIcon@23a88438
 aaa javax.swing.ImageIcon@34c1ed41
 ami : (05/03/2023 19:45): hej
 ami javax.swing.ImageIcon@833f385
+ami : (07/03/2023 12:49): hej
+ami : (07/03/2023 12:49): aaaa
+ami : (07/03/2023 12:50): aa
+ami : (07/03/2023 12:50): fdsfsfs
+ami : (07/03/2023 12:52): hhh
+ami : (07/03/2023 12:53): aaaaa
+ami : (07/03/2023 12:53): adadadada
+ami : (07/03/2023 12:53): aaddadadadada
+ami : (07/03/2023 12:53): adasdadadasdas
+ami : (07/03/2023 12:53): aaaa
+ami javax.swing.ImageIcon@56dd22b1
+ami : (07/03/2023 12:54): awewqeqweq
+ami : (07/03/2023 12:54): dasdadsa
+ami : (07/03/2023 12:54): asdaweqrfgreafeafdsafeasfdsada
+ami : (07/03/2023 13:25): afdsfafds
+ami : (07/03/2023 13:25): sfsdfs
+ami : (07/03/2023 13:26): aa
+ami : (07/03/2023 13:32): hejj
+ami : (07/03/2023 13:32): !!!!!
+ami : (07/03/2023 13:32): ....
+ami : (07/03/2023 13:32): måste vänta..... tills 13:33

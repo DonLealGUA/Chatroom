@@ -37,7 +37,7 @@ public class Server {
         }
 
         serverGUI.updateText("-------" + getTime() + "-------");
-        Writer.writeServerLogg("-------" + getTime() + "-------");
+       // Writer.writeServerLogg("-------" + getTime() + "-------");
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -60,7 +60,7 @@ public class Server {
 
             System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t  Host:" + client.getInetAddress().getHostAddress());
             serverGUI.updateText("New Client: " + newUser.getUsername() +" Joined");
-            Writer.writeServerLogg("New Client: " + newUser.getUsername() +" Joined");
+            Writer.writeServerLogg(getTime() + "New Client: " + newUser.getUsername() +" Joined");
 
 
             UserHandler userHandler = new UserHandler(this, client, newUser, ois, oos);
@@ -85,7 +85,7 @@ public class Server {
                 System.err.println("Error reading unsent messages file: " + e.getMessage());
             }
             serverGUI.updateText("Client: " + newUser.getUsername() +" Received old messages");
-            Writer.writeServerLogg("Client: " + newUser.getUsername() +" Received old messages");
+            Writer.writeServerLogg(getTime() + "Client: " + newUser.getUsername() +" Received old messages");
 
             // Welcome msg
             oos.writeObject(new Message<String>("<b>Welcome</b> " + newUser.toString()));
@@ -140,7 +140,7 @@ public class Server {
 
                 Writer.writeFriends(userSender.getUsername(), user);
                 serverGUI.updateText(userSender.getUsername() + " Added " + user + " as a friend");
-                Writer.writeServerLogg(userSender.getUsername() + " Added " + user + " as a friend");
+                Writer.writeServerLogg(getTime() + userSender.getUsername() + " Added " + user + " as a friend");
             }
         }
     }
@@ -169,7 +169,7 @@ public class Server {
             }
         }
         serverGUI.updateText(userSender.getUsername() + " sent the message " + msg + " to " + user);
-        Writer.writeServerLogg(userSender.getUsername() + " sent the message " + msg + " to " + user);
+        Writer.writeServerLogg(getTime() + userSender.getUsername() + " sent the message " + msg + " to " + user);
         Writer.writePrivatChat(String.valueOf(userSender),user,msg);
         if (!find) {
             try {
@@ -207,8 +207,8 @@ public class Server {
                 e.printStackTrace();
             }
         }
-        serverGUI.updateText("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() +": " + msg);
-        Writer.writeServerLogg("Received message from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() +": " + msg);
+        serverGUI.updateText("Received message from " + userSender.getUsername() + "@ " + getTime() + msg);
+        Writer.writeServerLogg(getTime() + "Received message from " + userSender.getUsername() + "@ " + getTime() + msg);
         Writer.writeChat(userSender.getUsername(),message);
     }
 
@@ -226,8 +226,8 @@ public class Server {
                 e.printStackTrace();
             }
         }
-        serverGUI.updateText("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
-        Writer.writeServerLogg("Received Image from " + userSender.getUsername() + "@ " + getTime() + "\n" + userSender.toString() + image.toString());
+        serverGUI.updateText("Received Image from " + userSender.getUsername() + "@ " + getTime() + image.toString());
+        Writer.writeServerLogg(getTime() + "Received Image from " + userSender.getUsername() + "@ " + getTime() + image.toString());
         Writer.writeChat(userSender.getUsername(),image.toString());
     }
 
@@ -237,7 +237,7 @@ public class Server {
         this.clients.remove(user);
         broadcastAllUsers();
         serverGUI.updateText("Client: " + user.getUsername() +" Disconnected");
-        Writer.writeServerLogg("Client: " + user.getUsername() +" Disconnected");
+        Writer.writeServerLogg(getTime() + "Client: " + user.getUsername() +" Disconnected");
     }
 
 
@@ -253,4 +253,5 @@ public class Server {
     public void addUser(User user) {
         this.clients.add(user);
     }
+
 }

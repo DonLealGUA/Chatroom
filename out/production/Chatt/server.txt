@@ -1,36 +1,10 @@
--------(05/03/2023 19:42): -------
-New Client: ami Joined
-Client: ami Received old messages
-New Client: aaa Joined
-Client: aaa Received old messages
-Received Image from aaa@ (05/03/2023 19:42): 
-aaajavax.swing.ImageIcon@a01eef7
-Received Image from aaa@ (05/03/2023 19:42): 
-aaajavax.swing.ImageIcon@3baedd98
--------(05/03/2023 19:43): -------
-New Client: aaa Joined
-Client: aaa Received old messages
-New Client: ami Joined
-Client: ami Received old messages
-Received Image from aaa@ (05/03/2023 19:44): 
-aaajavax.swing.ImageIcon@3fba61c7
-Client: ami Disconnected
-Client: aaa Disconnected
--------(05/03/2023 19:44): -------
-New Client: ami Joined
-Client: ami Received old messages
-New Client: aaa Joined
-Client: aaa Received old messages
-Received Image from aaa@ (05/03/2023 19:45): 
-aaajavax.swing.ImageIcon@31749d33
-Received Image from ami@ (05/03/2023 19:45): 
-amijavax.swing.ImageIcon@23a88438
-Received Image from aaa@ (05/03/2023 19:45): 
-aaajavax.swing.ImageIcon@34c1ed41
-Received message from ami@ (05/03/2023 19:45): 
-ami: hej
-Received Image from ami@ (05/03/2023 19:45): 
-amijavax.swing.ImageIcon@833f385
-Client: aaa Disconnected
-Client: ami Disconnected
--------(07/03/2023 12:39): -------
+(07/03/2023 12:23): New Client: ami Joined
+(07/03/2023 12:23): Client: ami Received old messages
+(07/03/2023 12:25): Received message from ami@ (07/03/2023 13:32): hejj
+(07/03/2023 12:27): Received message from ami@ (07/03/2023 13:32): !!!!!
+(07/03/2023 12:32): Received message from ami@ (07/03/2023 13:32): ....
+(07/03/2023 13:32): Received message from ami@ (07/03/2023 13:32): måste vänta..... tills 13:33
+(07/03/2023 13:32): Received message from ami@ (07/03/2023 13:32): hejj
+(07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): !!!!!
+(07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): ....
+(07/03/2023 13:33): Received message from ami@ (07/03/2023 13:32): måste vänta..... tills 13:33
