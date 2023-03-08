@@ -246,7 +246,6 @@ public class Server {
         }
         serverGUI.updateText("Received message from " + userSender.getUsername() + "@ " + getTime() + msg);
         Writer.writeServerLogg(getTime() + "Received message from " + userSender.getUsername() + "@ " + getTime() + msg);
-        Writer.writeChat(userSender.getUsername(),message);
     }
 
     /**
@@ -272,7 +271,6 @@ public class Server {
         }
         serverGUI.updateText("Received Image from " + userSender.getUsername() + "@ " + getTime() + image.toString());
         Writer.writeServerLogg(getTime() + "Received Image from " + userSender.getUsername() + "@ " + getTime() + image.toString());
-        Writer.writeChat(userSender.getUsername(),image.toString());
     }
 
 

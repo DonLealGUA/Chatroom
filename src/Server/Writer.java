@@ -8,22 +8,6 @@ import java.io.FileWriter;
  * Writer-klass som skriver till textfiler
  */
 public class Writer {
-    /**
-     * skriver alla meddelanden som skickas till chat-textfilen
-     * @param User
-     * @param message
-     */
-    //TODO vi läser aldrig från den filen så osäker om denna metod behövs
-    public static void writeChat(String User, String message){
-        try{
-            FileWriter fstream = new FileWriter("files/chat.txt",true);
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(User + " " + message +"\n");
-            out.close();
-        }catch (Exception e){
-            System.err.println("Error while writing to file: " + e.getMessage());
-        }
-    }
 
     /**
      * Skriver allt som händer i chatten till textfilen server. T.ex om en användare kopplat upp sig eller skickat ett meddelande
