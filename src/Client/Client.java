@@ -2,7 +2,6 @@ package Client;
 
 import Server.Reader;
 import Server.User;
-import Server.Writer;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -46,12 +45,25 @@ public class Client {
      */
     public void connectClicked(String username, boolean login) throws IOException {
         this.name = username;
+        ImageIcon imageIcon = null;
+        boolean userValid = false;
 
-        ImageIcon imageIcon;
         if (!login){ //om klienten inte tryck på logga in ska klienten välja en bild som profilbild
             imageIcon = new ImageIcon(getPicture());
+            userValid = true;
+        }else { //om användaren valt att logga in
+            if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registrerade användare
+                imageIcon = (ImageIcon) Reader.readUsers().get(username);
+                userValid = true;
+            }else{ //skriver om ingen användare finns registrerad
+                JOptionPane.showMessageDialog(null, "No user with the name " + username + " is registered.", "Login", JOptionPane.INFORMATION_MESSAGE);
+                loginUI.noUserExist();
+                new LoginUI(this);
+            }
+        }
+
+        if (userValid) {
             this.clientUI = new ClientUI(this, username); //skapar ett user interface för klienten
-            clientUI.updateImageIcon(imageIcon); //uppdaterar klientens profilbild
 
             socket = new Socket(IP, PORT); //startar socket
             clientUI.writeConnectMessage(socket);
@@ -60,50 +72,15 @@ public class Client {
             this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
-            //Skriver in användaren till filen med registrerade användare
-            //Writer.writeAddUser(username, imageIcon);
-
             //skickar användaren till servern
             oos.writeObject(new Message<>(new User(name, imageIcon)));
             oos.flush();
 
+            //uppdaterar klientens profilbild
+            clientUI.updateImageIcon(imageIcon);
+
             startConnection(username);
         }
-
-        if (login){ //om användaren valt att logga in
-            if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registrerade användare
-                ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
-
-                //TODO kan jag ta bort?
-                if (temp == null) {
-                    imageIcon = new ImageIcon("files/Stockx_logo.png");
-                }
-
-                this.clientUI = new ClientUI(this, username); //Skapar ett UI för klienten
-
-                socket = new Socket(IP, PORT); //startar socket
-                clientUI.writeConnectMessage(socket);
-
-                //ObjectOutputStream och ObjectInputStream som används för att läsa och skriva till servern
-                this.oos = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-
-                //skickar användaren till servern
-                oos.writeObject(new Message<>(new User(name, temp)));
-                oos.flush();
-
-                //uppdaterar klientens profilbild
-                clientUI.updateImageIcon(temp);
-
-                startConnection(username);
-            }else{ //skriver om ingen användare finns registrerad
-                JOptionPane.showMessageDialog(null, "No user with the name " + username + " is registered.", "Login", JOptionPane.INFORMATION_MESSAGE);
-                loginUI.noUserExist();
-                new LoginUI(this);
-            }
-
-        }
-
     }
 
     /**
@@ -214,6 +191,28 @@ public class Client {
 
     }
 
+    public void updateUsers(){
+        clientUI.updateUsers();
+    }
+
+    public void updateUsersFriendsMessage(String user){
+        clientUI.updateUsersFriendsMessage(user);
+    }
+
+    public void updateUsersPane(String user){
+        clientUI.updateUsersPane(user);
+    }
+
+    public void updateUsersMessage(String newMessage){
+        clientUI.updateUsersMessage(newMessage);
+    }
+
+    public void updateImage(ImageIcon imageIcon){
+        clientUI.updateImage(imageIcon);
+    }
+
+
+
     /**
      * En inre klass som extends Thread och läser meddelanden som den får av servern
      */
@@ -222,7 +221,7 @@ public class Client {
         public void run() {
             try {
                 while (socket.isConnected()) {
-                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
+                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern //TODO här blir det error när socket stänger ibland
                     if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
                         String message = (String) msg.getPayload();
                         String time = getTime(); //tid meddelandet levererades till mottagaren
@@ -232,29 +231,28 @@ public class Client {
                                 ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
                                 //läser vilka vänner användaren har och uppdaterar GUI:t
                                 ArrayList<List<String>> Friends = Reader.readFriends();
-                                clientUI.updateUsers();
+                                updateUsers();
                                 for (String user : ListUser) { //går igenom varje sträng i listUser
                                     boolean isFriend = false;
                                     for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
                                         if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
+                                            updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
                                             isFriend = true;
                                             break;
                                         }
                                     }
                                     if (!isFriend) {
-                                        clientUI.updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                                        updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
                                     }
                                 }
                             } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
-                                clientUI.updateUsersMessage(newMessage);
+                                updateUsersMessage(newMessage);
                                 Message<String> timeMsg = new Message<>(time); // create a new message containing the time
                                 oos.writeObject(timeMsg); // send the time message back to the server
-
                             }
                         }
                     } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
-                        clientUI.updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
+                        updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
                         System.out.println(getTime());
                        // sendMessage("|" + getTime());
                     }

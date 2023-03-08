@@ -84,7 +84,6 @@ public class LoginUI {
         connect.setLayout(null);
         connect.setSize(400, 40);
         connect.setLocation(width/2-200, height/2);
-        //connect.addActionListener(l -> clientUI = new ClientUI(client, getUsername(), true));
         connect.addActionListener(l -> {
             try {
                 client.connectClicked(jtfName.getText(), true);

@@ -761,3 +761,77 @@ Client received message at 08/03/2023 14:55
 (08/03/2023 14:57): New Client: aaami Joined
 (08/03/2023 14:57): Client: aaami Received old messages
 (08/03/2023 14:57): Client: aaami Disconnected
+(08/03/2023 14:57): New Client: aaami Joined
+(08/03/2023 14:57): Client: aaami Received old messages
+(08/03/2023 14:58): Client: aaami Disconnected
+(08/03/2023 15:18): New Client: amidala Joined
+(08/03/2023 15:18): Client: amidala Received old messages
+(08/03/2023 15:18): New Client: amidala Joined
+(08/03/2023 15:18): Client: amidala Received old messages
+Client received message at 08/03/2023 15:18
+Client received message at 08/03/2023 15:18
+Client received message at 08/03/2023 15:18
+(08/03/2023 15:18): Received message from amidala@ (08/03/2023 15:18): hej
+(08/03/2023 15:18): New Client: ami Joined
+(08/03/2023 15:18): Client: ami Received old messages
+Client received message at 08/03/2023 15:18
+Client received message at 08/03/2023 15:18
+Client received message at 08/03/2023 15:18
+(08/03/2023 15:18): Received message from ami@ (08/03/2023 15:18): /msg amidala hej
+Client received message at 08/03/2023 15:18
+(08/03/2023 15:18): ami sent the message hej to amidala
+(08/03/2023 15:19): Client: ami Disconnected
+(08/03/2023 15:19): Client: amidala Disconnected
+(08/03/2023 15:19): Client: amidala Disconnected
+(08/03/2023 17:03): New Client: amidala Joined
+(08/03/2023 17:03): Client: amidala Received old messages
+(08/03/2023 17:03): Client: amidala Disconnected
+(08/03/2023 17:07): New Client: adadaa Joined
+(08/03/2023 17:07): Client: adadaa Received old messages
+(08/03/2023 17:07): Client: adadaa Disconnected
+(08/03/2023 17:08): New Client: amidala Joined
+(08/03/2023 17:08): Client: amidala Received old messages
+(08/03/2023 17:09): New Client: testt Joined
+(08/03/2023 17:09): Client: testt Received old messages
+(08/03/2023 17:09): New Client: test2 Joined
+(08/03/2023 17:09): Client: test2 Received old messages
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+(08/03/2023 17:09): Received message from test2@ (08/03/2023 17:09): hejjj
+Client received message at 08/03/2023 17:08
+Client received message at 08/03/2023 17:08
+Client received message at 08/03/2023 17:08
+Client received message at 08/03/2023 17:09
+(08/03/2023 17:09): Received message from amidala@ (08/03/2023 17:09): hej
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+Client received message at 08/03/2023 17:09
+(08/03/2023 17:09): Received Image from testt@ (08/03/2023 17:09): javax.swing.ImageIcon@734037d5
+(08/03/2023 17:09): Client: test2 Disconnected
+(08/03/2023 17:10): Client: amidala Disconnected
+(08/03/2023 17:10): Client: testt Disconnected
+(08/03/2023 17:50): New Client: testt Joined
+(08/03/2023 17:50): Client: testt Received old messages
+Client received message at 08/03/2023 17:50
+Client received message at 08/03/2023 17:50
+Client received message at 08/03/2023 17:50
+(08/03/2023 17:50): Received message from testt@ (08/03/2023 17:50): hejj
+(08/03/2023 17:50): New Client: adasda Joined
+(08/03/2023 17:50): Client: adasda Received old messages
+(08/03/2023 17:55): New Client: testt Joined
+(08/03/2023 17:55): Client: testt Received old messages
+Client received message at 08/03/2023 17:55
+Client received message at 08/03/2023 17:55
+Client received message at 08/03/2023 17:55
+(08/03/2023 17:55): Received message from testt@ (08/03/2023 17:55): aaaa
+(08/03/2023 17:55): Client: testt Disconnected
+(08/03/2023 17:55): New Client: ami Joined
+(08/03/2023 17:55): Client: ami Received old messages
+Client received message at 08/03/2023 17:55
+Client received message at 08/03/2023 17:55
+Client received message at 08/03/2023 17:55
+(08/03/2023 17:55): Received message from ami@ (08/03/2023 17:55): hrjj
+(08/03/2023 17:55): Client: ami Disconnected

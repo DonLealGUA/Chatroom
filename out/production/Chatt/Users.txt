@@ -2,6 +2,10 @@ ami C:\Users\amida\OneDrive\Skrivbord\a.jpg
 aaa C:\Users\amida\OneDrive\Skrivbord\c.jpg
 krisse files/Stockx_logo.png
 test files/Stockx_logo.png
-amidala C:\Users\amida\Downloads\2020_11_07_blue-among-us-15696051.pngamitest C:\Users\amida\OneDrive\Skrivbord\c.jpg
+amidala C:\Users\amida\Downloads\2020_11_07_blue-among-us-15696051.png
 amitest C:\Users\amida\OneDrive\Skrivbord\c.jpg
 aaami C:\Users\amida\OneDrive\Skrivbord\a.jpg
+adadaa C:\Users\amida\OneDrive\Skrivbord\c.jpg
+testt C:\Users\amida\OneDrive\Skrivbord\a.jpg
+test2 C:\Users\amida\OneDrive\Skrivbord\b.jpg
+adasda null
