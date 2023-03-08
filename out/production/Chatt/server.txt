@@ -714,3 +714,43 @@ Client received message at 08/03/2023 12:29
 (08/03/2023 12:29): Received message from ami@ (08/03/2023 12:29): !!!
 (08/03/2023 12:31): New Client: ami Joined
 (08/03/2023 12:31): Client: ami Received old messages
+(08/03/2023 12:31): New Client: amidala Joined
+(08/03/2023 12:31): Client: amidala Received old messages
+(08/03/2023 14:50): New Client: ami Joined
+(08/03/2023 14:50): Client: ami Received old messages
+Client received message at 08/03/2023 14:50
+Client received message at 08/03/2023 14:50
+Client received message at 08/03/2023 14:50
+(08/03/2023 14:50): Received message from ami@ (08/03/2023 14:50): hejj
+(08/03/2023 14:50): New Client: amidala Joined
+(08/03/2023 14:50): Client: amidala Received old messages
+Client received message at 08/03/2023 14:50
+Client received message at 08/03/2023 14:50
+Client received message at 08/03/2023 14:50
+(08/03/2023 14:51): Received message from amidala@ (08/03/2023 14:51): aaaaaa
+Client received message at 08/03/2023 14:50
+Client received message at 08/03/2023 14:51
+(08/03/2023 14:51): Received message from ami@ (08/03/2023 14:51): !!
+Client received message at 08/03/2023 14:51
+(08/03/2023 14:51): Received Image from ami@ (08/03/2023 14:51): javax.swing.ImageIcon@2a74d1f0
+(08/03/2023 14:51): Client: amidala Disconnected
+(08/03/2023 14:51): Client: ami Disconnected
+(08/03/2023 14:54): New Client: amidala Joined
+(08/03/2023 14:54): Client: amidala Received old messages
+(08/03/2023 14:55): Client: amidala Disconnected
+(08/03/2023 14:55): New Client: amidala Joined
+(08/03/2023 14:55): Client: amidala Received old messages
+Client received message at 08/03/2023 14:55
+Client received message at 08/03/2023 14:55
+Client received message at 08/03/2023 14:55
+(08/03/2023 14:55): Received message from amidala@ (08/03/2023 14:55): hejj
+(08/03/2023 14:55): Client: amidala Disconnected
+(08/03/2023 14:55): New Client: amitest Joined
+(08/03/2023 14:55): Client: amitest Received old messages
+Client received message at 08/03/2023 14:55
+Client received message at 08/03/2023 14:55
+Client received message at 08/03/2023 14:55
+(08/03/2023 14:55): Received message from amitest@ (08/03/2023 14:55): hej
+(08/03/2023 14:56): Client: amitest Disconnected
+(08/03/2023 14:56): New Client: amitest Joined
+(08/03/2023 14:56): Client: amitest Received old messages

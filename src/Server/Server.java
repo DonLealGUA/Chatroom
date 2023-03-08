@@ -73,6 +73,11 @@ public class Server {
             Message<?> readObject = (Message<?>) ois.readObject();
             User newUser = (User) readObject.getPayload();
 
+            //Skriver in användaren till filen med registrerade användare om den inte redan finns med
+            if (!Reader.readIfUserExist(newUser.getUsername())){
+                Writer.writeAddUser(newUser.getUsername(), newUser.getImageIcon());
+            }
+
             //Skriver ut i consol & serverGUI att en client har anslutit sig till servern
             System.out.println("New Client: \"" + newUser.getUsername() + "\"\n\t  Host:" + client.getInetAddress().getHostAddress());
             serverGUI.updateText("New Client: " + newUser.getUsername() +" Joined");
