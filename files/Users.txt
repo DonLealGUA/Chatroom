@@ -4,4 +4,4 @@ krisse files/Stockx_logo.png
 test files/Stockx_logo.png
 amidala C:\Users\amida\Downloads\2020_11_07_blue-among-us-15696051.pngamitest C:\Users\amida\OneDrive\Skrivbord\c.jpg
 amitest C:\Users\amida\OneDrive\Skrivbord\c.jpg
-amitest C:\Users\amida\OneDrive\Skrivbord\a.jpg
+aaami C:\Users\amida\OneDrive\Skrivbord\a.jpg

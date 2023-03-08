@@ -754,3 +754,10 @@ Client received message at 08/03/2023 14:55
 (08/03/2023 14:56): Client: amitest Disconnected
 (08/03/2023 14:56): New Client: amitest Joined
 (08/03/2023 14:56): Client: amitest Received old messages
+(08/03/2023 14:56): New Client: amitest Joined
+(08/03/2023 14:56): Client: amitest Received old messages
+(08/03/2023 14:56): Client: amitest Disconnected
+(08/03/2023 14:56): Client: amitest Disconnected
+(08/03/2023 14:57): New Client: aaami Joined
+(08/03/2023 14:57): Client: aaami Received old messages
+(08/03/2023 14:57): Client: aaami Disconnected

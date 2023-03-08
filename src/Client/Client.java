@@ -61,7 +61,7 @@ public class Client {
             this.ois = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
             //Skriver in användaren till filen med registrerade användare
-            Writer.writeAddUser(username, imageIcon);
+            //Writer.writeAddUser(username, imageIcon);
 
             //skickar användaren till servern
             oos.writeObject(new Message<>(new User(name, imageIcon)));
