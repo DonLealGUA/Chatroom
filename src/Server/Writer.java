@@ -2,9 +2,7 @@ package Server;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Writer-klass som skriver till textfiler
