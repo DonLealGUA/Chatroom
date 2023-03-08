@@ -660,3 +660,57 @@
 (07/03/2023 21:07): Received message from krisse@ (07/03/2023 21:07): (07/03/2023 21:07)
 (07/03/2023 21:07): Received message from krisse@ (07/03/2023 21:07): (07/03/2023 21:07)
 (07/03/2023 21:07): Received message from krisse@ (07/03/2023 21:07): hej
+(07/03/2023 21:14): New Client: krisse Joined
+(07/03/2023 21:14): Client: krisse Received old messages
+(07/03/2023 21:15): Received message from krisse@ (07/03/2023 21:15): hej
+(07/03/2023 21:15): Received message from krisse@ (07/03/2023 21:15): hej
+(07/03/2023 21:15): Received message from krisse@ (07/03/2023 21:15): hej
+(07/03/2023 21:15): Client: krisse Disconnected
+(08/03/2023 12:26): New Client: ami Joined
+(08/03/2023 12:26): Client: ami Received old messages
+Client received message at 08/03/2023 12:26
+Client received message at 08/03/2023 12:26
+Client received message at 08/03/2023 12:26
+(08/03/2023 12:26): Received Image from ami@ (08/03/2023 12:26): javax.swing.ImageIcon@54b43456
+Client received message at 08/03/2023 12:26
+(08/03/2023 12:26): Received message from ami@ (08/03/2023 12:26): hrjjj
+(08/03/2023 12:26): Client: ami Disconnected
+(08/03/2023 12:28): New Client: amidala Joined
+(08/03/2023 12:28): Client: amidala Received old messages
+Client received message at 08/03/2023 12:28
+Client received message at 08/03/2023 12:28
+Client received message at 08/03/2023 12:28
+(08/03/2023 12:28): Received message from amidala@ (08/03/2023 12:28): aaaaaa
+Client received message at 08/03/2023 12:28
+(08/03/2023 12:28): Received message from amidala@ (08/03/2023 12:28): hejjjjjj
+(08/03/2023 12:28): New Client: ami Joined
+(08/03/2023 12:28): Client: ami Received old messages
+(08/03/2023 12:28): Client: amidala Disconnected
+(08/03/2023 12:29): New Client: amidala Joined
+(08/03/2023 12:29): Client: amidala Received old messages
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): amidala Added ami as a friend
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): Received message from amidala@ (08/03/2023 12:29): hejjj
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): Received message from amidala@ (08/03/2023 12:29): !!!!!!!!!!!!
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): Received Image from amidala@ (08/03/2023 12:29): javax.swing.ImageIcon@6af20305
+Client received message at 08/03/2023 12:28
+Client received message at 08/03/2023 12:28
+Client received message at 08/03/2023 12:28
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): ami sent the message hek to amidala
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): amidala sent the message hejj to ami
+Client received message at 08/03/2023 12:29
+Client received message at 08/03/2023 12:29
+(08/03/2023 12:29): Received message from ami@ (08/03/2023 12:29): !!!
+(08/03/2023 12:31): New Client: ami Joined
+(08/03/2023 12:31): Client: ami Received old messages

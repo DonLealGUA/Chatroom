@@ -17,7 +17,6 @@ public class ClientUI {
     private final JTextField jtextInputChat = new JTextField(); //där användare skriver in meddelande
     private final JLabel jLabelUsername;
     private final JPanel image;
-    private String oldMsg = "";
 
     /**
      * Startar upp GUI:t
@@ -117,22 +116,7 @@ public class ClientUI {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     client.sendMessage(jtextInputChat.getText().trim());
-                    setOldMsg(jtextInputChat.getText().trim());
                     updateChatPanel();
-                }
-
-                //TODO onödig funktion, visste inte att det fanns, ta bort??
-                //Get last message typed
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    String currentMessage = jtextInputChat.getText().trim();
-                    jtextInputChat.setText(oldMsg);
-                    oldMsg = currentMessage;
-                }
-                //TODO onödig funktion, visste inte att det fanns, ta bort??
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    String currentMessage = jtextInputChat.getText().trim();
-                    jtextInputChat.setText(oldMsg);
-                    oldMsg = currentMessage;
                 }
             }
         });
@@ -193,17 +177,6 @@ public class ClientUI {
     }
 
     /**
-     * detta händer när man trycker disconnect men tror vi kan ta bort
-     */
-    //TODO ta bort kanske
-    public void disconnectUpdate() {
-        jtextListUsers.setText(null);
-        jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
-        jtextListUsers.setBackground(Color.LIGHT_GRAY);
-        appendToPane(jtextFilDiscu, "Connection closed.",Color.black);
-    }
-
-    /**
      * uppdaterar det man skrivit i chatten så det försvinner
      */
     public void updateChatPanel() {
@@ -250,14 +223,6 @@ public class ClientUI {
     public void updateUsersFriendsMessage(String user) {
         appendToPane(jtextListUsers, "@" + user,Color.ORANGE);
         jtextListUsers.setForeground(Color.BLUE);
-    }
-
-    /**
-     * kan nog ta bort
-     */
-    //TODO ta bort?
-    public void setOldMsg(String message) {
-        this.oldMsg = message;
     }
 
     /**

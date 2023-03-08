@@ -8610,3 +8610,11 @@ krisse : (07/03/2023 21:07): hej
 krisse : (07/03/2023 21:15): hej
 krisse : (07/03/2023 21:15): hej
 krisse : (07/03/2023 21:15): hej
+ami javax.swing.ImageIcon@54b43456
+ami : (08/03/2023 12:26): hrjjj
+amidala : (08/03/2023 12:28): aaaaaa
+amidala : (08/03/2023 12:28): hejjjjjj
+amidala : (08/03/2023 12:29): hejjj
+amidala : (08/03/2023 12:29): !!!!!!!!!!!!
+amidala javax.swing.ImageIcon@6af20305
+ami : (08/03/2023 12:29): !!!

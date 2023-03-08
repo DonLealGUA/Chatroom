@@ -2,3 +2,4 @@ ami C:\Users\amida\OneDrive\Skrivbord\a.jpg
 aaa C:\Users\amida\OneDrive\Skrivbord\c.jpg
 krisse files/Stockx_logo.png
 test files/Stockx_logo.png
+amidala C:\Users\amida\Downloads\2020_11_07_blue-among-us-15696051.png

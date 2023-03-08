@@ -27,6 +27,7 @@ public class Client {
     private ClientUI clientUI;
     private final LoginUI loginUI;
 
+
     /**
      * Sparar IP och PORT. Startar ett GUI där klienten ska logga in eller registrera sig
      */
@@ -73,7 +74,7 @@ public class Client {
             if (Reader.readIfUserExist(username)){ //kollar om användarnamnet finns bland registrerade användare
                 ImageIcon temp = (ImageIcon) Reader.readUsers().get(username);
 
-                //TODO vet inte vad som händer, får en default bild om det inte finns nån?
+                //TODO kan jag ta bort?
                 if (temp == null) {
                     imageIcon = new ImageIcon("files/Stockx_logo.png");
                 }
@@ -236,7 +237,7 @@ public class Client {
                                     boolean isFriend = false;
                                     for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
                                         if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med blå färg om de är vänner
+                                            clientUI.updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
                                             isFriend = true;
                                             break;
                                         }

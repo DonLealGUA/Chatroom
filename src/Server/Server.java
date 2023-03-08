@@ -303,9 +303,5 @@ public class Server {
         return serverGUI;
     }
 
-    //todo Ta bort?
-    public void addUser(User user) {
-        this.clients.add(user);
-    }
 
 }
