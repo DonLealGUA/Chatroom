@@ -56,9 +56,7 @@ public class UserHandler implements Runnable {
                         }
                     }else if(message.startsWith("/add")){
                         if (message.contains(" ")){
-                            System.out.println("add friend " + message);
                             String userPrivate = message.substring(5);
-                            System.out.println(userPrivate + " userprivate");
                             String msg = user + " added you to their contacts. Type /add " + user + " to add them to your contacts";
                             server.sendFriendRequestToUser(msg, user, userPrivate);
                          }

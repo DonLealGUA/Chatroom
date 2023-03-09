@@ -144,7 +144,6 @@ public class Client {
     /**
      * när en klient trycker på disconnect
      */
-//TODO vet inte hur man gör så klienten disconnectar på bra sätt 😢😢😢😢😢😢
     public void disconnectPressed() {
         try {
             if (socket != null) {
@@ -160,7 +159,7 @@ public class Client {
                 read.interrupt();
             }
         } catch (IOException e) {
-            // handle the exception
+            System.exit(0); //TODO jag la till den nyss, testa
         }
     }
 
@@ -213,13 +212,16 @@ public class Client {
         clientUI.updateImage(imageIcon);
     }
 
+    /**
+     * lyssnar på meddelanden från servern via ObjectInputStream
+     */
     public void listenForMessages(){
         new Thread(new Runnable(){
             @Override
             public void run() {
                 try {
                     while (socket.isConnected()) {
-                        Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern //TODO här blir det error när socket stänger ibland
+                        Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern
                         if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
                             String message = (String) msg.getPayload();
                             String time = getTime(); //tid meddelandet levererades till mottagaren
@@ -261,56 +263,6 @@ public class Client {
             }
         }).start();
     }
-
-    /**
-     * En inre klass som extends Thread och läser meddelanden som den får av servern
-     */
-   /* class Read extends Thread {
-        @Override
-        public void run() {
-            try {
-                while (socket.isConnected()) {
-                    Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern //TODO här blir det error när socket stänger ibland
-                    if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
-                        String message = (String) msg.getPayload();
-                        String time = getTime(); //tid meddelandet levererades till mottagaren
-                        if (message != null) {
-                            if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
-                                message = message.substring(1, message.length() - 1);
-                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
-                                //läser vilka vänner användaren har och uppdaterar GUI:t
-                                ArrayList<List<String>> Friends = Reader.readFriends();
-                                updateUsers();
-                                for (String user : ListUser) { //går igenom varje sträng i listUser
-                                    boolean isFriend = false;
-                                    for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
-                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                            updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
-                                            isFriend = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!isFriend) {
-                                        updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
-                                    }
-                                }
-                            } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
-                                updateUsersMessage(newMessage);
-                                Message<String> timeMsg = new Message<>(time); // create a new message containing the time
-                                oos.writeObject(timeMsg); // send the time message back to the server
-                            }
-                        }
-                    } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
-                        updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
-                        System.out.println(getTime());
-                       // sendMessage("|" + getTime());
-                    }
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 
     /**
      * main metod för att starta en ny klient

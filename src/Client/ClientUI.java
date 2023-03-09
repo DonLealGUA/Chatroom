@@ -67,23 +67,14 @@ public class ClientUI {
         jLabelUsername.setHorizontalAlignment(JLabel.LEFT);
         jtextUserInfo.add(jLabelUsername);
 
-        //everyone knappen
-        //TODO ska detta bort? den gör inget
-        JButton everyoneButton = new JButton("Everyone");
-        everyoneButton.setEnabled(true);
-        everyoneButton.setLayout(null);
-        everyoneButton.setLocation(520,75);
-        everyoneButton.setSize(156, 50);
-        jfr.add(everyoneButton);
-
         //användarlista
-        jtextListUsers.setBounds(520, 125, 156, 220);
+        jtextListUsers.setBounds(520, 75, 156, 270);
         jtextListUsers.setEditable(true);
         jtextListUsers.setFont(font);
         jtextListUsers.setMargin(new Insets(6, 6, 6, 6));
         jtextListUsers.setEditable(false);
         JScrollPane jsplistuser = new JScrollPane(jtextListUsers);
-        jsplistuser.setBounds(520, 125, 156, 220);
+        jsplistuser.setBounds(520, 75, 156, 270);
         jtextListUsers.setContentType("text/html");
         jtextListUsers.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 
@@ -138,11 +129,6 @@ public class ClientUI {
             updateChatPanel();
         });
 
-        //sätter färger
-        //TODO kan man ta bort det här?
-        jtextFilDiscu.setBackground(Color.LIGHT_GRAY);
-        jtextListUsers.setBackground(Color.LIGHT_GRAY);
-        jtextUserInfo.setBackground(Color.LIGHT_GRAY);
 
         //lägger till saker på frame
         jfr.add(jtextFilDiscuSP);
@@ -159,7 +145,7 @@ public class ClientUI {
             jtextInputChat.setEnabled(false);
         });
 
-        //TODO ???
+        //lägger till alla knappar och sätter färg
         try {
             updateUsername(newUsername);
             jfr.add(jsbtn);

@@ -119,3 +119,5 @@
 (09/03/2023 13:23)Client received message at 
 (09/03/2023 13:24): amidala2 sent the message hej to amidala2
 (09/03/2023 13:24): Client: amidala2 Disconnected
+(09/03/2023 13:24): Client: testarigen Disconnected
+(09/03/2023 13:24): Client: amidala123 Disconnected

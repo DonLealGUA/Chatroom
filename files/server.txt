@@ -121,3 +121,6 @@
 (09/03/2023 13:24): Client: amidala2 Disconnected
 (09/03/2023 13:24): Client: testarigen Disconnected
 (09/03/2023 13:24): Client: amidala123 Disconnected
+(09/03/2023 14:07): New Client: amidala123 Joined
+(09/03/2023 14:07): Client: amidala123 Received old messages
+(09/03/2023 14:07): Client: amidala123 Disconnected
