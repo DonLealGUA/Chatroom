@@ -67,7 +67,7 @@ public class LoginUI {
     /**
      * om användaren klickade på logga in
      */
-    private void loginButton() {
+    public void loginButton() {
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(null);
         loginPanel.setSize(width, height);

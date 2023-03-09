@@ -73,7 +73,7 @@ public class ServerGUI extends JFrame {
      * @param startDate start-tidpunkt
      * @param endDate slut-tidpunkt
      */
-    private void showMessages(String startDate, String endDate) {
+    public void showMessages(String startDate, String endDate) {
         JFrame messageFrame = new JFrame();
         messageFrame.setLayout(null);
         messageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -95,7 +95,7 @@ public class UserHandler implements Runnable {
      * @param socket socket.
      * @param ois ObjectInputStream.
      */
-    private void closeEverything(Socket socket, ObjectInputStream ois) {
+    public void closeEverything(Socket socket, ObjectInputStream ois) {
         try {
             server.removeUser(user);
         } catch (IOException e) {

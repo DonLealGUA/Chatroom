@@ -55,7 +55,7 @@ public class Server {
      * Kollar även ifall den nya användaren har meddelanden som väntar på dem och skickar dem till användaren ifall de har väntande meddelanden.
      * Uppdaterar även serverGUI samt skriver ner det i serverlogg.txt.
      */
-    private void start() throws IOException, ClassNotFoundException {
+    public void start() throws IOException, ClassNotFoundException {
         ServerSocket server = new ServerSocket(port);
         System.out.println("Port" + port + " is now open.");
 
