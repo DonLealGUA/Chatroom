@@ -67,7 +67,7 @@ public class UserHandler implements Runnable {
                         int start = message.indexOf("(") + 1;
                         int end = message.indexOf(")");
                         String timestamp = message.substring(start, end);
-                        Writer.writeServerLogg("Client received message at " + timestamp);
+                        Writer.writeServerLogg("(" + timestamp + ")" + "Client received message at ");
                         server.getServerGUI().updateText("Client received message at " + timestamp);
                     }else{
                         // update user list

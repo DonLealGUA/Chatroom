@@ -99,8 +99,10 @@ public class Client {
         }
 
         //startar tråden som läser meddelanden
-        read = new Read();
-        read.start();
+        //read = new Read();
+        //read.start();
+
+        listenForMessages();
     }
 
     /**
@@ -211,12 +213,59 @@ public class Client {
         clientUI.updateImage(imageIcon);
     }
 
-
+    public void listenForMessages(){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    while (socket.isConnected()) {
+                        Message<?> msg = (Message<?>) ois.readObject(); //hämtar meddelande från servern //TODO här blir det error när socket stänger ibland
+                        if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
+                            String message = (String) msg.getPayload();
+                            String time = getTime(); //tid meddelandet levererades till mottagaren
+                            if (message != null) {
+                                if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
+                                    message = message.substring(1, message.length() - 1);
+                                    ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
+                                    //läser vilka vänner användaren har och uppdaterar GUI:t
+                                    ArrayList<List<String>> Friends = Reader.readFriends();
+                                    updateUsers();
+                                    for (String user : ListUser) { //går igenom varje sträng i listUser
+                                        boolean isFriend = false;
+                                        for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
+                                            if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
+                                                updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
+                                                isFriend = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!isFriend) {
+                                            updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                                        }
+                                    }
+                                } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
+                                    updateUsersMessage(newMessage);
+                                    Message<String> timeMsg = new Message<>(time); // create a new message containing the time
+                                    oos.writeObject(timeMsg); // send the time message back to the server
+                                }
+                            }
+                        } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
+                            updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
+                            System.out.println(getTime());
+                            // sendMessage("|" + getTime());
+                        }
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
     /**
      * En inre klass som extends Thread och läser meddelanden som den får av servern
      */
-    class Read extends Thread {
+   /* class Read extends Thread {
         @Override
         public void run() {
             try {
@@ -261,7 +310,7 @@ public class Client {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     /**
      * main metod för att starta en ny klient
