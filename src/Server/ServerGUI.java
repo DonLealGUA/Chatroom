@@ -11,17 +11,19 @@ import java.util.List;
  */
 public class ServerGUI extends JFrame {
     private final JTextArea textArea;
+    private Server server;
 
     /**
      * skapar server-GUI:t
      */
-    public ServerGUI() {
+    public ServerGUI(Server server) {
         // Initialize the frame
         JFrame frame = new JFrame("Server");
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 300);
 
+        this.server = server;
         // Initialize the text area
         textArea = new JTextArea();
         textArea.setEditable(false);
@@ -92,7 +94,7 @@ public class ServerGUI extends JFrame {
         messageFrame.setVisible(true);
 
         //skapar en lista med meddelanden mellan två valda tidpunkter
-        List<String> messagesBetween = getMessagesBetween(startDateTime, endDateTime);
+        List<String> messagesBetween = server.getMessagesBetween(startDateTime, endDateTime);
 
         //skriver ut texten som är i listan till GUI:t
         for (String s : messagesBetween) {
@@ -107,27 +109,5 @@ public class ServerGUI extends JFrame {
     public void updateText(String text) {
         //Append the new text to a new line in the text area
         textArea.append(text + "\n");
-    }
-
-    /**
-     * hämtar meddelanden som skickats mellan 2 valda tidpunkter
-     * @param start start-tidpunkt
-     * @param end slut-tidpunkt
-     * @return lista med meddelanden
-     */
-    public List<String> getMessagesBetween(LocalDateTime start, LocalDateTime end) {
-        ArrayList<String> messages = Reader.readServerLogg();
-
-        List<String> result = new ArrayList<>();
-
-        for (String message : messages) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime dateTime = LocalDateTime.parse(message.substring(1,17), formatter);
-
-            if ((dateTime.isAfter(start) || dateTime.isEqual(start)) && (dateTime.isBefore(end) || dateTime.isEqual(end))) {
-                result.add(message);
-            }
-        }
-        return result;
     }
 }

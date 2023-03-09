@@ -90,18 +90,7 @@ public class Client {
     public void startConnection(String username) throws IOException {
         clientUI.updatePane(IP, PORT);
 
-        //gör en lista och lägger till vänner i den som den läser från en fil
-        ArrayList<List<String>> Friends = Reader.readFriends();
-        for (List<String> friendList : Friends) {
-            if (Objects.equals(friendList.get(0), username)) { //skriver ut om en vän har hittats
-                System.out.println("Found " + username + " in the friend list: " + friendList.get(1));
-            }
-        }
-
         //startar tråden som läser meddelanden
-        //read = new Read();
-        //read.start();
-
         listenForMessages();
     }
 

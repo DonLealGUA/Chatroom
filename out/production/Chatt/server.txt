@@ -121,3 +121,69 @@
 (09/03/2023 13:24): Client: amidala2 Disconnected
 (09/03/2023 13:24): Client: testarigen Disconnected
 (09/03/2023 13:24): Client: amidala123 Disconnected
+(09/03/2023 14:07): New Client: amidala123 Joined
+(09/03/2023 14:07): Client: amidala123 Received old messages
+(09/03/2023 14:07): Client: amidala123 Disconnected
+(09/03/2023 15:29): New Client: amidala123 Joined
+(09/03/2023 15:29): Client: amidala123 Received old messages
+(09/03/2023 15:30): New Client: amidala2 Joined
+(09/03/2023 15:30): Received message from amidala2@ (09/03/2023 15:30): (<b>Private</b>)amidala2<span> (09/03/2023 13:24): hej</span>
+(09/03/2023 15:30): Client: amidala2 Received old messages
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30): amidala2 sent the message hej hej to amidala123
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30): amidala2 sent the message meddelande to amidala123
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:30): amidala2 sent the message 3 to amidala123
+(09/03/2023 15:30): Client: amidala123 Disconnected
+(09/03/2023 15:31): New Client: amidala123 Joined
+(09/03/2023 15:31): Client: amidala123 Received old messages
+(09/03/2023 15:31): Client: amidala123 Disconnected
+(09/03/2023 15:30)Client received message at 
+(09/03/2023 15:31): amidala2 sent the message hej hej to amidala123
+(09/03/2023 15:31)Client received message at 
+(09/03/2023 15:31): amidala2 sent the message meddelande to amidala123
+(09/03/2023 15:31)Client received message at 
+(09/03/2023 15:31): amidala2 sent the message testtest to amidala123
+(09/03/2023 15:31): New Client: amidala123 Joined
+(09/03/2023 15:31): Received message from amidala123@ (09/03/2023 15:31): (<b>Private</b>)amidala2<span> (09/03/2023 15:31): hej hej</span>amidala123 (<b>Private</b>)amidala2<span> (09/03/2023 15:31): meddelande</span>amidala123 (<b>Private</b>)amidala2<span> (09/03/2023 15:31): testtest</span>
+(09/03/2023 15:31): Client: amidala123 Received old messages
+(09/03/2023 15:31)Client received message at 
+(09/03/2023 15:31)Client received message at 
+(09/03/2023 15:32): amidala2 Added amidala123 as a friend
+(09/03/2023 15:39): New Client: amidala2 Joined
+(09/03/2023 15:39): Client: amidala2 Received old messages
+(09/03/2023 15:39)Client received message at 
+(09/03/2023 15:39)Client received message at 
+(09/03/2023 15:39)Client received message at 
+(09/03/2023 15:39): amidala2 sent the message hej to amidala123
+(09/03/2023 15:39)Client received message at 
+(09/03/2023 15:39): amidala2 sent the message hej ej to amidala123
+(09/03/2023 15:39)Client received message at 
+(09/03/2023 15:39): amidala2 sent the message test to amidala123
+(09/03/2023 15:40): New Client: amidala123 Joined
+(09/03/2023 15:40): Received message from amidala123@ (09/03/2023 15:40): (<b>Private</b>)amidala2<span> (09/03/2023 15:39): hej</span>amidala123 (<b>Private</b>)amidala2<span> (09/03/2023 15:39): hej ej</span>amidala123 (<b>Private</b>)amidala2<span> (09/03/2023 15:39): test</span>
+(09/03/2023 15:40): Client: amidala123 Received old messages
+(09/03/2023 15:40): Client: amidala2 Disconnected
+(09/03/2023 15:40): Client: amidala123 Disconnected
+(09/03/2023 15:45): New Client: amidala123 Joined
+(09/03/2023 15:45): Client: amidala123 Received old messages
+(09/03/2023 15:45)Client received message at 
+(09/03/2023 15:45)Client received message at 
+(09/03/2023 15:45)Client received message at 
+(09/03/2023 15:45): amidala123 sent the message hej to amidala2
+(09/03/2023 15:45)Client received message at 
+(09/03/2023 15:45): amidala123 sent the message test to amidala2
+(09/03/2023 15:46): New Client: amidala2 Joined
+(09/03/2023 15:46): Client: amidala2 Received old messages
+(09/03/2023 15:46): Client: amidala2 Disconnected
+(09/03/2023 15:45)Client received message at 
+(09/03/2023 15:46): amidala123 sent the message hej to amidala2
+(09/03/2023 15:46)Client received message at 
+(09/03/2023 15:46): amidala123 sent the message test to amidala2
+(09/03/2023 15:46): New Client: amidala2 Joined
+(09/03/2023 15:46): Client: amidala2 Received old messages
+(09/03/2023 15:47): Client: amidala2 Disconnected

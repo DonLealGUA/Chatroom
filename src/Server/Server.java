@@ -36,7 +36,7 @@ public class Server {
     public Server(int port) {
         this.port = port;
         this.clients = new ArrayList<User>();
-        serverGUI = new ServerGUI();
+        serverGUI = new ServerGUI(this);
 
         ArrayList<String> serverLogg = Reader.readServerLogg(); //Visar gammal serverLogg historik
         for (String text : serverLogg) {
@@ -93,13 +93,22 @@ public class Server {
             //Skickar o-skickade meddelanden till användaren.
             try {
                 List<String> unsentMessages = Reader.getUnsentMessages(newUser.getUsername());
-                oos.writeObject(new Message<String>("<b>You have:<b> " + unsentMessages.size() + "<b> missed messages<b>"));
+                int amountOfMessages = unsentMessages.size();
+                oos.writeObject(new Message<String>("<b>You have:<b> " + amountOfMessages + "<b> missed messages<b>"));
                 oos.flush();
                 for (String message : unsentMessages) {
-                    broadcastMessages(message,newUser);
+                    //broadcastMessages(message,newUser);
+                    try {
+                        oos.writeObject(new Message<String>(message));
+                        oos.flush();
+                        System.out.println(message);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
-                oos.writeObject(new Message<String>("<b>----------------------------------------------------------------------------<b>"));
-                oos.flush();
+                userHandler.getOos().writeObject(new Message<String>("<b>----------------------------------------------------------------------------<b>"));
+                userHandler.getOos().flush();
 
             } catch (IOException e) {
                 System.err.println("Error reading unsent messages file: " + e.getMessage());
@@ -304,6 +313,28 @@ public class Server {
 
     public ServerGUI getServerGUI() {
         return serverGUI;
+    }
+
+    /**
+     * hämtar meddelanden som skickats mellan 2 valda tidpunkter
+     * @param start start-tidpunkt
+     * @param end slut-tidpunkt
+     * @return lista med meddelanden
+     */
+    public List<String> getMessagesBetween(LocalDateTime start, LocalDateTime end) {
+        ArrayList<String> messages = Reader.readServerLogg();
+
+        List<String> result = new ArrayList<>();
+
+        for (String message : messages) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime dateTime = LocalDateTime.parse(message.substring(1,17), formatter);
+
+            if ((dateTime.isAfter(start) || dateTime.isEqual(start)) && (dateTime.isBefore(end) || dateTime.isEqual(end))) {
+                result.add(message);
+            }
+        }
+        return result;
     }
 
 
