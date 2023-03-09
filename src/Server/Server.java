@@ -107,8 +107,8 @@ public class Server {
                     }
 
                 }
-                userHandler.getOos().writeObject(new Message<String>("<b>----------------------------------------------------------------------------<b>"));
-                userHandler.getOos().flush();
+                oos.writeObject(new Message<String>("<b>----------------------------------------------------------------------------<b>"));
+                oos.flush();
 
             } catch (IOException e) {
                 System.err.println("Error reading unsent messages file: " + e.getMessage());
