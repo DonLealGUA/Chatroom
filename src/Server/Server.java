@@ -227,7 +227,7 @@ public class Server {
                     userHandler.getOos().writeObject(new Message<String>("Sorry, this user is Offline and will receive your message once they log in ")); //Skriver att meddelandet skickas när personen går online
                     userHandler.getOos().flush();
 
-                    Writer.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + "<span> " + getTime() + msg+"</span>"); //sparar meddelandet
+                    Writer.writeUnsentMessage(user,"(<b>Private</b>)" + userSender.toString() + " " + getTime() + msg); //sparar meddelandet
                 }else{
                     userHandler.getOos().writeObject(new Message<String>("Sorry, this user doesn't exist ")); // annars skickas error meddelande att personen inte finns.
                     userHandler.getOos().flush();

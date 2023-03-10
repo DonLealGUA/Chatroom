@@ -66,7 +66,7 @@ public class Writer {
         try{
             FileWriter fstream = new FileWriter("files/unSentMessages.txt",true);
             BufferedWriter out = new BufferedWriter(fstream);
-            out.write(userSender + " " + message );
+            out.write(userSender + " " + message + "\n");
             out.close();
         }catch (Exception e){
             System.err.println("Error while writing to file: " + e.getMessage());

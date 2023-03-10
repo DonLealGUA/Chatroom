@@ -216,3 +216,68 @@
 (10/03/2023 13:03): Received message from ami@ (10/03/2023 13:03): !!!
 (10/03/2023 13:04): Client: amidala Disconnected
 (10/03/2023 13:04): Client: ami Disconnected
+(10/03/2023 14:13): New Client: ami Joined
+(10/03/2023 14:13): Client: ami Received old messages
+(10/03/2023 14:23): New Client: amidala Joined
+(10/03/2023 14:23): Client: amidala Received old messages
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23): amidala sent the message hej to ami
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23): amidala sent the message ami vad gör du to msg
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23): amidala sent the message aaa hejsan to msg
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23): amidala sent the message hej? to ami
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:23): amidala sent the message hejj=? to aaa
+(10/03/2023 14:23)Client received message at 
+(10/03/2023 14:24): Received message from amidala@ (10/03/2023 14:24): jr
+(10/03/2023 14:24): New Client: ami Joined
+(10/03/2023 14:24): Client: ami Received old messages
+(10/03/2023 14:24): New Client: aaa Joined
+(10/03/2023 14:24): Client: aaa Received old messages
+(10/03/2023 14:26): Client: aaa Disconnected
+(10/03/2023 14:26): Client: ami Disconnected
+(10/03/2023 14:26): Client: amidala Disconnected
+(10/03/2023 14:27): New Client: amidala Joined
+(10/03/2023 14:27): Client: amidala Received old messages
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27): amidala sent the message första meddelande till ami to ami
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27): amidala sent the message andra meddelande til ami to ami
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27): amidala sent the message första till aaa to aaa
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27): amidala sent the message andra till aaa to aaa
+(10/03/2023 14:27)Client received message at 
+(10/03/2023 14:27): amidala sent the message test till ami igen to ami
+(10/03/2023 14:28): New Client: aaa Joined
+(10/03/2023 14:28): Client: aaa Received old messages
+(10/03/2023 14:28): New Client: ami Joined
+(10/03/2023 14:28): Client: ami Received old messages
+(10/03/2023 14:32): Client: amidala Disconnected
+(10/03/2023 14:28)Client received message at 
+(10/03/2023 14:28)Client received message at 
+(10/03/2023 14:28)Client received message at 
+(10/03/2023 14:32): aaa sent the message test to amidala
+(10/03/2023 14:32): Client: ami Disconnected
+(10/03/2023 14:32)Client received message at 
+(10/03/2023 14:32): aaa sent the message hejsan to ami
+(10/03/2023 14:34): New Client: ami Joined
+(10/03/2023 14:34): Client: ami Received old messages
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34): ami sent the message först meddelenade hej to amidala
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34): ami sent the message test till aaa to aaa
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34): ami sent the message test 2 till amidala to amidala
+(10/03/2023 14:34)Client received message at 
+(10/03/2023 14:34): ami sent the message 3 till amidala to amidala
+(10/03/2023 14:35): New Client: aaa Joined
+(10/03/2023 14:35): Client: aaa Received old messages
