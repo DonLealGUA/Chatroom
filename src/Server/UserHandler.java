@@ -25,16 +25,11 @@ public class UserHandler implements Runnable {
      * @param oos ObjectOutputStream för att skicka meddelanden.
      */
     public UserHandler(Server server, Socket socket, User newUser, ObjectInputStream ois, ObjectOutputStream oos) {
-        try {
             this.socket = socket;
             this.server = server;
             this.user = newUser;
             this.ois = ois;
             this.oos = oos;
-            server.broadcastAllUsers();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

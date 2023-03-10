@@ -19,7 +19,6 @@ public class Client {
     private final String IP;
     private final int PORT;
     private String name;
-    private Thread read;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
     private Socket socket;
@@ -143,9 +142,6 @@ public class Client {
             }
             if (oos != null) {
                 oos.close();
-            }
-            if (read != null && read.isAlive()) {
-                read.interrupt();
             }
         } catch (IOException e) {
             System.exit(0); //TODO jag la till den nyss, testa

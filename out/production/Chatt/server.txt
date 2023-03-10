@@ -187,3 +187,21 @@
 (09/03/2023 15:46): New Client: amidala2 Joined
 (09/03/2023 15:46): Client: amidala2 Received old messages
 (09/03/2023 15:47): Client: amidala2 Disconnected
+(09/03/2023 15:47): New Client: amidala123 Joined
+(09/03/2023 15:47): Client: amidala123 Received old messages
+(09/03/2023 15:47)Client received message at 
+(09/03/2023 15:47)Client received message at 
+(09/03/2023 15:47)Client received message at 
+(09/03/2023 15:47): amidala123 sent the message hej to amidala2
+(09/03/2023 15:47)Client received message at 
+(09/03/2023 15:47): amidala123 sent the message test to amidala2
+(09/03/2023 15:47): New Client: amidala2 Joined
+(09/03/2023 15:47): Client: amidala2 Received old messages
+(09/03/2023 15:47): Client: amidala123 Disconnected
+(09/03/2023 15:47): Client: amidala2 Disconnected
+(10/03/2023 13:03): New Client: ami Joined
+(10/03/2023 13:03): Client: ami Received old messages
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03): Received message from ami@ (10/03/2023 13:03): jrkk
