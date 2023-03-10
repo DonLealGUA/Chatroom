@@ -205,3 +205,14 @@
 (10/03/2023 13:03)Client received message at 
 (10/03/2023 13:03)Client received message at 
 (10/03/2023 13:03): Received message from ami@ (10/03/2023 13:03): jrkk
+(10/03/2023 13:03): New Client: amidala Joined
+(10/03/2023 13:03): Client: amidala Received old messages
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03): Received message from amidala@ (10/03/2023 13:03): hejj
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03)Client received message at 
+(10/03/2023 13:03): Received message from ami@ (10/03/2023 13:03): !!!
+(10/03/2023 13:04): Client: amidala Disconnected
+(10/03/2023 13:04): Client: ami Disconnected

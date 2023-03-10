@@ -216,3 +216,5 @@
 (10/03/2023 13:03): Received message from ami@ (10/03/2023 13:03): !!!
 (10/03/2023 13:04): Client: amidala Disconnected
 (10/03/2023 13:04): Client: ami Disconnected
+(10/03/2023 14:13): New Client: ami Joined
+(10/03/2023 14:13): Client: ami Received old messages
