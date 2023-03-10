@@ -78,19 +78,10 @@ public class Client {
             //uppdaterar klientens profilbild
             clientUI.updateImageIcon(imageIcon);
 
-            startConnection(username);
+            clientUI.updatePane(IP, PORT);
+
+            listenForMessages();
         }
-    }
-
-    /**
-     * Hämtar vänner och startar en tråd som läser meddelanden
-     * @param username användarnamn på klienten
-     */
-    public void startConnection(String username) throws IOException {
-        clientUI.updatePane(IP, PORT);
-
-        //startar tråden som läser meddelanden
-        listenForMessages();
     }
 
     /**
