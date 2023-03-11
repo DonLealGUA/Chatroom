@@ -135,7 +135,7 @@ public class Client {
                 oos.close();
             }
         } catch (IOException e) {
-            System.exit(0); //TODO jag la till den nyss, testa
+            System.exit(0);
         }
     }
 
