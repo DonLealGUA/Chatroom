@@ -291,3 +291,45 @@
 (10/03/2023 14:36): Client: amidala Disconnected
 (10/03/2023 14:36): Client: aaa Disconnected
 (10/03/2023 14:36): Client: ami Disconnected
+(10/03/2023 18:39): New Client: ami Joined
+(10/03/2023 18:39): Client: ami Received old messages
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39): Received message from ami@ (10/03/2023 18:39): hej
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39): Received message from ami@ (10/03/2023 18:39): test
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39): Received Image from ami@ (10/03/2023 18:39): javax.swing.ImageIcon@3709ed38
+(10/03/2023 18:39): New Client: amidala Joined
+(10/03/2023 18:39): Client: amidala Received old messages
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39): Received Image from amidala@ (10/03/2023 18:39): javax.swing.ImageIcon@4adbb90f
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:40): Received message from amidala@ (10/03/2023 18:40): hejj
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): Received message from amidala@ (10/03/2023 18:40): !!
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): Received message from amidala@ (10/03/2023 18:40): testt
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:39)Client received message at 
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): Received message from ami@ (10/03/2023 18:40): hejj
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): ami sent the message hej to ami
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): ami sent the message hej to amidala
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40)Client received message at 
+(10/03/2023 18:40): amidala Added ami as a friend
+(10/03/2023 18:40): Client: amidala Disconnected
+(10/03/2023 18:40): Client: ami Disconnected
+(10/03/2023 18:42): New Client: ami Joined
+(10/03/2023 18:42): Client: ami Received old messages
+(10/03/2023 18:43): New Client: amidala Joined
+(10/03/2023 18:43): Client: amidala Received old messages

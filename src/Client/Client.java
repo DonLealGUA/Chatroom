@@ -201,31 +201,29 @@ public class Client {
                         if (msg.getPayload() instanceof String newMessage) { //om meddelandet innehåller en String
                             String message = (String) msg.getPayload();
                             String time = getTime(); //tid meddelandet levererades till mottagaren
-                            if (message != null) {
-                                if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
-                                    message = message.substring(1, message.length() - 1);
-                                    ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
-                                    //läser vilka vänner användaren har och uppdaterar GUI:t
-                                    ArrayList<List<String>> Friends = Reader.readFriends();
-                                    updateUsers();
-                                    for (String user : ListUser) { //går igenom varje sträng i listUser
-                                        boolean isFriend = false;
-                                        for (List<String> friendList : Friends) { //går igenom varje sträng i friendList
-                                            if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
-                                                updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
-                                                isFriend = true;
-                                                break;
-                                            }
-                                        }
-                                        if (!isFriend) {
-                                            updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                            if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
+                                message = message.substring(1, message.length() - 1);
+                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
+                                //läser vilka vänner användaren har och uppdaterar GUI:t
+                                ArrayList<List<String>> friends = Reader.readFriends();
+                                updateUsers();
+                                for (String user : ListUser) { //går igenom varje sträng i listUser
+                                    boolean isFriend = false;
+                                    for (List<String> friendList : friends) { //går igenom varje sträng i friendList
+                                        if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
+                                            updateUsersFriendsMessage(user); //uppdaterar listan på användare med gul färg om de är vänner
+                                            isFriend = true;
+                                            break;
                                         }
                                     }
-                                } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
-                                    updateUsersMessage(newMessage);
-                                    Message<String> timeMsg = new Message<>(time); // create a new message containing the time
-                                    oos.writeObject(timeMsg); // send the time message back to the server
+                                    if (!isFriend) {
+                                        updateUsersPane(user); //skriver ut användaren med svart om de inte är vänner
+                                    }
                                 }
+                            } else { //annars är meddelandet ett chatt-meddelande och då skickas en chatt ut till valda
+                                updateUsersMessage(newMessage);
+                                Message<String> timeMsg = new Message<>(time); // create a new message containing the time
+                                oos.writeObject(timeMsg); // send the time message back to the server
                             }
                         } else if (msg.getPayload() instanceof ImageIcon) { //om meddelandet är en imageIcon är det en bild som skickas
                             updateImage((ImageIcon) msg.getPayload()); //skriver ut bilden på GUI:t
