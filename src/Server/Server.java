@@ -272,11 +272,10 @@ public class Server {
             try {
                 UserHandler userHandler = clientHashmap.get(client);
                 System.out.println(image);
-                userHandler.getOos().writeObject(new Message<String>(userSender.toString() + ": ")); //Skickar fört ett meddelande om vem som skickade bilden.
+                userHandler.getOos().writeObject(new Message<String>(userSender.toString() + ": " + getTime() + ": ")); //Skickar fört ett meddelande om vem som skickade bilden.
                 userHandler.getOos().flush();
 
                 userHandler.getOos().writeObject(new Message<ImageIcon>(image));
-                System.out.println(new Message<ImageIcon>(image));
                 userHandler.getOos().flush();
 
             } catch (IOException e) {
