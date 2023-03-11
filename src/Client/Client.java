@@ -203,11 +203,11 @@ public class Client {
                             String time = getTime(); //tid meddelandet levererades till mottagaren
                             if (message.charAt(0) == '[') { //om första char är '[' betyder det är det är en lista som skickas
                                 message = message.substring(1, message.length() - 1);
-                                ArrayList<String> ListUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
+                                ArrayList<String> listUser = new ArrayList<>(Arrays.asList(message.split(", "))); //gör en arraylist av strängen vi fick in
                                 //läser vilka vänner användaren har och uppdaterar GUI:t
                                 ArrayList<List<String>> friends = Reader.readFriends();
                                 updateUsers();
-                                for (String user : ListUser) { //går igenom varje sträng i listUser
+                                for (String user : listUser) { //går igenom varje sträng i listUser
                                     boolean isFriend = false;
                                     for (List<String> friendList : friends) { //går igenom varje sträng i friendList
                                         if (Objects.equals(friendList.get(0), name) && Objects.equals(friendList.get(1), user)) {
